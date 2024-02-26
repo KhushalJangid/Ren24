@@ -3,6 +3,8 @@ name: Deploy github branch to Elastic Beanstalk for Renaissance 2024
 on:
   push:
     branches: [ deployment ]
+  pull_request:
+    branches: [ deployment ]
 
 jobs:
   deploy:
