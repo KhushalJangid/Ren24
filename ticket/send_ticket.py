@@ -6,7 +6,7 @@ from email.mime.application import MIMEApplication
 from threading import Thread
 
 from config import settings
-from ticket.models import Ticket
+# from .models import CustomTicket
 
 def send_email_with_attachment(email, img_data):
     # Initialize SES client
@@ -41,3 +41,4 @@ def send_email_with_attachment(email, img_data):
 def send_email_thread(email, img_data):
     t = Thread(target=send_email_with_attachment, args=(email, img_data))
     t.start()
+

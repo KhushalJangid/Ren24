@@ -53,3 +53,4 @@ def generate_ticket(ticket_id)->bytes:
     ticket_img.save(img_io, format='PNG')
     img_io.seek(0)
     return img_io.getvalue()
+

@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 import os
 from pathlib import Path
-from config import env
+# from config import env
 
 # import razorpay
 
@@ -160,69 +160,69 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-PRODUCTION = env.getParameter('PRODUCTION') == 'True'
-# USE_S3 = True
-print(f"Production type : {type(env.getParameter('PRODUCTION'))}")
-print(f"Production : {PRODUCTION}")
+# PRODUCTION = env.getParameter('PRODUCTION') == 'True'
+# # USE_S3 = True
+# print(f"Production type : {type(env.getParameter('PRODUCTION'))}")
+# print(f"Production : {PRODUCTION}")
 
-if PRODUCTION:
+# if PRODUCTION:
     
-    BASE_URL = env.getParameter('DOMAIN')
-    # RAZOR_KEY_ID= env.getParameter('RAZOR_KEY_ID')
-    # RAZOR_KEY_SECRET=env.getParameter('RAZOR_KEY_SECRET')
+#     BASE_URL = env.getParameter('DOMAIN')
+#     # RAZOR_KEY_ID= env.getParameter('RAZOR_KEY_ID')
+#     # RAZOR_KEY_SECRET=env.getParameter('RAZOR_KEY_SECRET')
 
-    # RAZORPAY_CLIENT = razorpay.Client(
-    #     auth=(RAZOR_KEY_ID, RAZOR_KEY_SECRET))
+#     # RAZORPAY_CLIENT = razorpay.Client(
+#     #     auth=(RAZOR_KEY_ID, RAZOR_KEY_SECRET))
 
-    # SECURITY WARNING: keep the secret key used in production secret!
-    SECRET_KEY = env.getParameter('SECRET_KEY')
+#     # SECURITY WARNING: keep the secret key used in production secret!
+#     SECRET_KEY = env.getParameter('SECRET_KEY')
 
-    # SECURITY WARNING: don't run with debug turned on in production!
-    DEBUG = False
+#     # SECURITY WARNING: don't run with debug turned on in production!
+#     DEBUG = False
 
-    ALLOWED_HOSTS = ['43.204.102.170']
+    # ALLOWED_HOSTS = ['43.204.102.170']
 
-    # Database
-    # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
+    # # Database
+    # # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+    # # DATABASES = {
+    # #     'default': {
+    # #         # 'ENGINE': 'django.db.backends.mysql',
+    # #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    # #         'NAME': env.getParameter('RDS_DB_NAME'),
+    # #         'USER': env.getParameter('RDS_USERNAME'),
+    # #         'PASSWORD': env.getParameter('RDS_PASSWORD'),
+    # #         'HOST': env.getParameter('RDS_HOSTNAME'),
+    # #         'PORT': env.getParameter('RDS_PORT'),
+    # #     }
+    # # }
     # DATABASES = {
     #     'default': {
-    #         # 'ENGINE': 'django.db.backends.mysql',
-    #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    #         'NAME': env.getParameter('RDS_DB_NAME'),
-    #         'USER': env.getParameter('RDS_USERNAME'),
-    #         'PASSWORD': env.getParameter('RDS_PASSWORD'),
-    #         'HOST': env.getParameter('RDS_HOSTNAME'),
-    #         'PORT': env.getParameter('RDS_PORT'),
+    #         'ENGINE': 'django.db.backends.sqlite3',
+    #         'NAME': BASE_DIR / 'db.sqlite3',
     #     }
     # }
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
     
-    # aws settings
-    AWS_ACCESS_KEY_ID = env.getParameter('ACCESS_KEY_ID')
-    AWS_SECRET_ACCESS_KEY = env.getParameter('SECRET_ACCESS_KEY')
-    # AWS_ACCESS_KEY_ID = "AKIA3WO4ZFTK7JW4U6XT"
-    # AWS_SECRET_ACCESS_KEY = "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"
-    AWS_STORAGE_BUCKET_NAME = env.getParameter('STORAGE_BUCKET_NAME')
-    # AWS_STORAGE_BUCKET_NAME = "ren24-cdn"
-    # AWS_DEFAULT_ACL = 'public-read'
-    AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
-    AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
-    # s3 static settings
-    AWS_LOCATION = 'static'
-    STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_LOCATION}/'
-    STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-    PUBLIC_MEDIA_LOCATION = 'media'
-    MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{PUBLIC_MEDIA_LOCATION}/'
-    DEFAULT_FILE_STORAGE = 'config.storage_backends.PublicMediaStorage'
-else:
+    # # aws settings
+    # AWS_ACCESS_KEY_ID = env.getParameter('ACCESS_KEY_ID')
+#     AWS_SECRET_ACCESS_KEY = env.getParameter('SECRET_ACCESS_KEY')
+#     # AWS_ACCESS_KEY_ID = "AKIA3WO4ZFTK7JW4U6XT"
+#     # AWS_SECRET_ACCESS_KEY = "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"
+#     AWS_STORAGE_BUCKET_NAME = env.getParameter('STORAGE_BUCKET_NAME')
+#     # AWS_STORAGE_BUCKET_NAME = "ren24-cdn"
+#     # AWS_DEFAULT_ACL = 'public-read'
+#     AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+#     AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
+#     # s3 static settings
+#     AWS_LOCATION = 'static'
+#     STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_LOCATION}/'
+#     STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+#     PUBLIC_MEDIA_LOCATION = 'media'
+#     MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{PUBLIC_MEDIA_LOCATION}/'
+#     DEFAULT_FILE_STORAGE = 'config.storage_backends.PublicMediaStorage'
+# else:
     
-    BASE_URL = 'http:127.0.0.1:8000'
+BASE_URL = 'http:127.0.0.1:8000'
     
     # RAZOR_KEY_ID='rzp_test_9JEwuZhaVvyqhU'
     # RAZOR_KEY_SECRET='sXqXAI5Cz3PY4vmQEwgUzCxH'
@@ -231,28 +231,28 @@ else:
     #     auth=(RAZOR_KEY_ID, RAZOR_KEY_SECRET))
 
     # SECURITY WARNING: keep the secret key used in production secret!
-    SECRET_KEY = 'django-insecure-3i-x6+f9gwr(4qxbtgwv-=7y27)ixgc)tp=29ne)@=a#&84khj'
+SECRET_KEY = 'django-insecure-3i-x6+f9gwr(4qxbtgwv-=7y27)ixgc)tp=29ne)@=a#&84khj'
 
     # SECURITY WARNING: don't run with debug turned on in production!
-    DEBUG = True
+DEBUG = True
 
-    ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*']
 
     # Database
     # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-    DATABASES = {
+DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': BASE_DIR / 'db.sqlite3',
         }
-    }
+}
 
     
-    STATIC_URL = '/static/'
-    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-    MEDIA_URL = '/media/'
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
     
 STATICFILES_DIRS = [os.path.join(BASE_DIR,"static"),]
 
@@ -270,3 +270,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # EMAIL_USE_TLS=True
 # EMAIL_USE_SSL=False
 
+
+Email='pranavpurohit73@gmail.com'
+EMAIL_BACKEND = 'django_ses.SESBackend'
