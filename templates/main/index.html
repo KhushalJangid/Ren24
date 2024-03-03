@@ -19,23 +19,14 @@
         <style>
             @font-face {
                 font-family: a;
-                src: url({% static "fonts/magic-school.one.ttf" %});
-            }
-            
-            @font-face {
-                font-family: b;
-                src: url({% static "fonts/magic-school.one.ttf" %});
-            }
-            
-            @font-face {
-                font-family: c;
-                src: url({% static "fonts/magic-school.one.ttf" %});
+                src: url({% static "fonts/KlemerDisplayDemoRegular-ax5qg.ttf" %});
             }
             #page11{
                 background-image: url({% static "assets/index/dasktop_baground.jpg" %});
             }
         </style>
         <link rel="stylesheet" href="{% static "css/ind.css" %}">
+        <link rel="stylesheet" href="{% static "css/Footer_style.css" %}">
 </head>
 
 <body>
@@ -55,21 +46,14 @@
               <a class="nav-link" href="{% url "contact" %}">Contact</a>
               {% if request.user.is_authenticated %}
                 <a class="nav-link" href="{% url "profile" %}">
-                    {% comment %} <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
-                        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
-                      </svg> {% endcomment %}
                       Profile
                     </a>
             {% else %}
                 <a class="nav-link" href="{% url "login" %}">
-                    {% comment %} <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-box-arrow-in-right" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0z"/>
-                        <path fill-rule="evenodd" d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"/>
-                      </svg> {% endcomment %}
                     Login
                 </a>     
             {% endif %}
+            <a class="nav-link" href="https://docs.google.com/forms/d/e/1FAIpQLSeLhmPIkeDLzOJlvg98HMJZJarzsXeJGKu5OR_SRoFLkaG4Dw/viewform">Register (Outside JECRC)</a>
             </div>
           </div>
         </div>
@@ -80,7 +64,7 @@
             <video src="{% static "assets/index/index.webm" %}" autoplay loop muted></video>
 
         </div>
-        <div id="page11">
+        {% comment %} <div id="page11">
             <div class="bada_daba">
                 <div class="daba">
                     <div class="page11-inner">
@@ -137,7 +121,212 @@
                     </div>
                 </div>
             </div>
+        </div> {% endcomment %}
+        <div id="page11">
+
+            <div class="bada_daba">
+                <div class="daba">
+                    <div class="page11-inner">
+
+                        <div class="card1">
+                            <article class="profile">
+                                <div class="profile-image">
+                                    <img src="{% static "assets/celeb/Ravi gupta.png" %}" />
+                                </div>
+                                <br>
+
+                                <h2 class="username">Ravi Gupta</h2>
+
+                                <p>Standup Comedian</p>
+                                <p style="font-family: b;">19 March 2024
+                                </p>
+
+
+
+                            </article>
+                        </div>
+                        <div class="card2">
+                            <article class="profile">
+                                <div class="profile-image">
+                                    <img src="{% static "assets/celeb/parmish verma.png" %}" />
+                                </div>
+                                <br>
+                                <h2 class="username">Permish Verma</h2>
+
+                                <p>(Celebrity Night)</p>
+                                <p style="font-family: b;">21 March 2024</p>
+
+
+
+                            </article>
+                        </div>
+                        <div class="card3">
+                            <article class="profile">
+                                <div class="profile-image">
+                                    <img src="{% static "assets/celeb/dj.png" %}" />
+                                </div>
+                                <br>
+                                <h2 class="username"> DJ Cheshta</h2>
+
+                                <p>(DJ Night)</p>
+                                <p style="font-family: b;">20 March 2024</p>
+
+
+
+                            </article>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+            <!-- <div id="page12"> -->
+            <footer id="footer" class="footer text-light p-0">
+                <div class="container-fluid px-5 py-4">
+                    <div class="row justify-content-evenly">
+                        <div class="col-xs-6 col-sm-3 column text-center d-flex flex-column">
+                            <div class="my-4"><img src="{% static "assets/logo/Ren logo.png" %}" class="footer-logo" /></div>
+
+                        </div>
+                        <div class="col-xs-12 col-sm-3 column text-center d-flex flex-column">
+                            <div class="my-4"><img src="{% static "assets/logo/student council white (1).png" %}" class="footer-logo" />
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-3 column text-center d-flex flex-column">
+                            <h4>Contact Us</h4>
+                            <hr class="mb-4 underline" />
+                            <ul class="list-unstyled py-4">
+                                <li>
+                                    <a href="tel:7742044215" class="nav-link">
+                                        <h4>For Registration:</h4>
+                                    </a>
+                                    <h5>Tanishk Maheshwari <br>(+91-7742044215)</h5>
+                                </li>
+                                <li>
+
+                                    <a href="tel:8825312144" class="nav-link">
+                                        <h4>Technical Head: </h4>
+
+                                    </a>
+                                    <h5 >Aayu Sah <br>(+91-8825312144)</h5>
+                                </li>
+                                <li>
+                                    <a href="tel:8302007298" class="nav-link">
+                                        <h4>Cultural Head: </h4>
+                                    </a>
+                                    <h5>Suyash Chaklan <br>(+91-8302007298)</h5>
+                                </li>
+                                <li>
+                                    <a href="tel:8769518424" class="nav-link">
+                                        <h4>Splash Head:</h4>
+                                    </a>
+                                    <h5>Mahak Chouhan <br>(+91-8769518424)</h5><br>
+                                </li>
+                                </li>
+
+                            </ul>
+                        </div>
+                        <div class="col-xs-12 col-sm-3 text-center d-flex flex-column">
+                            <h4>Follow Us</h4>
+                            <hr class="underline" />
+
+                            <div class="row justify-content-center">
+                                <h6 class="my-3">JECRC Foundation</h6>
+                                <div class="d-flex justify-content-center">
+                                    <div class="m-2">
+                                        <a rel="nofollow" target="_blank" class="navbar-brand"
+                                            href="https://www.youtube.com/@jecrcfoundation2150" title="Twitter">
+                                            <img loading="lazy" src="{% static "assets/icons/youtube.png" %}" height="40px" />
+                                        </a>
+                                    </div>
+                                    <div class="m-2">
+                                        <a rel="nofollow" target="_blank" class="navbar-brand"
+                                            href="https://www.facebook.com/JECRCfoundation/" title="Facebook">
+                                            <img loading="lazy" src="{% static "assets/icons/facebook.png" %}" height="40px" />
+                                        </a>
+                                    </div>
+                                    <div class="m-2">
+                                        <a target="_blank" rel="nofollow" class="navbar-brand"
+                                            href="https://www.instagram.com/jecrcfoundationofficial/" title="instagram">
+                                            <img loading="lazy" src="{% static "assets/icons/instagram.png" %}" height="40px" />
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row justify-content-center">
+                                <h6 class="my-3">JECRC Renaissance</h6>
+                                <div class="d-flex justify-content-center">
+                                    <div class="m-2">
+                                        <a rel="nofollow" target="_blank" class="navbar-brand"
+                                            href="https://youtube.com/@TheJECRCRenaissance" title="Twitter">
+                                            <img loading="lazy" src="{% static "assets/icons/youtube.png" %}" height="40px" />
+                                        </a>
+                                    </div>
+                                    <div class="m-2">
+                                        <a rel="nofollow" target="_blank" class="navbar-brand"
+                                            href="https://www.facebook.com/jecrcrenaissance/" title="Facebook">
+                                            <img loading="lazy" src="{% static "assets/icons/facebook.png" %}" height="40px" />
+                                        </a>
+                                    </div>
+                                    <div class="m-2">
+                                        <a target="_blank" rel="nofollow" class="navbar-brand"
+                                            href="https://www.instagram.com/jecrcrenaissance/" title="instagram">
+                                            <img loading="lazy" src="{% static "assets/icons/instagram.png" %}" height="40px" />
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row justify-content-center">
+                                <h6 class="my-3">Media Partner</h6>
+                                <div class="d-flex justify-content-center">
+                                    <div class="m-2">
+                                        <a rel="nofollow" target="_blank" class="navbar-brand"
+                                            href="https://instagram.com/fotografreaks_jecrc_" title="instagram">
+                                            <img loading="lazy" src="{% static "assets/icons/IMG_1067.PNG" %}" height="40px" />
+                                        </a>
+                                    </div>
+
+                                    <div class="m-2">
+                                        <a target="_blank" rel="nofollow" class="navbar-brand"
+                                            href="https://instagram.com/fotografreaks_jecrc_" title="instagram">
+                                            <img loading="lazy" src="{% static "assets/icons/instagram.png" %}" height="40px" />
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- <li>
+                                            <a href="mailto:renaissance@jecrc.ac.in" class="nav-link">renaissance@jecrc.ac.in</a>
+                                        </li> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex flex-column text-center py-3" style="background-color: rgba(20, 22, 30, 0.6)">
+                    <div class="copyright m-auto">
+                        <p class="my-2">&copy; Copyright <strong>Jecrc Foundation</strong>. All Rights Reserved.
+                        </p>
+                    </div>
+                    <!--<div class="credits m-auto">
+                              <p class="my-2">Developed by
+                                <a target="_blank" href="https://www.linkedin.com/in/yash-raj-arora-432728239">Yash Raj Arora </a>|
+                                <a target="_blank" href="https://github.com/KhushalJangid/">Khushal Jangid </a>|
+                                <a target="_blank" href="https://www.linkedin.com/in/riya-goyal-711994225">Riya </a>|
+                                <a target="_blank" href="https://www.linkedin.com/in/archit-jain-378106231">Archit Jain </a>
+                              </p>
+                              <p class="my-2">Graphics Designed by
+                                <a target="_blank" href="https://instagram.com/shubham_saharan4?igshid=ZDdkNTZiNTM=">Shubham Saharan </a>|
+                                <a target="_blank" href="https://www.linkedin.com/in/dhruv-sharma-8b2403229">Dhruv Sharma </a>|
+                                <a target="_blank" href="https://instagram.com/raginijoshi_?igshid=ZDdkNTZiNTM=">Ragini Joshi </a>|
+                                <a target="_blank" href="https://instagram.com/sameer__mittal__?igshid=ZDdkNTZiNTM=">Sameer Mittal </a>
+                              </p>
+                            </div>-->
+                </div>
+            </footer>
+
+            <!-- </div> -->
         </div>
+
+
+    </div>
 
     </div>
 
@@ -148,7 +337,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.1/ScrollTrigger.min.js"
         integrity="sha512-IHDCHrefnBT3vOCsvdkMvJF/MCPz/nBauQLzJkupa4Gn4tYg5a6VGyzIrjo6QAUy3We5HFOZUlkUpP0dkgE60A=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="{% static "js/index.js" %}"></script>
+    <script src="{% static "js/script.js" %}"></script>
 
 
     <!-- ///////// script for profile ////////// -->

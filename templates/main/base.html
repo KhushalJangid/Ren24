@@ -16,12 +16,6 @@
         integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous" />
 
     <style>
-        .mid {
-            /* margin-top: 40px !important; */
-            height: 100vh;
-            border: 2px solid blue;
-            background-color: chartreuse;
-        }
 
         .body-section{
             margin-top:80px;
@@ -48,7 +42,10 @@
         .d-flex{
             display: flex !important;
         }
-
+        @font-face {
+            font-family: a;
+            src: url({% static "fonts/KlemerDisplayDemoRegular-ax5qg.ttf" %});
+        }
     </style>
     {% block head %}{% endblock head %}
 </head>
@@ -202,10 +199,9 @@
                     </div>
                 </div>
             </div>
-            <div class="d-flex flex-column text-center py-4 m-0" style="background-color: rgba(20, 22, 30, 0.6)">
+            <div class="d-flex flex-column text-center py-3" style="background-color: rgba(20, 22, 30, 0.6)">
                 <div class="copyright m-auto">
-                    <p class="my-2">&copy; Copyright <strong>Jecrc Foundation</strong>. All Rights Reserved.&nbsp<a
-                            target="_blank" href="pages/privacy_policy.html">Privacy Policy</a></p>
+                    <p class="my-2">&copy; Copyright <strong>Jecrc Foundation</strong>. All Rights Reserved.&nbsp</p>
                 </div>
                 <!--<div class="credits m-auto">
                   <p class="my-2">Developed by

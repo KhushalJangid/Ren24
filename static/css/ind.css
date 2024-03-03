@@ -32,12 +32,13 @@ body {
 
 .bada_daba {
     width: 100%;
+    height: 100%;
     display: flex;
     justify-content: center;
 }
 
 .daba {
-    border: 2px solid black;
+    /* border: 2px solid black; */
     width: 100%;
 }
 
@@ -55,13 +56,14 @@ body {
 #page11 {
     /* border: 2px solid green; */
     position: sticky;
-    height: 50em;
+    height: 100em;
     width: 100%;
     background-repeat: no-repeat;
     background-size: cover;
     font-family: a;
     display: flex;
     justify-content: center;
+    flex-direction:column;
 }
 
 .page11-inner {
@@ -147,7 +149,7 @@ body {
     border-radius: 10px;
     overflow: hidden;
     width: 20rem;
-    height: 11.25em;
+    height: 28em;
     top: -7%;
     position: relative;
 
@@ -205,7 +207,7 @@ a {
     #page11 {
         /* border: 2px solid green; */
         position: sticky;
-        height: 100em;
+        height: 230em;
         width: 100%;
         background-repeat: no-repeat;
         background-position-x:right;
@@ -233,7 +235,7 @@ a {
         border-radius: 10px;
         overflow: hidden;
         /* width: 20em; */
-        height: 18em;
+        height: 25em;
         top: -7%;
         position: relative;
 
