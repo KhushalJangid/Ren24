@@ -78,7 +78,7 @@ class CustomTicket(models.Model):
     event = models.ForeignKey(Events, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=40)
     email = models.EmailField(max_length=200)
-    phone_no = models.CharField(max_length=13, unique=True)
+    phone_no = models.CharField(max_length=13)
     used = models.BooleanField(default=False)
     # amount = models.PositiveIntegerField(default=0)
     note = models.TextField(null=True,blank=True)
@@ -93,7 +93,7 @@ class CustomTicket(models.Model):
         img_rgb=image.convert('RGB')
         pdf_buffer = io.BytesIO()
         img_rgb.save(pdf_buffer, 'PDF', resolution=100.0)
-        send_custom_email_thread(self.email,pdf_buffer)
+        send_custom_email_thread(self.id,pdf_buffer)
         print(f"Custom ticket saved {self.id}")
         super().save(*args, **kwargs)
     
@@ -144,7 +144,7 @@ class CustomTicket(models.Model):
         img_io.seek(0)
         return img_io.getvalue()
         
-def send_custom_email_with_attachment(email,pdf_buffer):
+def send_custom_email_with_attachment(id,pdf_buffer):
     # Initialize SES client
     ses_client = boto3.client('ses', 
                               region_name='ap-south-1', 
@@ -152,13 +152,13 @@ def send_custom_email_with_attachment(email,pdf_buffer):
                               aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY
                               )  # Replace with your desired region and credentials
     
-    name_obj=CustomTicket.objects.get(email=email)
+    name_obj=CustomTicket.objects.get(id=id)
     name=name_obj.name
     # Create a multipart message
     message = MIMEMultipart()
     message['Subject'] = f'Your Ticket for Renaissance!'
     message['From'] = settings.Email
-    message['To'] = email
+    message['To'] = name_obj.email
 
     # Add HTML content (optional)
     html_content = MIMEText(f'<p>Hi {name}, <br>Thank you for registering for Renaissance!,</br> <br></br> <br>Your QR ticket is attached to this email.</br> <br> </br> <br>Please present this ticket at the event entrance for scanning. We look forward to seeing you there!</br> <br> </br> <br> </br> <br> Thanks regards,</br> <br> JECRC Renaissance</br></p>', 'html')
@@ -180,6 +180,6 @@ def send_custom_email_with_attachment(email,pdf_buffer):
     except Exception as e:
         print(f"Error sending email: {str(e)}")
 
-def send_custom_email_thread(email,img_data):
-    t = Thread(target=send_custom_email_with_attachment, args=(email, img_data))
+def send_custom_email_thread(id,img_data):
+    t = Thread(target=send_custom_email_with_attachment, args=(id, img_data))
     t.start()

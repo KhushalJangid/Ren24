@@ -19,7 +19,7 @@ genders = {
 class User(AbstractUser):
     username=None
     email=models.EmailField(max_length=200,unique=True)
-    _pass =models.OneToOneField(to='Passes',on_delete=models.SET_NULL,null=True)
+    _pass =models.OneToOneField(to='Passes',on_delete=models.SET_NULL,null=True,blank=True)
     
     objects = UserManager()
     
@@ -33,12 +33,12 @@ class User(AbstractUser):
 class Profile(models.Model):
     user = models.OneToOneField(to='User',on_delete=models.CASCADE)
     image = models.ImageField(upload_to='user_images/')
-    phone=models.CharField(max_length=10,unique=True,null=True)
+    phone=models.CharField(max_length=10,null=True,blank=True)
     gender=models.CharField(max_length=1,null=True,blank=True,choices=_genders)
-    rollno=models.CharField(max_length=16,unique=True,null=True)
-    dob=models.DateField(null=True)
-    college=models.CharField(max_length=200)
-    address=models.CharField(max_length=200)
+    rollno=models.CharField(max_length=16,null=True,blank=True)
+    dob=models.DateField(null=True,blank=True)
+    college=models.CharField(max_length=200,null=True,blank=True)
+    address=models.CharField(max_length=200,null=True,blank=True)
     
     def __str__(self):
         return self.user.email

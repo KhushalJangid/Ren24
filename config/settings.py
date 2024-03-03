@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 import os
 from pathlib import Path
+from config import sentry
 # from config import env
 
 # import razorpay
@@ -154,8 +155,8 @@ USE_I18N = True
 
 USE_TZ = True
 
-# Email='Renaissance@jecrc.ac.in'
-Email='pranavpurohit73@gmail.com'
+Email='renaissance@jecrc.ac.in'
+# Email='pranavpurohit73@gmail.com'
 EMAIL_BACKEND = 'django_ses.SESBackend'
 
 # Static files (CSS, JavaScript, Images)

@@ -68,6 +68,10 @@ def getEvent(request):
         context = {
             'id':event.id,
             'name':event.name,
+            'type':event.get_type_display(),
+            'venue':event.venue,
+            'time':event.time.strftime("%-I:%M %p"),
+            'date':event.date.strftime("%a, %d %b, %Y"),
             'desc':event.description,
             'amount':event.amount,
             'includedInPass':event.includedInPass,
@@ -86,6 +90,10 @@ def getEvent(request):
         context = {
             'id':event.id,
             'name':event.name,
+            'type':event.get_type_display(),
+            'venue':event.venue,
+            'time':event.time.strftime("%-I:%M %p"),
+            'date':event.date.strftime("%a, %d %b, %Y"),
             'desc':event.description,
             'amount':event.amount,
             'includedInPass':includedInPass,
@@ -94,6 +102,10 @@ def getEvent(request):
         context = {
             'id':event.id,
             'name':event.name,
+            'type':event.get_type_display(),
+            'venue':event.venue,
+            'time':event.time.strftime("%-I:%M %p"),
+            'date':event.date.strftime("%a, %d %b, %Y"),
             'desc':event.description,
             'amount':event.amount,
             'includedInPass':False,

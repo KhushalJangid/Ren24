@@ -20,6 +20,10 @@ const showModalDialog = (eventid,userId) => {
       const modal = document.getElementById('modal');
       modal.style.display = 'block';
       document.getElementById('event-name').innerText = data['name'];
+      document.getElementById('event-type').innerText = data['type'];
+      document.getElementById('event-time').innerText = data['time'];
+      document.getElementById('event-date').innerText = data['date'];
+      document.getElementById('event-venue').innerText = data['venue'];
       document.getElementById('event-description').innerText = data['desc'];
       document.getElementById('event-amount').innerText = data['amount'];
       if (data['includedInPass'] == true) {
@@ -77,6 +81,10 @@ const showAnonymousModalDialog = (eventid) => {
       const modal = document.getElementById('modal');
       modal.style.display = 'block';
       document.getElementById('event-name').innerText = data['name'];
+      document.getElementById('event-type').innerText = data['type'];
+      document.getElementById('event-time').innerText = data['time'];
+      document.getElementById('event-date').innerText = data['date'];
+      document.getElementById('event-venue').innerText = data['venue'];
       document.getElementById('event-description').innerText = data['desc'];
       document.getElementById('event-amount').innerText = data['amount'];
       if (data['includedInPass'] == true) {
