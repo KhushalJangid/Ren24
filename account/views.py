@@ -272,3 +272,31 @@ def send_ticket(request):
         return redirect('profile')
     messages.warning(request,"Something went wrong")
     return redirect('profile')
+
+@login_required
+@profile_required('/u/profile')
+def download_ticket(request):
+    if request.method == 'POST':
+        user = request.user
+        _pass = getPass(user)  # Assuming `getPass` retrieves user's pass information
+        if not _pass:
+            messages.error(request, "Your Ren Pass is not activated")
+            return redirect('profile')
+
+        email = user.email
+        img = generate_master_ticket(user)  # Assuming `generate_master_ticket` creates the image
+        image_buffer = io.BytesIO(img)
+        image = Image.open(image_buffer)
+        img_rgb = image.convert('RGB')
+
+        # Set the response as a PDF download
+        response = HttpResponse(content_type='application/pdf')
+        pdfbuffer = io.BytesIO()
+        img_rgb.save(pdfbuffer, 'PDF', resolution=100.0)
+        response.content = pdfbuffer.getvalue()
+        response['Content-Disposition'] = f'attachment; filename=ticket_{user.email}.pdf'
+        return response
+        
+
+        
+        

@@ -20,4 +20,5 @@ urlpatterns = [
     path('forgot/resendotp',reset.resendOTP,name= 'resetpass_resendotp'),
     # path('image_upload',image_upload,name="image_upload"),
     path('send_ticket',send_ticket,name="send_ticket"),
+    path('download_ticket',download_ticket,name='download_ticket'),
 ]

@@ -181,7 +181,11 @@
     <div class="row justify-content-end">
         <div class="card mb-4 col-md-8">
             <div class="row p-4 justify-content-evenly">
-            <h2 class="col-md-8">Your Tickets</h2>
+            <h2 class="col-md-4">Your Tickets</h2>
+            <form action="{% url 'download_ticket' %}" class="col-md-4" id="download-form" method="post">
+                {% csrf_token %}
+                <input  class="btn btn-outline-primary" form="download-form" type="submit" value="Download Master Pass">
+            </form>
             <form action="{% url 'send_ticket' %}" class="col-md-4" id="email-form" method="post">
                 {% csrf_token %}
                 <input  class="btn btn-outline-primary" form="email-form" type="submit" value="Send Master Pass">
