@@ -32,7 +32,7 @@ class Events(models.Model):
     name = models.CharField(max_length=100)
     venue = models.CharField(max_length=100)
     type = models.CharField(max_length=8,choices=_eventTypes)
-    description = models.TextField(max_length=1000,null=True,blank=True)
+    description = models.TextField(null=True,blank=True)
     amount = models.PositiveIntegerField(default=0)
     includedInPass = models.BooleanField(default=False)
     poster = models.ImageField(upload_to='events/')

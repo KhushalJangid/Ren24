@@ -37,7 +37,7 @@ def event(request):
                 meta.append(event)
                 i = 0
             i +=1
-        if i<2:
+        if i<4:
             context.append(meta)
         return render(request,'event.html',{'events':context})
     
@@ -56,7 +56,7 @@ def event_type(request,type):
                 meta.append(event)
                 i = 0
             i +=1
-        if i<2:
+        if i<4:
             context.append(meta)
         return render(request,'event.html',{'events':context})
 

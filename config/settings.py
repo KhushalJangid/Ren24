@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 import os
 from pathlib import Path
 from config import sentry
-# from config import env
+from config import env
 
 # import razorpay
 
@@ -156,14 +156,13 @@ USE_I18N = True
 USE_TZ = True
 
 Email='renaissance@jecrc.ac.in'
-# Email='pranavpurohit73@gmail.com'
 EMAIL_BACKEND = 'django_ses.SESBackend'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-# PRODUCTION = env.getParameter('PRODUCTION') == 'True'
-PRODUCTION = False
+PRODUCTION = env.getParameter('PRODUCTION') == 'True'
+# PRODUCTION = False
 
 if PRODUCTION:
     
@@ -217,8 +216,8 @@ else:
     
     BASE_URL = 'http:127.0.0.1:8000'
     
-    AWS_ACCESS_KEY_ID = "AKIA3WO4ZFTK7JW4U6XT"
-    AWS_SECRET_ACCESS_KEY = "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"
+    AWS_ACCESS_KEY_ID = ""
+    AWS_SECRET_ACCESS_KEY = ""
     # SECURITY WARNING: keep the secret key used in production secret!
     SECRET_KEY = 'django-insecure-3i-x6+f9gwr(4qxbtgwv-=7y27)ixgc)tp=29ne)@=a#&84khj'
 
@@ -249,13 +248,3 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR,"static"),]
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
-# EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST='smtp.gmail.com'
-# EMAIL_PORT=587
-# EMAIL_HOST_USER='johngallio155@gmail.com'
-# EMAIL_HOST_PASSWORD='aegg eajy tumd ruxz'
-# EMAIL_USE_TLS=True
-# EMAIL_USE_SSL=False
-

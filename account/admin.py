@@ -4,13 +4,49 @@ from django.contrib.auth.forms import UserCreationForm,UserChangeForm
 from django.contrib.sessions.models import Session
 from import_export.admin import ExportActionMixin,ExportActionModelAdmin,ImportExportMixin
 from .models import *
+from import_export import resources
+from import_export.widgets import ForeignKeyWidget,DateTimeWidget
+from import_export import fields
 
 class UserCreateForm(UserCreationForm):
 
     class Meta:
         model = User
         fields = ['email','password']
-        
+    
+class AccountResource(resources.ModelResource):
+    first_name = fields.Field(
+        column_name='First Name',
+        attribute='first_name',)
+    last_name = fields.Field(
+        column_name='Last Name',
+        attribute='last_name',)
+    email = fields.Field(
+        column_name='Email',
+        attribute='email',)
+    rollno = fields.Field(
+        column_name='Roll No',
+        attribute='profile',
+        widget=ForeignKeyWidget(Profile, 'rollno'))
+    phone = fields.Field(
+        column_name='Phone No',
+        attribute='profile',
+        widget=ForeignKeyWidget(Profile, 'phone'))
+    dob = fields.Field(
+        column_name='Date of Birth',
+        attribute='profile',
+        widget=ForeignKeyWidget(Profile, 'dob'))
+    address = fields.Field(
+        column_name='Address',
+        attribute='profile',
+        widget=ForeignKeyWidget(Profile, 'address'))
+    published = fields.Field(
+        column_name='Registered On',
+        attribute='date_joined', 
+        widget=DateTimeWidget(format='%d %b, %Y, %-I:%M %p'))   
+    class Meta:
+        model = User
+        fields = ['first_name','last_name','email','rollno','phone','dob','address','published'] 
 
 class AccountAdmin(ExportActionMixin,UserAdmin):
     # add_form = UserCreateForm
@@ -33,6 +69,7 @@ class AccountAdmin(ExportActionMixin,UserAdmin):
     list_filter = ()
     fieldsets = ()
     ordering =()
+    resource_class = AccountResource
     
 class PassAdmin(ImportExportMixin,admin.ModelAdmin):
     empty_value_display = "Not selected"
@@ -48,6 +85,7 @@ class SessionAdmin(admin.ModelAdmin):
     
 class ProfileAdmin(ExportActionMixin,admin.ModelAdmin):
     list_display = ['get_email','get_name','phone']
+    search_fields = ['user__email','user__first_name']
     autocomplete_fields = ["user"]
     
     def get_email(self,obj):
