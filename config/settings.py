@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 import os
 from pathlib import Path
 import sentry_sdk
-# from config import env
+from config import env
 
 # import razorpay
 
@@ -54,6 +54,9 @@ AUTHENTICATION_BACKENDS = [
     ]
 ADMIN_AUTHENTICATION_METHOD = 'account.authentication.EmailBackend'
 
+# SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+# CACHE_BACKEND = 'django.contrib.sessions.backends.db'
+
 ROOT_URLCONF = 'config.urls'
 AUTH_USER_MODEL = 'account.User'
 
@@ -77,6 +80,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.request',
+                'ticket.context_processors._pass',
             ],
         },
     },
@@ -155,14 +159,17 @@ USE_I18N = True
 
 USE_TZ = True
 
-Email='renaissance@jecrc.ac.in'
+Email='ticket.renaissance@gmail.com'
 EMAIL_BACKEND = 'django_ses.SESBackend'
+
+AWS_ACCESS_KEY_ID = "AKIA3WO4ZFTK7JW4U6XT"
+AWS_SECRET_ACCESS_KEY = "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"
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-# PRODUCTION = env.getParameter('PRODUCTION') == 'True'
-PRODUCTION = False
+PRODUCTION = env.getParameter('PRODUCTION') == 'True'
+# PRODUCTION = False
 def error_sampler():
     return 1.0
 
@@ -224,8 +231,8 @@ else:
     
     BASE_URL = 'http:127.0.0.1:8000'
     
-    AWS_ACCESS_KEY_ID = ""
-    AWS_SECRET_ACCESS_KEY = ""
+    # AWS_ACCESS_KEY_ID = ""
+    # AWS_SECRET_ACCESS_KEY = ""
     # SECURITY WARNING: keep the secret key used in production secret!
     SECRET_KEY = 'django-insecure-3i-x6+f9gwr(4qxbtgwv-=7y27)ixgc)tp=29ne)@=a#&84khj'
 

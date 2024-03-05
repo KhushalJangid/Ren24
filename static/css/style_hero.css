@@ -55,12 +55,9 @@ a{
 }
 .main-carousel .main-list .main-item .main-title,
 .main-carousel .main-list .main-item .main-topic{
-    font-size: 5em;
+    font-size: 2.5em;
     font-weight: bold;
     line-height: 1.3em;
-}
-.main-carousel .main-list .main-item .main-topic{
-    color: #f1683a;
 }
 .main-carousel .main-list .main-item .main-buttons{
     display: grid;
@@ -69,14 +66,19 @@ a{
     gap: 5px;
     margin-top: 20px;
 }
-.main-carousel .main-list .main-item .main-buttons button{
+.main-carousel .main-list .main-item .main-buttons a{
     border: none;
     background-color: #eee;
+    color: black;
     letter-spacing: 3px;
     font-family: Poppins;
     font-weight: 500;
+    height:6rem;
+    width: 10rem;
+    padding: 1rem;
+    text-decoration: none;
 }
-.main-carousel .main-list .main-item .main-buttons button:nth-child(2){
+.main-carousel .main-list .main-item .main-buttons a:nth-child(2){
     background-color: transparent;
     border: 1px solid #fff;
     color: #eee;
@@ -305,4 +307,6 @@ a{
 }
 .main-des{
     font-size: 25px;
+    color: #f1683a;
+    font-weight: bold;
 }

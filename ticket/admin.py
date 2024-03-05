@@ -103,7 +103,7 @@ class CustomTicketAdmin(ExportActionMixin,admin.ModelAdmin):
     resource_class = CustomTicketResource
     
     def get_link(self,obj):
-        return f"{BASE_URL}/qr/{obj.id}" 
+        return f"{BASE_URL}/custom/{obj.id}" 
     get_link.short_description = "View Link"
     
     # def get_form(self, request, obj=None, **kwargs):

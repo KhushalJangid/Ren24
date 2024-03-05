@@ -72,7 +72,7 @@ class OTP(models.Model):
     user = models.OneToOneField(to="User",on_delete=models.CASCADE)
     otp = models.PositiveIntegerField(null=True,blank=True)
     created = models.DateTimeField(default=datetime.now(pytz.UTC))
-    expire=models.DateTimeField(default=(datetime.now(pytz.UTC)+timedelta(seconds=30)))
+    expire=models.DateTimeField(default=(datetime.now(pytz.UTC)+timedelta(minutes=10)))
     
     def __str__(self):
         return self.user.email

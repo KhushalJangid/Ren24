@@ -25,7 +25,7 @@
         }
 
         .body-section{
-            margin-top:80px;
+            margin-top:110px;
             min-height:100vh;
         }
         body {
@@ -65,7 +65,7 @@
 
 <body>
     <header class="header">
-        <img src="{% static "assets/icons/founation.png" %}" width="5%"/>
+        <img src="{% static "assets/icons/founation.png" %}"/>
 
         <i class='bx bx-menu' id="menu-icon"></i>
         <nav class="navbar">
@@ -84,7 +84,7 @@
             </a>     
         {% endif %}
         </nav>
-        <img src="{% static "assets/icons/ren-logo.png" %}" width="5%"/>
+        <img src="{% static "assets/icons/ren-logo.png" %}"/>
 
     </header>
     <div class="nav-bg"></div>
@@ -269,7 +269,7 @@
             crossorigin="anonymous"></script>
         <script src="https://code.jquery.com/jquery-3.6.4.min.js"
             integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
-        <script src="lib/venobox/venobox.js"></script>
+        {% comment %} <script src="lib/venobox/venobox.js"></script>
         <script src="lib/owlcarousel/owl.carousel.min.js"></script>
         <script src="js/main.js"></script>
         <script>
@@ -303,7 +303,7 @@
                 closeColor: "#fff",
                 maxWidth: "70%",
             });
-        </script>
+        </script> {% endcomment %}
         
 
 
@@ -319,8 +319,6 @@
         navbar.classList.toggle('active');
         navbg.classList.toggle('active');
         });
-    </script>
-    {% comment %} <script src="{% static "js/navbar.js" %}"> {% endcomment %}
     </script>
     {% block script %}{% endblock script %}
 

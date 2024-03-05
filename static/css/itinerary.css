@@ -35,6 +35,10 @@ body {
     /* margin-top: 20vh; */
 }
 
+h1{
+    font-size: 2rem !important;
+}
+
 .days {
     /* border: 2px solid black !important; */
     display: flex;
@@ -274,6 +278,7 @@ a{
         /* border: 2px solid red; */
         margin-left: 10px;
         margin-right: 30px;
+        overflow: hidden;
 
         ul {
 

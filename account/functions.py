@@ -1,4 +1,3 @@
-from ticket.models import Ticket
 from account.models import Passes
 
 def getPass(user):

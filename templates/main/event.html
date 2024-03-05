@@ -73,6 +73,9 @@
             text-decoration: none;
             color:black;
           }
+          .dragscroll:active{
+            cursor: grabbing;
+          }
     </style>
     {% endblock head %}
 
@@ -85,56 +88,47 @@
                 <a href="{% url "events" %}/cultural" type="button" class="radio-btn btn-outline-info glass-button" >Cultural</a>
             </div>
         </div>
-
-
         <div class="cardx-cultural">
             <main id="app">
-                {% if request.user.is_authenticated %}
                 {% for event_set in events %}
                 <section class="cards">
                     {% for event in event_set %}
-                            <div class="btn card animated img"
-                                style="background-image: url({{event.poster.url}});"
-                                onclick="showModalDialog({{event.id}},{{request.user.id}})">
+                            <div class="btn card animated img dragscroll"
+                                style="background-image: url({{event.poster.url}});width:20rem;"
+                                onClick="showModalDialog({{event.id}})">
                             </div>
                             {% endfor %}
                         </section>
                         {% endfor %}
-                    {% else %}
-                    {% for event_set in events %}
-                <section class="cards">
-                    {% for event in event_set %}
-                    <div class="btn card animated img"
-                        style="background-image: url({{event.poster.url}});"
-                        onclick="showAnonymousModalDialog({{event.id}})">
-                    </div>
-                    {% endfor %}
-                        </section>
-                        {% endfor %}
-                    {% endif %}
             </main>
         </div>
         </div>
     </div>
-    <div id ="modal" class="modal-overlay">
+    {% if request.user.is_authenticated %}
+    {% for data in modal %}
+    <div id="modal-{{data.id}}" class="modal-overlay">
         <div class="modal-body">
           <div class="d-flex justify-content-between">
-            <h2 id="event-name"></h2>
-            <button class="btn btn-outline-danger my-auto" id="close-modal-btn">&times;</button>
+            <h2 >{{ data.name }}</h2>
+            <button class="btn btn-outline-danger my-auto" id="close-modal-btn-{{data.id}}">&times;</button>
           </div>
           <h4 class="my-2">Date</h4>
-          <span id="event-date"></span>
+          <span >{{ data.date|date:'D, d M, Y' }}</span>
           <h4 class="my-2">Type</h4>
-          <span id="event-type"></span>
-          <p id="event-description"></p>
+          <span>{{ data.type.get_type_display }}</span>
+          <p >{{ data.description }}</p>
           <h4 class="my-2">Amount</h4>
-          <span id="event-amount"></span>
+          <span>{{ data.amount }}</span>
           <h4 class="my-2">Venue</h4>
-          <span id="event-venue"></span>
+          <span>{{ data.venue }}</span>
           <h4 class="my-2">Time</h4>
-          <span id="event-time"></span>
+          <span>{{ data.time|time:"h:i A"}}</span>
           <hr>
-          <h4 style="color:red" id="event-access"></h4>
+          <h4 style="color:red">
+            {% if data.includedInPass %}
+              Included in Ren Pass
+            {% endif %}
+          </h4>
           <p>
             <ul>
                 <li>For outsider registration fill out the google form</li>
@@ -143,20 +137,78 @@
             </ul>
           </p>
           <div class="d-flex justify-content-evenly">
-            {% if request.user.is_authenticated %}
-            <button class="btn btn-primary" id="buy-now-btn">Buy Now</button>
-            <a class="btn btn-outline-primary" href="https://forms.gle/4GkxCVzY9Jkp3KeXA" target="_blank">Register by Google Form</a>
+            {% if data.includedInPass %}
+              {% if pass %}
+                {% if data.type == 'tech' %}
+                  {% if pass.technical %}
+                    <button class="btn btn-primary" disabled>Technical event purchased</button>
+                  {% else %}
+                    <button class="btn btn-primary" onClick="buyNow({{data.id}},'{{data.name}}')">Buy Now</button>
+                  {% endif %}
+                {% elif data.type == 'splash' %}
+                  {% if pass.splash %}
+                    <button class="btn btn-primary" disabled>Splash event purchased</button>
+                  {% else %}
+                    <button class="btn btn-primary" onClick="buyNow({{data.id}},'{{data.name}}')">Buy Now</button>
+                  {% endif %}
+                {% endif %}
+              {% else %}
+                <button class="btn btn-primary" disabled>Ren pass inactive</button>
+              {% endif %}
             {% else %}
-            <a class="btn btn-primary" href="{% url 'login' %}">Login to buy Ticket</a>
-            <a class="btn btn-outline-primary" href="https://forms.gle/4GkxCVzY9Jkp3KeXA" target="_blank">Register by Google Form</a>
+                <button class="btn btn-primary" disabled>Not Included in Ren Pass</button>
             {% endif %}
+            <a class="btn btn-outline-primary" href="https://forms.gle/4GkxCVzY9Jkp3KeXA" target="_blank">Register by Google Form</a>
           </div>
         </div>
       </div>
+      {% endfor %}
+    {% else %}
+    {% for data in modal %}
+    <div id="modal-{{data.id}}" class="modal-overlay">
+      <div class="modal-body">
+        <div class="d-flex justify-content-between">
+          <h2 >{{ data.name }}</h2>
+          <button class="btn btn-outline-danger my-auto" id="close-modal-btn-{{data.id}}">&times;</button>
+        </div>
+        <h4 class="my-2">Date</h4>
+        <span >{{ data.date|date:'D, d M, Y' }}</span>
+        <h4 class="my-2">Type</h4>
+        <span>{{ data.type.get_type_display }}</span>
+        <p >{{ data.description }}</p>
+        <h4 class="my-2">Amount</h4>
+        <span>{{ data.amount }}</span>
+        <h4 class="my-2">Venue</h4>
+        <span>{{ data.venue }}</span>
+        <h4 class="my-2">Time</h4>
+        <span>{{ data.time|time:"h:i A"}}</span>
+        <hr>
+        <h4 style="color:red">
+          {% if data.includedInPass %}
+            Included in Ren Pass
+          {% endif %}
+        </h4>
+        <p>
+          <ul>
+              <li>For outsider registration fill out the google form</li>
+              <li>If the Buy Now button is disabled, either your Ren Pass is not activated or You have already booked your events.</li>
+              <li>If you have paid ₹600 but your Ren Pass is not activated, you can contact Registration Desk.</li>
+          </ul>
+        </p>
+        <div class="d-flex justify-content-evenly">
+          <a class="btn btn-primary" href="{% url 'login' %}">Login to buy Ticket</a>
+          <a class="btn btn-outline-primary" href="https://forms.gle/4GkxCVzY9Jkp3KeXA" target="_blank">Register by Google Form</a>
+        </div>
+      </div>
+    </div>
+      {% endfor %}
+      {% endif %}
     {% endblock body %}
 
 {% block script %}
 <script src="{% static "js/modal.js" %}"></script>
-    {% csrf_token %}
+<script src="{% static "js/dragscroll.js" %}"></script>
+<script > 
+</script>
 {% endblock script %}
 

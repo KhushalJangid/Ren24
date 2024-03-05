@@ -6,7 +6,7 @@ from ticket import api
 urlpatterns = [
     path('events', views.event, name='events'),
     path('events/<str:type>', views.event_type),
-    path('getevent', views.getEvent, name='getevent'),
+    # path('getevent', views.getEvent, name='getevent'),
     path('qr/<uuid:ticketId>', views.qr, name='qr'),
     path('custom/<uuid:ticketId>', views.custom),
     path('buy/<int:eventId>',views.buy),

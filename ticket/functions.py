@@ -56,7 +56,7 @@ def generate_ticket(ticket_id)->bytes:
     img_io.seek(0)
     return img_io.getvalue()
 
-def generate_master_ticket(user)->bytes:
+def generate_master_ticket(user)->BytesIO:
     BASE_DIR = Path(__file__).resolve().parent
     # Generate QR code
     logo = Image.open(path.join(BASE_DIR,'assets','Ren logo.png'))
@@ -99,4 +99,4 @@ def generate_master_ticket(user)->bytes:
     img_io = BytesIO()
     ticket_img.save(img_io, format='PNG')
     img_io.seek(0)
-    return img_io.getvalue()
+    return img_io

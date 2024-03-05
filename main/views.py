@@ -1,6 +1,5 @@
 from django.shortcuts import redirect, render
-
-from ticket.models import Events
+# from ticket.models import Events
 
 # Create your views here.
 
@@ -15,10 +14,6 @@ def celebrity(request):
 
 def contact(request):
     return render(request,'contact.html')
-
-# def e(request):
-#     events = Events.objects.all().only('id','poster')
-#     return render(request,'event.html',{'events':events})
 
 def itinerary_day(request,day):
     if day == 1:

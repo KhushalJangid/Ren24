@@ -45,6 +45,7 @@ class Events(models.Model):
     class Meta:
         verbose_name = 'Event'
         verbose_name_plural = 'Events'
+        ordering = ['date']
 
 class Ticket(models.Model):
     id= models.UUIDField(default=uuid.uuid4,editable=False,primary_key=True)
@@ -76,9 +77,9 @@ class Ticket(models.Model):
 class CustomTicket(models.Model):
     id = models.UUIDField(default=uuid.uuid4,editable=False,primary_key=True)
     event = models.ForeignKey(Events, on_delete=models.CASCADE, null=True)
-    name = models.CharField(max_length=40)
-    email = models.EmailField(max_length=200)
-    phone_no = models.CharField(max_length=13)
+    name = models.CharField(max_length=40,unique=False)
+    email = models.EmailField(max_length=200,unique=False)
+    phone_no = models.CharField(max_length=13,unique=False)
     used = models.BooleanField(default=False)
     # amount = models.PositiveIntegerField(default=0)
     note = models.TextField(null=True,blank=True)
@@ -87,17 +88,16 @@ class CustomTicket(models.Model):
         return str(self.id)
     
     def save(self, *args, **kwargs):
-        ticket = self.generate_customticket()
-        image_buffer = io.BytesIO(ticket)
+        image_buffer = self.generate_customticket()
         image=Image.open(image_buffer)
         img_rgb=image.convert('RGB')
         pdf_buffer = io.BytesIO()
         img_rgb.save(pdf_buffer, 'PDF', resolution=100.0)
-        send_custom_email_thread(self.id,pdf_buffer)
+        send_custom_email_thread(self,pdf_buffer)
         print(f"Custom ticket saved {self.id}")
         super().save(*args, **kwargs)
     
-    def generate_customticket(self)->bytes:
+    def generate_customticket(self)->io.BytesIO:
         BASE_DIR = Path(__file__).resolve().parent
         # Generate QR code
         logo = Image.open(path.join(BASE_DIR,'assets','Ren logo.png'))
@@ -142,26 +142,43 @@ class CustomTicket(models.Model):
         img_io = io.BytesIO()
         ticket_img.save(img_io, format='PNG')
         img_io.seek(0)
-        return img_io.getvalue()
+        return img_io
         
-def send_custom_email_with_attachment(id,pdf_buffer):
+def send_custom_email_with_attachment(ticket:CustomTicket,pdf_buffer):
     # Initialize SES client
     ses_client = boto3.client('ses', 
                               region_name='ap-south-1', 
                               aws_access_key_id=settings.AWS_ACCESS_KEY_ID, 
                               aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY
                               )  # Replace with your desired region and credentials
-    
-    name_obj=CustomTicket.objects.get(id=id)
-    name=name_obj.name
+    name=ticket.name
     # Create a multipart message
     message = MIMEMultipart()
     message['Subject'] = f'Your Ticket for Renaissance!'
-    message['From'] = settings.Email
-    message['To'] = name_obj.email
+    message['From'] = f"\"Your Pass for Renaissance 2024 !\" <{settings.Email}>"
+    message['To'] = ticket.email
 
     # Add HTML content (optional)
-    html_content = MIMEText(f'<p>Hi {name}, <br>Thank you for registering for Renaissance!,</br> <br></br> <br>Your QR ticket is attached to this email.</br> <br> </br> <br>Please present this ticket at the event entrance for scanning. We look forward to seeing you there!</br> <br> </br> <br> </br> <br> Thanks regards,</br> <br> JECRC Renaissance</br></p>', 'html')
+    html_content = MIMEText(f'''<p>Hi {name}, <br>
+                            Thank you for registering for Renaissance 2024,<br>
+                            Your Event Pass is attached to this email.<br>
+                            Please present this ticket at the event entrance for scanning.<br><br>
+                            <b>Event Details:</b>
+                            <ul>
+                                <li>Event Name: {ticket.event.name}</li>
+                                <li>Date: {ticket.event.date.strftime("%a, %d %b, %Y")}</li>
+                                <li>Time: {ticket.event.time.strftime("%-I:%M %p")}</li>
+                                <li>Venue: {ticket.event.venue}</li>
+                            </ul>
+                            <b>Note:</b>
+                            <ul>
+                                <li>This pass will grant you entry to the JECRC campus for 1 day ({ticket.event.date.strftime("%a, %d %b, %Y")})</li>
+                                <li>This pass can be scanned only once, no re-entry will be permitted</li>
+                                <li>This pass is non-transferable and non-refundable </li>
+                            </ul>
+                            We look forward to seeing you at Ren 2024 ! <br><br>
+                            Best regards,<br>
+                            Team JECRC Renaissance</p>''', 'html')
     message.attach(html_content)
 
     # Attach the image
@@ -180,6 +197,6 @@ def send_custom_email_with_attachment(id,pdf_buffer):
     except Exception as e:
         print(f"Error sending email: {str(e)}")
 
-def send_custom_email_thread(id,img_data):
-    t = Thread(target=send_custom_email_with_attachment, args=(id, img_data))
+def send_custom_email_thread(ticket:CustomTicket,img_data):
+    t = Thread(target=send_custom_email_with_attachment, args=(ticket, img_data))
     t.start()

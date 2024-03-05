@@ -15,12 +15,6 @@ def getParameter(param_name):
     The parameter's value is returned.
     """
     # Create the SSM Client
-    # ssm = boto3.client('ssm',
-    #     region_name='ap-south-1',
-    #     aws_access_key_id = "AKIA3WO4ZFTK7JW4U6XT",
-    # aws_secret_access_key = "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"
-    # )
-
     ssm = boto3.client(
         "ssm",
         region_name="ap-south-1",

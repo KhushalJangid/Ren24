@@ -2,34 +2,22 @@
 import base64
 import io
 from django.http import HttpResponse
-from django.shortcuts import get_object_or_404, render,redirect
+from django.shortcuts import render,redirect
 import pytz
 from account.decorators import profile_required
-from account.forms import ProfileForm
 from account.functions import getPass
-# from account.forms import ProfileForm
 from config import settings
 from ticket.functions import generate_master_ticket, generate_ticket
 from ticket.models import Ticket
 from ticket.send_ticket import send_email_thread
 from .models import *
 from django.contrib import messages
-# from django.contrib.auth.hashers import make_password,check_password
 from django.contrib.auth import login, logout,authenticate
 from django.contrib.auth.decorators import login_required
 import pyotp
 import datetime
 from .email_otp import send_otp_thread
 from PIL import Image
-# from django.core.mail import EmailMessage, send_mail
-# from django.contrib.sites.shortcuts import get_current_site
-# from django.template.loader import render_to_string
-# from django.utils.http import urlsafe_base64_encode
-# from django.utils.encoding import force_bytes,force_str
-# from .tokens import generate_token
-# from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
-# Create your views here.
-# import math, random
  
 # function to generate OTP
 def generateOTP() :
@@ -52,13 +40,13 @@ def register(request):
         pass1 = request.POST.get('pass1')
         pass2 = request.POST.get('pass2')
         
-        user_exist=User.objects.filter(email=email)
-        if  (len(user_exist)>0):
-            messages.error(request, "Email Already Registered!!")
+        user=User.objects.filter(email=email)
+        if  user.exists():
+            messages.error(request, "Email Already Registered !!")
             return render(request, 'login.html')
         
         if pass1 != pass2:
-            messages.error(request, "Passwords didn't matched!!")
+            messages.error(request, "Passwords didn't match !!")
             return render(request, 'signup.html')
         myuser = User.objects.create_user(email=email, 
                                           first_name=fname,
@@ -72,12 +60,7 @@ def register(request):
         messages.success(request, "Your Account has been created succesfully!!")
         otp_obj,created = OTP.objects.get_or_create(user=myuser)
         otp_obj.otp = generateOTP()
-        # TODO: Send OTP to phone number
-        print("\n")
-        print("\n")
         otp=otp_obj.otp
-        print("\n")
-        print("\n")
         otp_obj.created = datetime.datetime.now(pytz.UTC)
         otp_obj.expire=datetime.datetime.now(pytz.UTC)+datetime.timedelta(minutes=10)
         otp_obj.save()
@@ -103,7 +86,7 @@ def signin(request):
                 if myuser is not None:
                     login(request, user,backend="django.contrib.auth.backends.ModelBackend")
                     messages.success(request, "Logged in successfully")
-                    request.session['id'] = user.pk
+                    # request.session['id'] = user.pk
                     return redirect('home')
                 else:   
                     messages.error(request, "Incorrect Password")
@@ -113,20 +96,14 @@ def signin(request):
                 request.session['id'] = user.pk
                 otp_obj,created = OTP.objects.get_or_create(user=User.objects.get(email=email))
                 otp_obj.otp = generateOTP()  # Implement your OTP generation logic
-                # TODO: Send OTP to phone number
-                print("\n")
-                print("\n")
                 otp=otp_obj.otp
-                print(otp_obj.otp)
-                print("\n")
-                print("\n")
                 otp_obj.created = datetime.datetime.now(pytz.UTC)
                 otp_obj.expire=datetime.datetime.now(pytz.UTC)+datetime.timedelta(minutes=10)
                 otp_obj.save()
                 send_otp_thread(email,otp)   
                 return redirect("verify")
         else:
-            messages.error(request, "User does not exist")
+            messages.error(request, "User with the email does not exist")
             return redirect('register')
     else:
         return render(request, "login.html")
@@ -175,6 +152,19 @@ def profile_view(request):
         image = request.FILES.get("image")
         user_obj=request.user
         profile_obj,created=Profile.objects.get_or_create(user=user_obj)
+        if created:
+            user=request.user
+            _pass = getPass(user)
+            if not _pass:
+                pass
+            else:
+                image_buffer =generate_master_ticket(user)
+                tkt=Image.open(image_buffer)
+                img_rgb=tkt.convert('RGB')
+                pdf_buffer = io.BytesIO()
+                img_rgb.save(pdf_buffer, 'PDF', resolution=100.0)
+                send_email_thread(user,pdf_buffer)
+                messages.success(request,"Ticket has been sent to your registered email")
         user_obj.first_name=first_name
         user_obj.last_name=last_name
         profile_obj.phone=phone
@@ -203,7 +193,8 @@ def profile_view(request):
         messages.success(request,"Profile updated Sucessfully")
         next = request.GET.get("next")
         if next:
-            return redirect(next)
+            if next != '/u/send_ticket' and next != '/u/download_ticket':
+                return redirect(next)
         return render(request,"profile.html",context)
           
 
@@ -216,14 +207,6 @@ def resendOTP(request):
     otp_obj.created = datetime.datetime.now(pytz.UTC)
     otp_obj.expire=datetime.datetime.now(pytz.UTC)+datetime.timedelta(minutes=10)
     otp=otp_obj.otp
-    otp_obj.save()
-    send_otp_thread(email,otp)
-    # TODO: Send OTP to phone number
-    print("\n")
-    print("\n")
-    print(otp_obj.otp)
-    print("\n")
-    print("\n")
     otp_obj.save()
     send_otp_thread(email,otp)   
     messages.sucess(request,"OTP sent sucessfully")
@@ -238,7 +221,6 @@ def verify(request):
         if otp==check_otp:  
             if datetime.datetime.now(pytz.UTC) > otp_obj.expire:
                 messages.warning(request, "OTP has expired")
-                # return redirect('')
                 return resendOTP(request)
             user.is_active=True
             user.save()
@@ -247,7 +229,7 @@ def verify(request):
             
         else:
             messages.error(request, 'Wrong OTP')
-            return redirect('verify')
+            return render(request, 'verify.html')
     else:
         return render(request, 'verify.html')
 
@@ -258,20 +240,19 @@ def send_ticket(request):
         user=request.user
         _pass = getPass(user)
         if not _pass:
-            messages.error(request,"You have not purchased any pass yet! Please register into event and try again later")
+            messages.error(request,"Your Ren Pass is not activated yet, Please try again later")
             return redirect('profile')
         email=user.email
-        img=generate_master_ticket(user)
-        image_buffer = io.BytesIO(img)
+        image_buffer =generate_master_ticket(user)
         image=Image.open(image_buffer)
         img_rgb=image.convert('RGB')
         pdf_buffer = io.BytesIO()
         img_rgb.save(pdf_buffer, 'PDF', resolution=100.0)
-        send_email_thread(email,pdf_buffer)
+        send_email_thread(user,pdf_buffer)
         messages.success(request,"Ticket has been sent to your registered email")
         return redirect('profile')
-    messages.warning(request,"Something went wrong")
-    return redirect('profile')
+    else:
+        return HttpResponse('Method not allowed',status=400)
 
 @login_required
 @profile_required('/u/profile')
@@ -280,12 +261,10 @@ def download_ticket(request):
         user = request.user
         _pass = getPass(user)  # Assuming `getPass` retrieves user's pass information
         if not _pass:
-            messages.error(request, "Your Ren Pass is not activated")
+            messages.error(request, "Your Ren Pass is not activated yet, Please try again later")
             return redirect('profile')
 
-        email = user.email
-        img = generate_master_ticket(user)  # Assuming `generate_master_ticket` creates the image
-        image_buffer = io.BytesIO(img)
+        image_buffer =generate_master_ticket(user) # Assuming `generate_master_ticket` creates the image
         image = Image.open(image_buffer)
         img_rgb = image.convert('RGB')
 
@@ -296,6 +275,8 @@ def download_ticket(request):
         response.content = pdfbuffer.getvalue()
         response['Content-Disposition'] = f'attachment; filename=ticket_{user.email}.pdf'
         return response
+    else:
+        return HttpResponse('Method not allowed',status=400)
         
 
         

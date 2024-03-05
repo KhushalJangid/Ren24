@@ -23,8 +23,8 @@
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
                 integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous" />
                 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-        <link href="lib/venobox/venobox.min.css" media="screen" rel="stylesheet" />
-        <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet" />
+        {% comment %} <link href="lib/venobox/venobox.min.css" media="screen" rel="stylesheet" />
+        <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet" /> {% endcomment %}
         <link rel="stylesheet" href="{% static "css/ind.css" %}">
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
         <link rel="stylesheet" href="{% static "css/style.css" %}">
@@ -41,8 +41,9 @@
             font-family: a;
             src: url("{% static "fonts/KlemerDisplayDemoRegular-ax5qg.ttf" %}") format("truetype");
         }
-            #page11{
+            body{
                 background-image: url({% static "assets/index/dasktop_baground.jpg" %});
+                background-attachment:fixed;
             }
             .slider{
                 height: 400px;
@@ -101,7 +102,7 @@
             }
             
             /* gradient  */
-            
+            /*
             .slider::before,
             .slider::after{
                 background: linear-gradient(to right, rgba(255,255,255,1) 0%,
@@ -121,7 +122,7 @@
                 right: 0;
                 top: 0;
                 transform: rotateZ(180deg);
-            }
+            }*/
 
             .new-cont {
                 border-width: 2px;
@@ -206,7 +207,7 @@
     </style>
     <body>
         <header class="header">
-            <img src="{% static "assets/icons/founation.png" %}" width="5%"/>
+            <img src="{% static "assets/icons/founation.png" %}"/>
 
             <i class='bx bx-menu' id="menu-icon"></i>
             <nav class="navbar">
@@ -225,7 +226,7 @@
                 </a>     
             {% endif %}
             </nav>
-            <img src="{% static "assets/icons/ren-logo.png" %}" width="5%"/>
+            <img src="{% static "assets/icons/ren-logo.png" %}"/>
 
         </header>
         <div class="nav-bg"></div>
@@ -245,25 +246,10 @@
                            19th March - 21th March
                         </div>
                         <div class="main-buttons">
-                            <button  style="height:6rem; ">Register Outside JECRC</button>
+                            <a href="https://docs.google.com/forms/d/e/1FAIpQLSeLhmPIkeDLzOJlvg98HMJZJarzsXeJGKu5OR_SRoFLkaG4Dw/viewform" target="_blank">Register Outside JECRC</a>
                         </div>
                     </div>
                 </div>
-                <!--<div class="main-item">-->
-                <!--    <img src="{% static "assets/index/img1.jpg" %}">-->
-                <!--    <div class="main-content">-->
-                <!--        <div class="main-author">JECRC</div>-->
-                <!--        <div class="main-title">RENAISSANCE</div>-->
-                <!--        <div class="main-topic">2K24</div>-->
-                <!--        <div class="main-des">-->
-                <!--            &lt;!&ndash; lorem 50 &ndash;&gt;-->
-                <!--            19th March - 21th March-->
-                <!--        </div>-->
-                <!--        <div class="main-buttons">-->
-                <!--            <button style="height:6rem; ">Register Outside JECRC</button>-->
-                <!--        </div>-->
-                <!--    </div>-->
-                <!--</div>-->
                 <div class="main-item">
                     <img src="{% static "assets/index/img2.jpg" %}">
                     <div class="main-content">
@@ -275,8 +261,7 @@
                             19th March - 21th March
                         </div>
                         <div class="main-buttons">
-                            <button style="height:6rem; ">Register Outside JECRC</button>
-                        </div>
+                            <a href="https://docs.google.com/forms/d/e/1FAIpQLSeLhmPIkeDLzOJlvg98HMJZJarzsXeJGKu5OR_SRoFLkaG4Dw/viewform" target="_blank">Register Outside JECRC</a>                        </div>
                     </div>
                 </div>
                 <div class="main-item">
@@ -290,7 +275,7 @@
                             19th March - 21th March
                         </div>
                         <div class="main-buttons">
-                            <button style="height:6rem; ">Register Outside JECRC</button>
+                            <a href="https://docs.google.com/forms/d/e/1FAIpQLSeLhmPIkeDLzOJlvg98HMJZJarzsXeJGKu5OR_SRoFLkaG4Dw/viewform" target="_blank">Register Outside JECRC</a>
                         </div>
                     </div>
                 </div>
@@ -305,25 +290,10 @@
                             19th March - 21th March
                         </div>
                         <div class="main-buttons">
-                            <button style="height:6rem; ">Register Outside JECRC</button>
+                            <a href="https://docs.google.com/forms/d/e/1FAIpQLSeLhmPIkeDLzOJlvg98HMJZJarzsXeJGKu5OR_SRoFLkaG4Dw/viewform" target="_blank">Register Outside JECRC</a>
                         </div>
                     </div>
                 </div>
-                <!--<div class="main-item">-->
-                <!--    <img src="{% static "assets/index/img11.jpg" %}">-->
-                <!--    <div class="main-content">-->
-                <!--        <div class="main-author">JECRC</div>-->
-                <!--        <div class="main-title">RENAISSANCE</div>-->
-                <!--        <div class="main-topic">2K24</div>-->
-                <!--        <div class="main-des">-->
-                <!--            &lt;!&ndash; lorem 50 &ndash;&gt;-->
-                <!--            19th March - 21th March-->
-                <!--        </div>-->
-                <!--        <div class="main-buttons">-->
-                <!--            <button style="height:6rem; ">Register Outside JECRC</button>-->
-                <!--        </div>-->
-                <!--    </div>-->
-                <!--</div>-->
             </div>
             <!-- list thumnail -->
             <div class="main-thumbnail">
@@ -370,74 +340,6 @@
             <!-- time running -->
             <div class="main-time"></div>
         </div>
-        {% comment %} <div id="main">
-            <div data-scroll data-scroll-speed="-5" id="page1">
-                <img class="keydrop" style="display:flex; z-index:2; position:absolute;left:10rem; bottom:22rem" src="{% static "assets/index/key1.png" %}" width="10%"/>
-                
-                <video src="{% static "assets/index/index.mp4" %}" style="display:flex; position:relative;" autoplay loop muted></video>
-                <img class="keydrop" style="display:flex; z-index:2; position:absolute;right:10rem; bottom:8rem" src="{% static "assets/index/key2.png" %}" width="10%"/>
-                
-                <marquee height="50px" width="100%" bgcolor="transparent" direction="right" style="display:flex; z-index:2; position:absolute; bottom:0px; font-size:1.5rem; color:white" > 19th-21th March </marquee>
-    
-            </div> {% endcomment %}
-            <!--<div id="page11">-->
-            <!--    <div class="bada_daba">-->
-            <!--        <div class="daba">-->
-            <!--            <div class="page11-inner">-->
-
-            <!--                <div class="card1">-->
-            <!--                    <article class="profile">-->
-            <!--                        <div class="profile-image">-->
-            <!--                            <img src="{% static "assets/index/celebrity.jpg" %}" />-->
-            <!--                        </div>-->
-            <!--                        <br>-->
-
-            <!--                        <h2 class="username">Celebrity Night</h2>-->
-
-            <!--                        <p>(Bollywood Celebrity)</p>-->
-            <!--                        <p style="font-family: b;">19 March 2024-->
-            <!--                        </p>-->
-
-
-
-            <!--                    </article>-->
-            <!--                </div>-->
-            <!--                <div class="card2">-->
-            <!--                    <article class="profile">-->
-            <!--                        <div class="profile-image">-->
-            <!--                            <img src="{% static "assets/index/dj.jpg" %}" />-->
-            <!--                        </div>-->
-            <!--                        <br>-->
-            <!--                        <h2 class="username">DJ NIGHT</h2>-->
-
-            <!--                        <p>(INTERNATION DJ)</p>-->
-            <!--                        <p style="font-family: b;">20 March 2024</p>-->
-
-
-
-            <!--                    </article>-->
-            <!--                </div>-->
-            <!--                <div class="card3">-->
-            <!--                    <article class="profile">-->
-            <!--                        <div class="profile-image">-->
-            <!--                            <img src="{% static "assets/index/band.jpg" %}" />-->
-            <!--                        </div>-->
-            <!--                        <br>-->
-            <!--                        <h2 class="username"> Cultural Event </h2>-->
-
-            <!--                        <p>(Night Cultural Event)</p>-->
-            <!--                        <p style="font-family: b;">21 March 2024</p>-->
-
-
-
-            <!--                    </article>-->
-            <!--                </div>-->
-            <!--                -->
-            <!--            </div>-->
-            <!--        </div>-->
-            <!--    </div>-->
-            <!--    -->
-            <!--</div>-->
         <div id="page11">
 
             <div class="bada_daba">
@@ -447,7 +349,7 @@
                         <div class="card1">
                             <article class="profile">
                                 <div class="profile-image">
-                                    <img src="{% static "assets/celeb/2.png" %}" />
+                                    <img loading="lazy"  src="{% static "assets/celeb/2.png" %}" />
                                 </div>
                                 <br>
 
@@ -464,7 +366,7 @@
                         <div class="card2">
                             <article class="profile">
                                 <div class="profile-image">
-                                    <img src="{% static "assets/celeb/3.png" %}" />
+                                    <img loading="lazy"  src="{% static "assets/celeb/3.png" %}" />
                                 </div>
                                 <br>
                                 <h2 class="username">Permish Verma</h2>
@@ -479,7 +381,7 @@
                         <div class="card3">
                             <article class="profile">
                                 <div class="profile-image">
-                                    <img src="{% static "assets/celeb/14.png" %}" />
+                                    <img loading="lazy"  src="{% static "assets/celeb/14.png" %}" />
                                 </div>
                                 <br>
                                 <h2 class="username"> DJ Cheshta</h2>
@@ -498,52 +400,52 @@
             </div>
         </div>
 
-<div class="slider" style="background-image:url({% static "assets/index/slider.jpg" %}); background-repeat:no-repeat; background-size: cover;">
+<div class="slider">
             <div class="slide-track">
                 <div class="slide">
-                    <img class="img-slider" src="{% static "assets/gallery/1-min.jpg" %}" alt="">
+                    <img class="img-slider" loading="lazy" src="{% static "assets/gallery/1-min.jpg" %}" alt="">
                 </div>
                 <div class="slide">
-                    <img class="img-slider" src="{% static "assets/gallery/2-min.jpg" %}" alt="">
+                    <img class="img-slider" loading="lazy" src="{% static "assets/gallery/2-min.jpg" %}" alt="">
                 </div>
                 <div class="slide">
-                    <img class="img-slider" src="{% static "assets/gallery/3-min.jpg" %}" alt="">
+                    <img class="img-slider" loading="lazy" src="{% static "assets/gallery/3-min.jpg" %}" alt="">
                 </div>
                 <div class="slide">
-                    <img class="img-slider" src="{% static "assets/gallery/4-min.jpg" %}" alt="">
+                    <img class="img-slider" loading="lazy" src="{% static "assets/gallery/4-min.jpg" %}" alt="">
                 </div>
                 <div class="slide">
-                    <img class="img-slider" src="{% static "assets/gallery/5-min.jpg" %}" alt="">
+                    <img class="img-slider" loading="lazy" src="{% static "assets/gallery/5-min.jpg" %}" alt="">
                 </div>
                 <div class="slide">
-                    <img class="img-slider" src="{% static "assets/gallery/6-min.jpg" %}" alt="">
+                    <img class="img-slider" loading="lazy" src="{% static "assets/gallery/6-min.jpg" %}" alt="">
                 </div>
                 <div class="slide">
-                    <img class="img-slider" src="{% static "assets/gallery/7-min.jpg" %}" alt="">
+                    <img class="img-slider" loading="lazy" src="{% static "assets/gallery/7-min.jpg" %}" alt="">
                 </div>
                 <div class="slide">
-                    <img class="img-slider" src="{% static "assets/gallery/8-min.jpg" %}" alt="">
+                    <img class="img-slider" loading="lazy" src="{% static "assets/gallery/8-min.jpg" %}" alt="">
                 </div>
                 <div class="slide">
-                    <img class="img-slider" src="{% static "assets/gallery/9-min.jpg" %}" alt="">
+                    <img class="img-slider" loading="lazy" src="{% static "assets/gallery/9-min.jpg" %}" alt="">
                 </div>
                 <div class="slide">
-                    <img class="img-slider" src="{% static "assets/gallery/10-min.jpg" %}" alt="">
+                    <img class="img-slider" loading="lazy" src="{% static "assets/gallery/10-min.jpg" %}" alt="">
                 </div>
                 <div class="slide">
-                    <img class="img-slider" src="{% static "assets/gallery/11-min.jpg" %}" alt="">
+                    <img class="img-slider" loading="lazy" src="{% static "assets/gallery/11-min.jpg" %}" alt="">
                 </div>
                 <div class="slide">
-                    <img class="img-slider" src="{% static "assets/gallery/12-min.jpg" %}" alt="">
+                    <img class="img-slider" loading="lazy" src="{% static "assets/gallery/12-min.jpg" %}" alt="">
                 </div>
                 <div class="slide">
-                    <img class="img-slider" src="{% static "assets/gallery/13-min.jpg" %}" alt="">
+                    <img class="img-slider" loading="lazy" src="{% static "assets/gallery/13-min.jpg" %}" alt="">
                 </div>
                 <div class="slide">
-                    <img class="img-slider" src="{% static "assets/gallery/14-min.jpg" %}" alt="">
+                    <img class="img-slider" loading="lazy" src="{% static "assets/gallery/14-min.jpg" %}" alt="">
                 </div>
                 <div class="slide">
-                    <img class="img-slider" src="{% static "assets/gallery/15-min.jpg" %}" alt="">
+                    <img class="img-slider" loading="lazy" src="{% static "assets/gallery/15-min.jpg" %}" alt="">
                 </div>
             </div>
 
@@ -687,7 +589,6 @@
             </div>
         </div> {% endcomment %}
     </footer>
-        <script src="" async defer></script>
     </body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.1/gsap.min.js"
         integrity="sha512-qF6akR/fsZAB4Co1QDDnUXWnaQseLGXoniuSuSlPQK6+aWhlMZcHzkasCSlnWoe+TJuudlka1/IQ01Dnhgq95g=="
