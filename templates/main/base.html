@@ -7,56 +7,93 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock title %}</title>
 
-    <link rel="stylesheet" href="{% static "css/Nav_style.css" %}">
+    <link rel="stylesheet" href="{% static "css/style.css" %}">
+    <link rel="stylesheet" href="{% static "css/style_hero.css" %}">
     <link rel="stylesheet" href="{% static "css/snackbar.css" %}">
-
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="{% static "css/Footer_style.css" %}">
     <link rel="icon" type="image/png" href="{% static "assets/logo/Ren logo.png" %}" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous" />
 
     <style>
+        .mid {
+            /* margin-top: 40px !important; */
+            height: 100vh;
+            border: 2px solid blue;
+            background-color: chartreuse;
+        }
 
         .body-section{
             margin-top:80px;
             min-height:100vh;
         }
         body {
-            background-image: url({%static 'assets/bg/landscape/jon-arellano-ur-10.jpg'%});            
-            background-repeat: repeat-y;
+            background-image: url({%static 'assets/bg/landscape/jon-arellano-ur-10.jpg'%});            background-repeat: repeat-y;
             background-size: cover;
             background-attachment: fixed;
             background-position-y: bottom;
             overflow-x: hidden;
         }
-        .my-4 {
-            margin-top: 1.5rem !important;
-            margin-bottom: 1.5rem !important;
+        .new-cont {
+            border-width: 2px;
+            border-style: solid;
+            border-image: linear-gradient(to right, #00e5ff, #ff00e6) 1;
+
         }
-        .text-center{
-            text-align: center !important;
+
+        .Student {
+            box-shadow: -5px -5px 5px -5px rgb(0, 231, 255),
+                5px 5px 5px -5px rgb(255, 0, 231),
+                -7px -7px 10px -5px transparent,
+                7px 7px 10px -5px transparent,
+                0 0 5px 0px rgba(255, 255, 255, 0),
+                0 55px 35px -20px rgba(0, 0, 0, 0.5);
+            border-radius: 20px;
+
+
         }
-        .flex-column{
-            flex-direction: column !important;
-        }
-        .d-flex{
-            display: flex !important;
-        }
-        @font-face {
-            font-family: a;
-            src: url({% static "fonts/KlemerDisplayDemoRegular-ax5qg.ttf" %});
+
+
+
+        footer a {
+            color: #A87952;
         }
     </style>
     {% block head %}{% endblock head %}
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg fixed-top">
-        <div class="container-fluid">
+    <header class="header">
+        <img src="{% static "assets/icons/founation.png" %}" width="5%"/>
+
+        <i class='bx bx-menu' id="menu-icon"></i>
+        <nav class="navbar">
+            <a href="/">Home</a>
+            <a href="{% url "celebrity" %}">Celebrity</a>
+            <a href="{% url "events" %}">Events</a>
+            <a href="{% url "itinerary" %}">Itinerary</a>
+            <a href="{% url "contact" %}">Contact</a>
+            {% if request.user.is_authenticated %}
+            <a href="{% url "profile" %}">
+                  Profile
+                </a>
+        {% else %}
+            <a href="{% url "login" %}">
+                Login/Signup
+            </a>     
+        {% endif %}
+        </nav>
+        <img src="{% static "assets/icons/ren-logo.png" %}" width="5%"/>
+
+    </header>
+    <div class="nav-bg"></div>
+    {% comment %} <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container-fluid"> {% endcomment %}
           {% comment %} <a class="navbar-brand" href="#">Navbar</a> {% endcomment %}
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          {% comment %} <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation"> {% endcomment %}
             {% comment %} <span class="navbar-toggler-icon"></span> {% endcomment %} 
-            <img alt="icon" src="{% static "assets/logo/Ren logo.png" %}" width="50" height="50" />
+            {% comment %} <img alt="icon" src="{% static "assets/logo/Ren logo.png" %}" width="50" height="50" />
           </button>
           <div class="collapse navbar-collapse justify-content-center" id="navbarNavAltMarkup">
             <div class="navbar-nav">
@@ -74,11 +111,10 @@
                     Login
                 </a>     
             {% endif %}
-            <a class="nav-link" href="https://docs.google.com/forms/d/e/1FAIpQLSeLhmPIkeDLzOJlvg98HMJZJarzsXeJGKu5OR_SRoFLkaG4Dw/viewform">Register (Outside JECRC)</a>
             </div>
           </div>
         </div>
-      </nav>
+      </nav> {% endcomment %}
     {% block body %}{% endblock body %}
 {% if messages %}
 {% for message in messages %}
@@ -89,15 +125,20 @@
   </div>
 {% endfor %}
 {% endif %}
-<footer id="footer" class="footer text-light mt-auto p-0">
-            <div class="container-fluid px-5 py-4">
+        
+        <footer id="footer" class="footer text-light mt-auto p-0 bg-black">
+
+            <div class="container-fluid px-5 py-4 new-cont">
                 <div class="row justify-content-evenly">
                     <div class="col-xs-6 col-sm-3 column text-center d-flex flex-column">
-                        <div class="my-4"><img src="{% static "assets/logo/Ren logo.png" %}" class="footer-logo" /></div>
+                        <div class="my-4 "><img src="{% static "assets/icons/ren-logo.png" %}" width="310px"
+                                class="footer-logo Student" />
+                        </div>
 
                     </div>
                     <div class="col-xs-12 col-sm-3 column text-center d-flex flex-column">
-                        <div class="my-4"><img src="{% static "assets/logo/student council white (1).png" %}" class="footer-logo" />
+                        <div class="my-4 "><img src="{% static "assets/icons/student council white (1).png" %}" width="300px"
+                                class="footer-logo Student" />
                         </div>
                     </div>
                     <div class="col-xs-12 col-sm-3 column text-center d-flex flex-column">
@@ -105,24 +146,25 @@
                         <hr class="mb-4 underline" />
                         <ul class="list-unstyled py-4">
                             <li>
-                                <a href="tel:7742044215" class="nav-link">For Registration:</a>
-                            <h5>Tanishk Maheshwari <br>(+91-7742044215)</h5> 
+                                <a href="tel:7742044215" class="nav-link2">For Registration: +917742044215</a>
+                                <h6>(Tanishk Maheshwari)</h6> 
+                                </li>
+                            <li>
+                                <a href="tel:8825312144" class="nav-link2">For Technical: +918825312144</a>
+                                <h6>(Aayu Sah)</h6>
                             </li>
                             <li>
-
-                                <a href="tel:8825312144" class="nav-link">For Technical: </a>
-                                <h5>Aayu Sah <br> (+91-8825312144)</h5>
+                                <a href="tel:8302007298" class="nav-link2">For Cultural: +918302007298</a>
+                                <h6>(Suyash chaklan)</h6>
                             </li>
                             <li>
-                                <a href="tel:8302007298" class="nav-link">For Cultural: </a>
-                                <h5>Suyash Chaklan <br> (+91-8302007298)</h5>
-                            </li>
-                            <li>
-                                <a href="tel:8769518424" class="nav-link">For Splash:</a>
-                                <h5>Mahak Chouhan <br> (+91-8769518424)</h5><br>
-                            </li>
+                                <a href="tel:8769518424" class="nav-link2">For Splash: +918769518424</a>
+                                <h6>(Mahak Chouhan)</h6> <br><br>
                             </li>
                             
+                            <li>
+                                <a href="mailto:renaissance@jecrc.ac.in" class="nav-link">renaissance@jecrc.ac.in</a>
+                            </li>
                         </ul>
                     </div>
                     <div class="col-xs-12 col-sm-3 text-center d-flex flex-column">
@@ -139,7 +181,7 @@
                                     </a>
                                 </div>
                                 <div class="m-2">
-                                    <a rel="nofollow" target="_blank" class="navbar-brand"
+                                    <a rel="nofollow" target="_blank" class="navbar-brand facebook"
                                         href="https://www.facebook.com/JECRCfoundation/" title="Facebook">
                                         <img loading="lazy" src="{% static "assets/icons/facebook.png" %}" height="40px" />
                                     </a>
@@ -192,40 +234,92 @@
                                     </a>
                                 </div>
                             </div>
-                            <!-- <li>
-                                <a href="mailto:renaissance@jecrc.ac.in" class="nav-link">renaissance@jecrc.ac.in</a>
-                            </li> -->
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="d-flex flex-column text-center py-3" style="background-color: rgba(20, 22, 30, 0.6)">
+            {% comment %} <div class="d-flex flex-column text-center py-4 m-0" style="background-color: rgba(20, 22, 30, 1)">
                 <div class="copyright m-auto">
-                    <p class="my-2">&copy; Copyright <strong>Jecrc Foundation</strong>. All Rights Reserved.&nbsp</p>
+                    <p class="my-2">&copy; Copyright <strong>Jecrc Foundation</strong>. All Rights Reserved.&nbsp<a
+                            target="_blank" href="pages/privacy_policy.html">Privacy Policy</a></p>
                 </div>
-                <!--<div class="credits m-auto">
-                  <p class="my-2">Developed by
-                    <a target="_blank" href="https://www.linkedin.com/in/yash-raj-arora-432728239">Yash Raj Arora </a>|
-                    <a target="_blank" href="https://github.com/KhushalJangid/">Khushal Jangid </a>|
-                    <a target="_blank" href="https://www.linkedin.com/in/riya-goyal-711994225">Riya </a>|
-                    <a target="_blank" href="https://www.linkedin.com/in/archit-jain-378106231">Archit Jain </a>
-                  </p>
-                  <p class="my-2">Graphics Designed by
-                    <a target="_blank" href="https://instagram.com/shubham_saharan4?igshid=ZDdkNTZiNTM=">Shubham Saharan </a>|
-                    <a target="_blank" href="https://www.linkedin.com/in/dhruv-sharma-8b2403229">Dhruv Sharma </a>|
-                    <a target="_blank" href="https://instagram.com/raginijoshi_?igshid=ZDdkNTZiNTM=">Ragini Joshi </a>|
-                    <a target="_blank" href="https://instagram.com/sameer__mittal__?igshid=ZDdkNTZiNTM=">Sameer Mittal </a>
-                  </p>
-                </div>-->
-            </div>
+                <div class="credits m-auto">
+                    <p class="my-2">Developed by
+                        <a target="_blank" href="https://www.linkedin.com/in/yash-raj-arora-432728239">Yash Raj Arora
+                        </a>|
+                        <a target="_blank" href="https://github.com/KhushalJangid/">Khushal Jangid </a>|
+                        <a target="_blank" href="https://www.linkedin.com/in/riya-goyal-711994225">Riya </a>|
+                        <a target="_blank" href="https://www.linkedin.com/in/archit-jain-378106231">Archit Jain </a>
+                    </p>
+                    <p class="my-2">Graphics Designed by
+                        <a target="_blank" href="https://instagram.com/shubham_saharan4?igshid=ZDdkNTZiNTM=">Shubham
+                            Saharan </a>|
+                        <a target="_blank" href="https://www.linkedin.com/in/dhruv-sharma-8b2403229">Dhruv Sharma </a>|
+                        <a target="_blank" href="https://instagram.com/raginijoshi_?igshid=ZDdkNTZiNTM=">Ragini Joshi
+                        </a>|
+                        <a target="_blank" href="https://instagram.com/sameer__mittal__?igshid=ZDdkNTZiNTM=">Sameer
+                            Mittal </a>
+                    </p>
+
+                </div>
+            </div> {% endcomment %}
         </footer>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+            crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"
+            integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+        <script src="lib/venobox/venobox.js"></script>
+        <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+        <script src="js/main.js"></script>
+        <script>
+            $(".gallery-carousel").owlCarousel({
+                center: true,
+                autoplay: true,
+                autoplayTimeout: 1500,
+                loop: true,
+                nav: true,
+                lazyLoad: true,
+                responsive: {
+                    0: {
+                        items: 1,
+                    },
+                    768: {
+                        items: 2,
+                    },
+                    992: {
+                        items: 3,
+                    },
+                    1200: {
+                        items: 4,
+                    },
+                },
+            });
+            new VenoBox({
+                selector: ".venobox",
+                // bgcolor: 'rgba(255,255,255,1)',
+                overlayColor: "rgba(6, 12, 34, 0.8)",
+                closeBackground: "",
+                closeColor: "#fff",
+                maxWidth: "70%",
+            });
+        </script>
         
 
 
     <!-- ***************  script for NavBar START Hear*********** -->
     <script src="https://unpkg.co/gsap@3/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-
+    <script>
+        const menuIcon = document.querySelector('#menu-icon');
+        const navbar = document.querySelector('.navbar');
+        const navbg = document.querySelector('.nav-bg');
+        menuIcon.addEventListener('click', () => {
+        menuIcon.classList.toggle('bx-x');
+        navbar.classList.toggle('active');
+        navbg.classList.toggle('active');
+        });
+    </script>
     {% comment %} <script src="{% static "js/navbar.js" %}"> {% endcomment %}
     </script>
     {% block script %}{% endblock script %}

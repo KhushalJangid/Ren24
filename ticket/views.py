@@ -124,6 +124,9 @@ def buy(request,eventId):
     if event.exists():
         event = event.first()
         _type = event.type
+        if not event.includedInPass:
+            messages.error(request,'This event is not free with Ren Pass, Please contact SDC for Tickets')
+            return redirect('events')
         if _type == 'tech' and _pass.technical != None:
             messages.error(request,'Technical event already used')
             return redirect('events')

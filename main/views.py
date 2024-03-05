@@ -5,7 +5,7 @@ from ticket.models import Events
 # Create your views here.
 
 def home(request):
-    return render(request,'index.html')
+    return render(request,'index_n.html')
 
 def itinerary(request):
     return render(request,'day1.html')

@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 import os
 from pathlib import Path
 import sentry_sdk
-from config import env
+# from config import env
 
 # import razorpay
 
@@ -161,19 +161,18 @@ EMAIL_BACKEND = 'django_ses.SESBackend'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-PRODUCTION = env.getParameter('PRODUCTION') == 'True'
-# PRODUCTION = False
+# PRODUCTION = env.getParameter('PRODUCTION') == 'True'
+PRODUCTION = False
+def error_sampler():
+    return 1.0
 
 if PRODUCTION:
     sentry_sdk.init(
         dsn="https://6ca2d413a490f99ba2658e6c92f6ed9e@o4506847830736896.ingest.sentry.io/4506847832506368",
-        # Set traces_sample_rate to 1.0 to capture 100%
-        # of transactions for performance monitoring.
-        traces_sample_rate=1.0,
-        # Set profiles_sample_rate to 1.0 to profile 100%
-        # of sampled transactions.
-        # We recommend adjusting this value in production.
-        profiles_sample_rate=1.0,
+        traces_sample_rate=0.1,
+        profiles_sample_rate=0.1,
+        error_sampler=error_sampler,
+        environment='production'
     )
     BASE_URL = env.getParameter('DOMAIN')
     
