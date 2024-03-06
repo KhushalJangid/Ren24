@@ -5,25 +5,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="{% static "assets/icons/Ren logo.webp" %}" />
     <title>{% block title %}{% endblock title %}</title>
-
-    <link rel="stylesheet" href="{% static "css/style.css" %}">
-    <link rel="stylesheet" href="{% static "css/style_hero.css" %}">
+    <link rel="stylesheet" href="{% static "css/nav.css" %}">
     <link rel="stylesheet" href="{% static "css/snackbar.css" %}">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" 
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="{% static "css/Footer_style.css" %}">
-    <link rel="icon" type="image/png" href="{% static "assets/logo/Ren logo.png" %}" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous" />
 
     <style>
-        .mid {
-            /* margin-top: 40px !important; */
-            height: 100vh;
-            border: 2px solid blue;
-            background-color: chartreuse;
-        }
-
         .body-section{
             margin-top:110px;
             min-height:100vh;
@@ -35,38 +26,15 @@
             background-position-y: bottom;
             overflow-x: hidden;
         }
-        .new-cont {
-            border-width: 2px;
-            border-style: solid;
-            border-image: linear-gradient(to right, #00e5ff, #ff00e6) 1;
-
-        }
-
-        .Student {
-            box-shadow: -5px -5px 5px -5px rgb(0, 231, 255),
-                5px 5px 5px -5px rgb(255, 0, 231),
-                -7px -7px 10px -5px transparent,
-                7px 7px 10px -5px transparent,
-                0 0 5px 0px rgba(255, 255, 255, 0),
-                0 55px 35px -20px rgba(0, 0, 0, 0.5);
-            border-radius: 20px;
-
-
-        }
-
-
-
         footer a {
             color: #A87952;
         }
     </style>
     {% block head %}{% endblock head %}
 </head>
-
 <body>
     <header class="header">
-        <img src="{% static "assets/icons/founation.png" %}"/>
-
+        <img src="{% static "assets/icons/founation.webp" %}"/>
         <i class='bx bx-menu' id="menu-icon"></i>
         <nav class="navbar">
             <a href="/">Home</a>
@@ -84,37 +52,9 @@
             </a>     
         {% endif %}
         </nav>
-        <img src="{% static "assets/icons/ren-logo.png" %}"/>
-
+        <img src="{% static "assets/icons/Ren logo.webp" %}"/>
     </header>
     <div class="nav-bg"></div>
-    {% comment %} <nav class="navbar navbar-expand-lg fixed-top">
-        <div class="container-fluid"> {% endcomment %}
-          {% comment %} <a class="navbar-brand" href="#">Navbar</a> {% endcomment %}
-          {% comment %} <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation"> {% endcomment %}
-            {% comment %} <span class="navbar-toggler-icon"></span> {% endcomment %} 
-            {% comment %} <img alt="icon" src="{% static "assets/logo/Ren logo.png" %}" width="50" height="50" />
-          </button>
-          <div class="collapse navbar-collapse justify-content-center" id="navbarNavAltMarkup">
-            <div class="navbar-nav">
-              <a class="nav-link" href="/">Home</a>
-              <a class="nav-link" href="{% url "celebrity" %}">Celebrity</a>
-              <a class="nav-link" href="{% url "events" %}">Events</a>
-              <a class="nav-link" href="{% url "itinerary" %}">Itinerary</a>
-              <a class="nav-link" href="{% url "contact" %}">Contact</a>
-              {% if request.user.is_authenticated %}
-                <a class="nav-link" href="{% url "profile" %}">
-                      Profile
-                    </a>
-            {% else %}
-                <a class="nav-link"  href="{% url "login" %}">
-                    Login
-                </a>     
-            {% endif %}
-            </div>
-          </div>
-        </div>
-      </nav> {% endcomment %}
     {% block body %}{% endblock body %}
 {% if messages %}
 {% for message in messages %}
@@ -128,17 +68,18 @@
         
         <footer id="footer" class="footer text-light mt-auto p-0 bg-black">
 
-            <div class="container-fluid px-5 py-4 new-cont">
+            <div class="container-fluid px-5 py-4">
                 <div class="row justify-content-evenly">
                     <div class="col-xs-6 col-sm-3 column text-center d-flex flex-column">
-                        <div class="my-4 "><img src="{% static "assets/icons/ren-logo.png" %}" width="310px"
-                                class="footer-logo Student" />
+                        <div class="my-4 ">
+                            <img src="{% static "assets/icons/Ren logo.webp" %}" width="310px"
+                                class="footer-logo" />
                         </div>
 
                     </div>
                     <div class="col-xs-12 col-sm-3 column text-center d-flex flex-column">
-                        <div class="my-4 "><img src="{% static "assets/icons/student council white (1).png" %}" width="300px"
-                                class="footer-logo Student" />
+                        <div class="my-4 "><img src="{% static "assets/icons/student council.webp" %}" width="300px"
+                                class="footer-logo" />
                         </div>
                     </div>
                     <div class="col-xs-12 col-sm-3 column text-center d-flex flex-column">
@@ -177,19 +118,19 @@
                                 <div class="m-2">
                                     <a rel="nofollow" target="_blank" class="navbar-brand"
                                         href="https://www.youtube.com/@jecrcfoundation2150" title="Twitter">
-                                        <img loading="lazy" src="{% static "assets/icons/youtube.png" %}" height="40px" />
+                                        <img loading="lazy" src="{% static "assets/icons/youtube.webp" %}" height="40px" />
                                     </a>
                                 </div>
                                 <div class="m-2">
                                     <a rel="nofollow" target="_blank" class="navbar-brand facebook"
                                         href="https://www.facebook.com/JECRCfoundation/" title="Facebook">
-                                        <img loading="lazy" src="{% static "assets/icons/facebook.png" %}" height="40px" />
+                                        <img loading="lazy" src="{% static "assets/icons/facebook.webp" %}" height="40px" />
                                     </a>
                                 </div>
                                 <div class="m-2">
                                     <a target="_blank" rel="nofollow" class="navbar-brand"
                                         href="https://www.instagram.com/jecrcfoundationofficial/" title="instagram">
-                                        <img loading="lazy" src="{% static "assets/icons/instagram.png" %}" height="40px" />
+                                        <img loading="lazy" src="{% static "assets/icons/instagram.webp" %}" height="40px" />
                                     </a>
                                 </div>
                             </div>
@@ -200,19 +141,19 @@
                                 <div class="m-2">
                                     <a rel="nofollow" target="_blank" class="navbar-brand"
                                         href="https://youtube.com/@TheJECRCRenaissance" title="Twitter">
-                                        <img loading="lazy" src="{% static "assets/icons/youtube.png" %}" height="40px" />
+                                        <img loading="lazy" src="{% static "assets/icons/youtube.webp" %}" height="40px" />
                                     </a>
                                 </div>
                                 <div class="m-2">
                                     <a rel="nofollow" target="_blank" class="navbar-brand"
                                         href="https://www.facebook.com/jecrcrenaissance/" title="Facebook">
-                                        <img loading="lazy" src="{% static "assets/icons/facebook.png" %}" height="40px" />
+                                        <img loading="lazy" src="{% static "assets/icons/facebook.webp" %}" height="40px" />
                                     </a>
                                 </div>
                                 <div class="m-2">
                                     <a target="_blank" rel="nofollow" class="navbar-brand"
                                         href="https://www.instagram.com/jecrcrenaissance/" title="instagram">
-                                        <img loading="lazy" src="{% static "assets/icons/instagram.png" %}" height="40px" />
+                                        <img loading="lazy" src="{% static "assets/icons/instagram.webp" %}" height="40px" />
                                     </a>
                                 </div>
                             </div>
@@ -223,14 +164,14 @@
                                 <div class="m-2">
                                     <a rel="nofollow" target="_blank" class="navbar-brand"
                                         href="https://instagram.com/fotografreaks_jecrc_" title="instagram">
-                                        <img loading="lazy" src="{% static "assets/icons/IMG_1067.PNG" %}" height="40px" />
+                                        <img loading="lazy" src="{% static "assets/icons/ff.webp" %}" height="40px" />
                                     </a>
                                 </div>
 
                                 <div class="m-2">
                                     <a target="_blank" rel="nofollow" class="navbar-brand"
                                         href="https://instagram.com/fotografreaks_jecrc_" title="instagram">
-                                        <img loading="lazy" src="{% static "assets/icons/instagram.png" %}" height="40px" />
+                                        <img loading="lazy" src="{% static "assets/icons/instagram.webp" %}" height="40px" />
                                     </a>
                                 </div>
                             </div>
@@ -264,68 +205,8 @@
                 </div>
             </div> {% endcomment %}
         </footer>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
-            crossorigin="anonymous"></script>
-        <script src="https://code.jquery.com/jquery-3.6.4.min.js"
-            integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
-        {% comment %} <script src="lib/venobox/venobox.js"></script>
-        <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-        <script src="js/main.js"></script>
-        <script>
-            $(".gallery-carousel").owlCarousel({
-                center: true,
-                autoplay: true,
-                autoplayTimeout: 1500,
-                loop: true,
-                nav: true,
-                lazyLoad: true,
-                responsive: {
-                    0: {
-                        items: 1,
-                    },
-                    768: {
-                        items: 2,
-                    },
-                    992: {
-                        items: 3,
-                    },
-                    1200: {
-                        items: 4,
-                    },
-                },
-            });
-            new VenoBox({
-                selector: ".venobox",
-                // bgcolor: 'rgba(255,255,255,1)',
-                overlayColor: "rgba(6, 12, 34, 0.8)",
-                closeBackground: "",
-                closeColor: "#fff",
-                maxWidth: "70%",
-            });
-        </script> {% endcomment %}
-        
-
-
-    <!-- ***************  script for NavBar START Hear*********** -->
-    <script src="https://unpkg.co/gsap@3/dist/gsap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-    <script>
-        const menuIcon = document.querySelector('#menu-icon');
-        const navbar = document.querySelector('.navbar');
-        const navbg = document.querySelector('.nav-bg');
-        menuIcon.addEventListener('click', () => {
-        menuIcon.classList.toggle('bx-x');
-        navbar.classList.toggle('active');
-        navbg.classList.toggle('active');
-        });
-    </script>
-    {% block script %}{% endblock script %}
-
-    <!-- ********************** script for NavBar END Hear ***********************     -->
-
-
-
+        <script src="{% static "js/navbar.js" %}" async></script>
+    {% block script %}
+    {% endblock script %}
 </body>
-
 </html>

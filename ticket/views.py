@@ -1,3 +1,4 @@
+from datetime import datetime
 import json
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
@@ -10,6 +11,9 @@ from .models import *
 from django.contrib import messages
 # Create your views here.
 
+day1 = datetime.strptime('2024-3-19','%Y-%m-%d').date()
+day2 = datetime.strptime('2024-3-20','%Y-%m-%d').date()
+day3 = datetime.strptime('2024-3-21','%Y-%m-%d').date()
 
 def qr(request,ticketId):
     _pass = Passes.objects.get(psid=ticketId)
@@ -19,7 +23,21 @@ def qr(request,ticketId):
     
 def event(request):
     if request.method == 'GET':
-        events = Events.objects.filter(type='tech')
+        _type = 'tech'
+        _day = day1
+        day = request.GET.get('day')
+        typ = request.GET.get('type')
+        if day:
+            if day == '1':
+                _day = day1
+            elif day == '2':
+                _day = day2
+            elif day == '3':
+                _day = day3
+        if typ:
+            _type = typ
+        print(_type,typ,_day,day)
+        events = Events.objects.filter(type=_type,date=_day)
         context = []
         meta = []
         i = 0
@@ -35,77 +53,6 @@ def event(request):
         if i<4:
             context.append(meta)
         return render(request,'event.html',{'events':context,'modal':events})
-    
-def event_type(request,type):
-    if request.method == 'GET':
-        events = Events.objects.filter(type=type)
-        context = []
-        meta = []
-        i = 0
-        for event in events:
-            if i <3:
-                meta.append(event)
-            else:
-                context.append(meta.copy())
-                meta.clear()
-                meta.append(event)
-                i = 0
-            i +=1
-        if i<4:
-            context.append(meta)
-        return render(request,'event.html',{'events':context,'modal':events})
-
-# def getEvent(request):
-#     data = json.loads(request.body)
-#     event_id = data['event_id']
-#     event = Events.objects.get(id=event_id)
-#     if 'user_id' not in data:
-#         context = {
-#             'id':event.id,
-#             'name':event.name,
-#             'type':event.get_type_display(),
-#             'venue':event.venue,
-#             'time':event.time.strftime("%-I:%M %p"),
-#             'date':event.date.strftime("%a, %d %b, %Y"),
-#             'desc':event.description,
-#             'amount':event.amount,
-#             'includedInPass':event.includedInPass,
-#         }
-#         return JsonResponse(context)
-#     user_id = data['user_id']
-#     if event.includedInPass:
-#         user = User.objects.get(id=user_id)
-#         _pass = getPass(user)
-#         includedInPass = False
-#         if _pass is not None:
-#             if event.type == 'tech' and _pass.technical is None:
-#                 includedInPass = True
-#             elif event.type == 'splash' and _pass.splash is None:
-#                 includedInPass = True            
-#         context = {
-#             'id':event.id,
-#             'name':event.name,
-#             'type':event.get_type_display(),
-#             'venue':event.venue,
-#             'time':event.time.strftime("%-I:%M %p"),
-#             'date':event.date.strftime("%a, %d %b, %Y"),
-#             'desc':event.description,
-#             'amount':event.amount,
-#             'includedInPass':includedInPass,
-#         }
-#     else:
-#         context = {
-#             'id':event.id,
-#             'name':event.name,
-#             'type':event.get_type_display(),
-#             'venue':event.venue,
-#             'time':event.time.strftime("%-I:%M %p"),
-#             'date':event.date.strftime("%a, %d %b, %Y"),
-#             'desc':event.description,
-#             'amount':event.amount,
-#             'includedInPass':False,
-#         }
-#     return JsonResponse(context)
 
 @login_required
 @profile_required('/u/profile')

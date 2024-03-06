@@ -6,7 +6,7 @@
     <style>
         body{
             
-    background-image: url("{% static "assets/itinerary/background1.jpg" %}");
+    background-image: url("{% static "assets/itinerary/background1.webp" %}");
         }
     </style>
     {% endblock head %}
@@ -14,15 +14,12 @@
     <div class="headline">
         <div class="days">
             <a href="{% url "itinerary" %}/1">
-                <img class="img" src="{% static "assets/itinerary/single-mushroom-removebg-preview.png" %}" alt="">
                 <div class="day"><b>Day 1</b></div>
             </a>
             <a href="{% url "itinerary" %}/2">
-                <img class="img" src="{% static "assets/itinerary/double-mushroom-removebg-preview.png" %}" alt="">
                 <div class="day"><b>Day 2</b></div>
             </a>
             <a href="#">
-                <img class="img" src="{% static "assets/itinerary/triple-mushroom-removebg-preview.png" %}" alt="">
                 <div class="day"><b>Day 3</b></div>
             </a> 
         </div>

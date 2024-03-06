@@ -6,6 +6,9 @@ provider = InstanceMetadataProvider(
 )
 creds = provider.load().get_frozen_credentials()
 
+AWS_ACCESS_KEY_ID = creds.access_key
+AWS_SECRET_ACCESS_KEY = creds.secret_key
+AWS_SESSION_TOKEN = creds.token
 
 def getParameter(param_name):
     """
@@ -18,9 +21,9 @@ def getParameter(param_name):
     ssm = boto3.client(
         "ssm",
         region_name="ap-south-1",
-        aws_access_key_id=creds.access_key,
-        aws_secret_access_key=creds.secret_key,
-        aws_session_token=creds.token,
+        aws_access_key_id=AWS_ACCESS_KEY_ID,
+        aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+        aws_session_token=AWS_SESSION_TOKEN,
     )
 
     # Get the requested parameter

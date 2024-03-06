@@ -2,8 +2,8 @@
 {% load static %}
 {% block title %}Events{% endblock title %}
 {% block head %}
-    <link rel="stylesheet" href="{% static "css/events.css" %}">
-    <link rel="stylesheet" href="{% static "css/events-codepen.css" %}">
+    <link rel="stylesheet" href="{% static "css/events.css" %}" rel="preload">
+    <link rel="stylesheet" href="{% static "css/events-codepen.css" %}" rel="preload">
     <style>
         body{
             background-image: url("{% static "assets/bg/landscape/jon-arellano-ur-10.jpg" %}");
@@ -13,11 +13,6 @@
             background-position-y: bottom;
         }
         @media screen and (max-width: 600px) {
-            .img {
-              /* flex-direction: row; */
-              background-size: 100% 100%;
-        
-            }
             
             body{
                 background-image: url("{% static "assets/bg/mobile/jon-arellano-ur-10 mobile.jpg" %}");
@@ -25,56 +20,7 @@
                 background-size: cover;
                 background-attachment: fixed;
                 background-position-y: bottom;
-                /* overflow-x: hidden; */
             }
-          }
-        .modal-overlay {
-            display: none;
-            background-color: rgba(6, 12, 34, 0.8);
-            position: fixed;
-            top: 0;
-            bottom: 0;
-            right: 0;
-            left: 0;
-            z-index: 1050;
-          }
-        
-          .modal-body {
-            border-radius: 25px;
-            padding: 2rem;
-            min-height: 50vh;
-            display: block;
-            color: black;
-            color: white;
-            margin: 5rem auto;
-            max-width: 700px;
-            max-height: 80vh;
-            width: 90vw;
-            overflow-y: auto;
-            overflow-wrap: anywhere;
-            scrollbar-width: none;
-            background-color: rgba(122, 108, 108, 0.1);
-            backdrop-filter: blur(30rem);
-  border: 1px solid transparent;
-    border-top-color: transparent;
-    border-right-color: transparent;
-    border-bottom-color: transparent;
-    border-left-color: transparent;
-  box-shadow: 1.3rem 1.3rem 1.3rem rgba(0,0,0,0.3);
-  border-top-color: rgba(255, 255, 255, 0.5);
-  border-left-color: rgba(255, 255, 255,0.5);
-  border-right-color: rgba(255, 255, 255,0.2);
-  border-bottom-color: rgba(255, 255, 255,0.2);
-            {% comment %} transform: translate(-50%, -50%) scale(0.1);
-            transition: transform 0.4s, top 0.4s; {% endcomment %}
-            opacity: 0.9;
-          }
-          a{
-            text-decoration: none;
-            color:black;
-          }
-          .dragscroll:active{
-            cursor: grabbing;
           }
     </style>
     {% endblock head %}
@@ -83,9 +29,16 @@
     <div class="container body-section">
         <div class="title">
             <div class="btn-group btn-group-lg" role="group" aria-label="Large size button group">
-                <a href="{% url "events" %}" type="button" class="radio-btn btn-outline-primary glass-button">Technical</a>
-                <a href="{% url "events" %}/splash" type="button" class="radio-btn btn-outline-info glass-button" >Splash</a>
-                <a href="{% url "events" %}/cultural" type="button" class="radio-btn btn-outline-info glass-button" >Cultural</a>
+                <button onClick="updateUrl('type','tech')" class="radio-btn btn-outline-primary glass-button">Technical</button>
+                <button onClick="updateUrl('type','splash')" class="radio-btn btn-outline-info glass-button" >Splash</button>
+                <button onClick="updateUrl('type','cultural')" class="radio-btn btn-outline-info glass-button" >Cultural</button>
+            </div>
+        </div>
+        <div class="title">
+            <div class="btn-group btn-group-lg" role="group" aria-label="Large size button group">
+                <button onClick="updateUrl('day','1')" type="button" class="radio-btn btn-outline-primary glass-button">Day 1</button>
+                <button onClick="updateUrl('day','2')" type="button" class="radio-btn btn-outline-info glass-button" >Day 2</button>
+                <button onClick="updateUrl('day','3')" type="button" class="radio-btn btn-outline-info glass-button" >Day 3</button>
             </div>
         </div>
         <div class="cardx-cultural">
@@ -93,10 +46,9 @@
                 {% for event_set in events %}
                 <section class="cards">
                     {% for event in event_set %}
-                            <div class="btn card animated img dragscroll"
-                                style="background-image: url({{event.poster.url}});width:20rem;"
+                            <img class="event-card"
+                                src="{{event.poster.url}}"
                                 onClick="showModalDialog({{event.id}})">
-                            </div>
                             {% endfor %}
                         </section>
                         {% endfor %}
@@ -112,54 +64,54 @@
             <h2 >{{ data.name }}</h2>
             <button class="btn btn-outline-danger my-auto" id="close-modal-btn-{{data.id}}">&times;</button>
           </div>
-          <h4 class="my-2">Date</h4>
-          <span >{{ data.date|date:'D, d M, Y' }}</span>
-          <h4 class="my-2">Type</h4>
-          <span>{{ data.type.get_type_display }}</span>
-          <p >{{ data.description }}</p>
-          <h4 class="my-2">Amount</h4>
-          <span>{{ data.amount }}</span>
-          <h4 class="my-2">Venue</h4>
-          <span>{{ data.venue }}</span>
-          <h4 class="my-2">Time</h4>
-          <span>{{ data.time|time:"h:i A"}}</span>
-          <hr>
-          <h4 style="color:red">
-            {% if data.includedInPass %}
-              Included in Ren Pass
-            {% endif %}
-          </h4>
-          <p>
-            <ul>
-                <li>For outsider registration fill out the google form</li>
-                <li>If the Buy Now button is disabled, either your Ren Pass is not activated or You have already booked your events.</li>
-                <li>If you have paid ₹600 but your Ren Pass is not activated, you can contact Registration Desk.</li>
-            </ul>
-          </p>
-          <div class="d-flex justify-content-evenly">
-            {% if data.includedInPass %}
-              {% if pass %}
-                {% if data.type == 'tech' %}
-                  {% if pass.technical %}
-                    <button class="btn btn-primary" disabled>Technical event purchased</button>
-                  {% else %}
-                    <button class="btn btn-primary" onClick="buyNow({{data.id}},'{{data.name}}')">Buy Now</button>
+          <div class="modal-desc">
+            <h4 class="my-2">Date</h4>
+            <span >{{ data.date|date:'D, d M, Y' }}</span>
+            <h4 class="my-2">Type</h4>
+            <span>{{ data.get_type_display }}</span>
+            <p >{{ data.description }}</p>
+            <h4 class="my-2">Amount</h4>
+            <span>{{ data.amount }}</span>
+            <h4 class="my-2">Venue</h4>
+            <span>{{ data.venue }}</span>
+            <h4 class="my-2">Time</h4>
+            <span>{{ data.time|time:"h:i A"}}</span>
+            <hr>
+            <h4 style="color:red">
+              {% if data.includedInPass %}
+                Included in Ren Pass
+              {% endif %}
+            </h4>
+              <ul>
+                  <li>For outsider registration fill out the google form</li>
+                  <li>If the Buy Now button is disabled, either your Ren Pass is not activated or You have already booked your events.</li>
+                  <li>If you have paid ₹600 but your Ren Pass is not activated, you can contact Registration Desk.</li>
+              </ul>
+          </div>
+            <div class="d-flex justify-content-evenly pt-2">
+              {% if data.includedInPass %}
+                {% if pass %}
+                  {% if data.type == 'tech' %}
+                    {% if pass.technical %}
+                      <button class="btn btn-primary" disabled>Technical event purchased</button>
+                    {% else %}
+                      <button class="btn btn-primary" onClick="buyNow({{data.id}},'{{data.name}}')">Buy Now</button>
+                    {% endif %}
+                  {% elif data.type == 'splash' %}
+                    {% if pass.splash %}
+                      <button class="btn btn-primary" disabled>Splash event purchased</button>
+                    {% else %}
+                      <button class="btn btn-primary" onClick="buyNow({{data.id}},'{{data.name}}')">Buy Now</button>
+                    {% endif %}
                   {% endif %}
-                {% elif data.type == 'splash' %}
-                  {% if pass.splash %}
-                    <button class="btn btn-primary" disabled>Splash event purchased</button>
-                  {% else %}
-                    <button class="btn btn-primary" onClick="buyNow({{data.id}},'{{data.name}}')">Buy Now</button>
-                  {% endif %}
+                {% else %}
+                  <button class="btn btn-primary" disabled>Ren pass inactive</button>
                 {% endif %}
               {% else %}
-                <button class="btn btn-primary" disabled>Ren pass inactive</button>
+                  <button class="btn btn-primary" disabled>Not Included in Ren Pass</button>
               {% endif %}
-            {% else %}
-                <button class="btn btn-primary" disabled>Not Included in Ren Pass</button>
-            {% endif %}
-            <a class="btn btn-outline-primary" href="https://forms.gle/4GkxCVzY9Jkp3KeXA" target="_blank">Register by Google Form</a>
-          </div>
+              <a class="btn btn-outline-primary" href="https://forms.gle/4GkxCVzY9Jkp3KeXA" target="_blank">Register by Google Form</a>
+            </div>
         </div>
       </div>
       {% endfor %}
@@ -171,10 +123,11 @@
           <h2 >{{ data.name }}</h2>
           <button class="btn btn-outline-danger my-auto" id="close-modal-btn-{{data.id}}">&times;</button>
         </div>
+        <div class="modal-desc">
         <h4 class="my-2">Date</h4>
         <span >{{ data.date|date:'D, d M, Y' }}</span>
         <h4 class="my-2">Type</h4>
-        <span>{{ data.type.get_type_display }}</span>
+        <span>{{ data.get_type_display }}</span>
         <p >{{ data.description }}</p>
         <h4 class="my-2">Amount</h4>
         <span>{{ data.amount }}</span>
@@ -195,7 +148,8 @@
               <li>If you have paid ₹600 but your Ren Pass is not activated, you can contact Registration Desk.</li>
           </ul>
         </p>
-        <div class="d-flex justify-content-evenly">
+      </div>
+        <div class="d-flex justify-content-evenly pt-2">
           <a class="btn btn-primary" href="{% url 'login' %}">Login to buy Ticket</a>
           <a class="btn btn-outline-primary" href="https://forms.gle/4GkxCVzY9Jkp3KeXA" target="_blank">Register by Google Form</a>
         </div>
@@ -206,9 +160,6 @@
     {% endblock body %}
 
 {% block script %}
-<script src="{% static "js/modal.js" %}"></script>
-<script src="{% static "js/dragscroll.js" %}"></script>
-<script > 
-</script>
+<script src="{% static "js/modal.js" %}" defer></script>
 {% endblock script %}
 

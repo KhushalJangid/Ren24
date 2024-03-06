@@ -18,9 +18,8 @@ def resendOTP(request):
     otp_obj.created = datetime.datetime.now(pytz.UTC)
     otp_obj.expire=datetime.datetime.now(pytz.UTC)+datetime.timedelta(minutes=10)
     otp_obj.save()
-    email=myuser.email
     otp=otp_obj.otp
-    send_otp_thread(email,otp)
+    send_otp_thread(myuser,otp)
     messages.success(request,"OTP sent sucessfully")
     return redirect('resetpass_verify')
 
@@ -65,7 +64,7 @@ def forgotpassword(request):
         otp_obj.otp = generateOTP()
         otp=otp_obj.otp
         print(otp)
-        send_otp_thread(email,otp)
+        send_otp_thread(myuser,otp)
         otp_obj.created = datetime.datetime.now(pytz.UTC)
         otp_obj.expire=datetime.datetime.now(pytz.UTC)+datetime.timedelta(minutes=10)
         otp_obj.save()

@@ -3,7 +3,7 @@
 {% block body %}
     <div class="container">
         <div class="d-flex justify-content-center h-100">
-            <div class="card">
+            <div class="card-small">
                 <div class="card-header">
                     <h3>Create New Password</h3>
                 </div>
@@ -12,15 +12,25 @@
                         {%csrf_token%}
                         <div class="input-group form-group">
                             <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fas fa-key"></i></span>
+                                <span class="input-group-text">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-key" viewBox="0 0 16 16">
+                                        <path d="M0 8a4 4 0 0 1 7.465-2H14a.5.5 0 0 1 .354.146l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0L13 9.207l-.646.647a.5.5 0 0 1-.708 0L11 9.207l-.646.647a.5.5 0 0 1-.708 0L9 9.207l-.646.647A.5.5 0 0 1 8 10h-.535A4 4 0 0 1 0 8m4-3a3 3 0 1 0 2.712 4.285A.5.5 0 0 1 7.163 9h.63l.853-.854a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.793-.793-1-1h-6.63a.5.5 0 0 1-.451-.285A3 3 0 0 0 4 5"/>
+                                        <path d="M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+                                      </svg>
+                                </span>
                             </div>
-                            <input type="password" name="pass1" class="form-control" placeholder="Enter New Password">
+                            <input type="password" name="pass1" class="form-control" placeholder="Enter New Password" required>
                         </div>
                         <div class="input-group form-group">
                             <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fas fa-key"></i></span>
+                                <span class="input-group-text">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-key" viewBox="0 0 16 16">
+                                        <path d="M0 8a4 4 0 0 1 7.465-2H14a.5.5 0 0 1 .354.146l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0L13 9.207l-.646.647a.5.5 0 0 1-.708 0L11 9.207l-.646.647a.5.5 0 0 1-.708 0L9 9.207l-.646.647A.5.5 0 0 1 8 10h-.535A4 4 0 0 1 0 8m4-3a3 3 0 1 0 2.712 4.285A.5.5 0 0 1 7.163 9h.63l.853-.854a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.793-.793-1-1h-6.63a.5.5 0 0 1-.451-.285A3 3 0 0 0 4 5"/>
+                                        <path d="M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+                                      </svg>
+                                </span>
                             </div>
-                            <input type="password" name="pass2" class="form-control" placeholder="Confirm Password">
+                            <input type="password" name="pass2" class="form-control" placeholder="Confirm Password" required>
                         </div>
                         <div class="form-group">
                             <input type="submit" value="Submit" class="btn float-right login_btn">

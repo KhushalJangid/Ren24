@@ -1,0 +1,138 @@
+/* Secondary Carousel styles */
+.slider {
+  height: 400px;
+  margin: auto;
+  position: relative;
+  width: 100%;
+  display: grid;
+  overflow: hidden;
+  place-items: center;
+}
+
+.slide-track {
+  display: flex;
+  width: calc(250px * 18);
+  animation: scroll 35s linear infinite;
+}
+
+.slide-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(calc(-250px * 9));
+  }
+}
+
+.slide {
+  height: 200px;
+  width: 250px;
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  perspective: 100px;
+}
+.img-slider {
+  width: 100%;
+  transition: transform 1s;
+  border: 4px solid #68468c;
+  border-radius: 15px;
+  box-shadow: -5px -5px 5px -5px rgb(0, 231, 255), 5px 5px 5px -5px rgb(255, 0, 231), -7px -7px 10px -5px transparent,
+    7px 7px 10px -5px transparent, 0 0 5px 0px rgba(255, 255, 255, 0), 0 55px 35px -20px rgba(0, 0, 0, 0.5);
+}
+.img-slider:hover {
+  transform: translateZ(20px);
+}
+.slider::before,
+.slider::after {
+  content: "";
+  height: 100%;
+  position: absolute;
+  width: 15%;
+  z-index: 2;
+}
+
+.slider::before {
+  left: 0;
+  top: 0;
+}
+
+.slider::after {
+  right: 0;
+  top: 0;
+  transform: rotateZ(180deg);
+}
+
+.button-g {
+  position: relative;
+  width: 120px;
+  height: 40px;
+  background-color: #000;
+  display: flex;
+  align-items: center;
+  color: white;
+  flex-direction: column;
+  justify-content: center;
+  border: none;
+  padding: 12px;
+  gap: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.button-g::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  left: -4px;
+  top: -1px;
+  margin: auto;
+  width: 128px;
+  height: 48px;
+  border-radius: 10px;
+  background: linear-gradient(-45deg, #e81cff 0%, #40c9ff 100%);
+  z-index: -10;
+  pointer-events: none;
+  transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.button-g::after {
+  content: "";
+  z-index: -1;
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(-45deg, #fc00ff 0%, #00dbde 100%);
+  transform: translate3d(0, 0, 0) scale(0.95);
+  filter: blur(20px);
+}
+
+.button-g:hover::after {
+  filter: blur(30px);
+}
+
+.button-g:hover::before {
+  transform: rotate(-180deg);
+}
+
+.button-g:active::before {
+  scale: 0.7;
+}
+
+footer a {
+  color: #a87952;
+}
+
+.logo-width {
+  width: "5%";
+}
+
+@media only screen and (max-width: 768px) {
+  .logo-width {
+    width: 50px;
+  }
+}

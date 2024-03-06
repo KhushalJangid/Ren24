@@ -64,7 +64,7 @@ def register(request):
         otp_obj.created = datetime.datetime.now(pytz.UTC)
         otp_obj.expire=datetime.datetime.now(pytz.UTC)+datetime.timedelta(minutes=10)
         otp_obj.save()
-        send_otp_thread(email,otp)
+        send_otp_thread(myuser,otp)
         return redirect('verify')
     
     # if the request is not a POST method, render a template with a form
@@ -100,7 +100,7 @@ def signin(request):
                 otp_obj.created = datetime.datetime.now(pytz.UTC)
                 otp_obj.expire=datetime.datetime.now(pytz.UTC)+datetime.timedelta(minutes=10)
                 otp_obj.save()
-                send_otp_thread(email,otp)   
+                send_otp_thread(user,otp)   
                 return redirect("verify")
         else:
             messages.error(request, "User with the email does not exist")
@@ -201,14 +201,13 @@ def profile_view(request):
 
 def resendOTP(request):
     myuser=User.objects.get(id=request.session.get("id"))
-    email=myuser.email
     otp_obj= OTP.objects.get(user=myuser)
     otp_obj.otp = generateOTP()
     otp_obj.created = datetime.datetime.now(pytz.UTC)
     otp_obj.expire=datetime.datetime.now(pytz.UTC)+datetime.timedelta(minutes=10)
     otp=otp_obj.otp
     otp_obj.save()
-    send_otp_thread(email,otp)   
+    send_otp_thread(myuser,otp)   
     messages.sucess(request,"OTP sent sucessfully")
     return redirect('verify')
 

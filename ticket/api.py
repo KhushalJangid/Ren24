@@ -5,8 +5,6 @@ from django.views.decorators.csrf import csrf_exempt
 from account.models import Passes
 from ticket.models import CustomTicket, Ticket
 
-
-#TODO : Update this Date
 day1 = datetime.strptime('2024-3-19','%Y-%m-%d').date()
 day2 = datetime.strptime('2024-3-20','%Y-%m-%d').date()
 day3 = datetime.strptime('2024-3-21','%Y-%m-%d').date()

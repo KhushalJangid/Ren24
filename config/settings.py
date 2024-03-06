@@ -162,9 +162,6 @@ USE_TZ = True
 Email='ticket.renaissance@gmail.com'
 EMAIL_BACKEND = 'django_ses.SESBackend'
 
-AWS_ACCESS_KEY_ID = "AKIA3WO4ZFTK7JW4U6XT"
-AWS_SECRET_ACCESS_KEY = "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"
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
@@ -186,8 +183,7 @@ if PRODUCTION:
     # SECURITY WARNING: keep the secret key used in production secret!
     SECRET_KEY = env.getParameter('SECRET_KEY')
 
-    # TODO :SECURITY WARNING: don't run with debug turned on in production!
-    DEBUG = True
+    DEBUG = False
 
     ALLOWED_HOSTS = ['ec2-13-201-19-183.ap-south-1.compute.amazonaws.com', 
                      '13.235.239.6',
@@ -214,8 +210,11 @@ if PRODUCTION:
     }
     
     # aws settings
-    AWS_ACCESS_KEY_ID = env.getParameter('ACCESS_KEY_ID')
-    AWS_SECRET_ACCESS_KEY = env.getParameter('SECRET_ACCESS_KEY')
+    # AWS_ACCESS_KEY_ID = env.getParameter('ACCESS_KEY_ID')
+    # AWS_SECRET_ACCESS_KEY = env.getParameter('SECRET_ACCESS_KEY')
+    AWS_ACCESS_KEY_ID = env.AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY = env.AWS_SECRET_ACCESS_KEY
+    AWS_SESSION_TOKEN = env.AWS_SESSION_TOKEN
     AWS_STORAGE_BUCKET_NAME = env.getParameter('STORAGE_BUCKET_NAME')
     AWS_DEFAULT_ACL = None
     AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
