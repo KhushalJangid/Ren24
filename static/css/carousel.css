@@ -1,0 +1,118 @@
+:root {
+  --no-of-slides: 3;
+  --slides-in-view: 3;
+  --slide-width: 250px;
+  --slide-height: 200px;
+  --iteration-time: 10s;
+}
+
+@keyframes scroll {
+    0%,100%{
+        transform: translateX(calc(var(--slide-width) * var(--no-of-slides)));
+    }
+  /* 50% {
+    transform: translateX(0);
+  } */
+  50% {
+    display: none;
+    transform: translateX(calc(var(--slide-width) * var(--no-of-slides)*-1));
+  }
+}
+
+.sponsor-slider {
+  height: 400px;
+  margin: auto;
+  position: relative;
+  width: 100%;
+  display: grid;
+  overflow: hidden;
+  place-items: center;
+}
+.slide-track {
+  display: flex;
+  /* ! Update this line */
+  /* width: calc(250px * 3); */
+  width: calc(var(--slides-in-view) * var(--slide-width));
+  animation: scroll 15s linear infinite;
+}
+.slide-track:hover {
+  animation-play-state: paused;
+}
+
+.slide {
+  height: var(--slide-height);
+  width: var(--slide-width);
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  perspective: 100px;
+}
+.img-slider {
+  width: 100%;
+  transition: transform 1s;
+
+  border-radius: 5px;
+  box-shadow: -5px -5px 5px -5px rgb(0, 231, 255), 5px 5px 5px -5px rgb(255, 0, 231), -7px -7px 10px -5px transparent,
+    7px 7px 10px -5px transparent, 0 0 5px 0px rgba(255, 255, 255, 0), 0 55px 35px -20px rgba(0, 0, 0, 0.5);
+}
+
+.img-slider:hover {
+  transform: scale(1.1);
+}
+
+/* .slider::before,
+.slider::after{
+    content: '';
+    height: 100%;
+    position: absolute;
+    width: 15%;
+    z-index: 2;
+} */
+/* .slider::before{
+    left: 0;
+    top: 0;
+
+}
+.slider::after{
+    right: 0;
+    top: 0;
+    transform: rotateZ(180deg);
+} */
+
+/* .carousel__wrapper {
+    display: flex;
+    align-items: center;
+    
+    width: calc(var(--slides-in-view) * var(--slide-width));
+    overflow: hidden;
+    border: 1px dashed gray;
+    margin: 0 auto;
+  }
+  
+  .carousel {
+    padding: 100px 0;
+    background: lightblue;
+    
+    overflow: hidden;
+    width: calc(2 * var(--no-of-slides));
+  }
+  
+  .carousel__slide {
+    animation: scroll var(--iteration-time) linear infinite;
+    display: flex;
+    flex-direction: column;
+    
+    flex: 0 0 auto;
+    width: var(--slide-width);
+    height: var(--slide-height);
+    box-sizing: border-box;
+  }
+  
+  .carousel__image {
+    background-size: cover;
+    background-repeat: no-repeat;
+    
+    height: 50%;
+    margin: 15px 20px;
+  }
+   */

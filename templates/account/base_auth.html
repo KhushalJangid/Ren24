@@ -4,18 +4,14 @@
 
 <head>
     <title>{% block title %}{% endblock title %}</title>
-    <link rel="icon" type="image/png" href="{% static "assets/logo/Ren logo.png" %}" />
-    {% comment %} <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"> {% endcomment %}
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-    {% comment %} <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> {% endcomment %}
-
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    <link rel="icon" type="image/png" href="{% static "assets/icons/Ren logo.webp" %}" />
+    <meta name="description" content="Login/Register to enter the realm of JECRC Renaissance 2024 !">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
         integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    {% comment %} <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
-        integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous"> {% endcomment %}
-
-    <!--Custom styles-->
-    
     <link rel="stylesheet" href="{% static "css/snackbar.css" %}">
     <link rel="stylesheet" type="text/css" href="{% static "css/signup.css" %}">
     <style>
@@ -44,6 +40,15 @@
   </div>
 {% endfor %}
 {% endif %}
+<script>
+    function showPass(checkbox) {
+        if (checkbox.checked == true) {
+            document.getElementById("password").type = "text"
+        } else {
+            document.getElementById("password").type = "password"
+        }
+    }
+</script>
 </body>
 
 </html>

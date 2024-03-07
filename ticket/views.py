@@ -16,10 +16,14 @@ day2 = datetime.strptime('2024-3-20','%Y-%m-%d').date()
 day3 = datetime.strptime('2024-3-21','%Y-%m-%d').date()
 
 def qr(request,ticketId):
-    _pass = Passes.objects.get(psid=ticketId)
-    ticket = generate_master_ticket(User.objects.get(email=_pass.email))
-    response = HttpResponse(ticket.getvalue(), content_type='image/png')
-    return response
+    _pass = Passes.objects.filter(psid=ticketId).first()
+    if _pass:
+        ticket = generate_master_ticket(User.objects.get(email=_pass.email))
+        response = HttpResponse(ticket.getvalue(), content_type='image/png')
+        return response
+    else:
+        messages.error(request,'Invalid ticket id')
+        return redirect('home')
     
 def event(request):
     if request.method == 'GET':
@@ -93,17 +97,17 @@ def custom(request,ticketId):
     ticket = CustomTicket.objects.filter(id=ticketId)
     if ticket.exists():
         ticket = ticket.first()
-        image = Image.open(ticket.generate_customticket())
-        img_rgb = image.convert('RGB')
-        response = HttpResponse(content_type='application/pdf')
-        pdfbuffer = io.BytesIO()
-        img_rgb.save(pdfbuffer, 'PDF', resolution=100.0)
-        response.content = pdfbuffer.getvalue()
-        response['Content-Disposition'] = f'attachment; filename=\"Renaissance Ticket.pdf\"'
-        return response
-        # return HttpResponse(ticket.generate_customticket(), content_type='image/png')
+        # image = Image.open(ticket.generate_customticket())
+        # img_rgb = image.convert('RGB')
+        # response = HttpResponse(content_type='application/pdf')
+        # pdfbuffer = io.BytesIO()
+        # img_rgb.save(pdfbuffer, 'PDF', resolution=100.0)
+        # response.content = pdfbuffer.getvalue()
+        # response['Content-Disposition'] = f'attachment; filename=\"Renaissance Ticket.pdf\"'
+        # return response
+        return HttpResponse(ticket.generate_customticket().getvalue(), content_type='image/png')
     else:
-        messages.error('Invalid ticket id')
+        messages.error(request,'Invalid ticket id')
         return redirect('home')
 
 

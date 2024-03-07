@@ -32,13 +32,8 @@ h1 {
   position: absolute;
   top: 100px;
   width: 100%;
-  z-index: 100;
+  z-index: 5;
   height: 50px;
-}
-.img {
-  z-index: -1;
-  translate: 0 40px;
-  height: 90px;
 }
 .day {
   height: 100%;
@@ -218,7 +213,7 @@ a {
 
     width: calc(100vw - 100px);
 
-    z-index: 100;
+    z-index: 5;
     height: 50px;
   }
 
@@ -389,10 +384,8 @@ a {
     position: absolute;
     top: 100px;
     left: 40px;
-
     width: calc(100vw - 100px);
-
-    z-index: 100;
+    z-index: 5;
     height: 50px;
   }
 
@@ -403,8 +396,6 @@ a {
     justify-content: center;
     font-style: var(--text-color);
     width: 30%;
-    /* background-color: #f5af19; */
-    /* border-radius: 30px; */
     background-color: rgba(122, 108, 108, 0.1);
     border-radius: 1rem;
     backdrop-filter: blur(1rem);
@@ -419,10 +410,8 @@ a {
   }
 
   .timeline {
-    /* border: 2px solid red; */
     width: 95%;
     flex-wrap: wrap;
-
     ul {
       li {
         margin-top: 15px;
@@ -430,9 +419,7 @@ a {
 
         .time {
           font-size: 13px;
-          /* border: 2px solid black; */
           width: 17vh;
-          /* height: auto; */
         }
 
         div {
@@ -441,7 +428,6 @@ a {
 
         &:nth-of-type(odd) {
           > div {
-            /* border: 2px solid red; */
             left: 45px;
           }
         }
@@ -458,16 +444,14 @@ a {
 
 @media screen and (max-width: 355px) {
   .days {
-    /* border: 2px solid black !important; */
     display: flex;
     justify-content: space-evenly;
     position: absolute;
-    top: 18px;
+    top: 100px;
     left: 50px;
-
     width: calc(100vw - 100px);
 
-    z-index: 100;
+    z-index: 5;
     height: 50px;
   }
 
@@ -478,8 +462,6 @@ a {
     justify-content: center;
     font-style: var(--text-color);
     width: 30%;
-    /* background-color: #f5af19;
-        border-radius: 30px; */
     background-color: rgba(122, 108, 108, 0.1);
     border-radius: 1rem;
     backdrop-filter: blur(1rem);
@@ -493,25 +475,15 @@ a {
     padding: 18px;
   }
 
-  body {
-    background-image: url(./background1.jpg);
-  }
-
   .timeline {
-    /* border: 2px solid red; */
     width: 97%;
     flex-wrap: wrap;
-
     ul {
       li {
-        /* margin-top: 15px;
-                margin-left: 20px; */
 
         .time {
           font-size: 13px;
-          /* border: 2px solid black; */
           width: 17vh;
-          /* height: auto; */
         }
 
         div {
@@ -520,14 +492,12 @@ a {
 
         &:nth-of-type(odd) {
           > div {
-            /* border: 2px solid red; */
             left: 25px;
           }
         }
 
         &:nth-of-type(even) {
           > div {
-            /* border: 2px solid green; */
             left: 25px;
           }
         }

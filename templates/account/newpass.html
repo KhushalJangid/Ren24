@@ -19,7 +19,7 @@
                                       </svg>
                                 </span>
                             </div>
-                            <input type="password" name="pass1" class="form-control" placeholder="Enter New Password" required>
+                            <input type="password" id="password" name="pass1" class="form-control" placeholder="Enter New Password" required>
                         </div>
                         <div class="input-group form-group">
                             <div class="input-group-prepend">
@@ -31,6 +31,10 @@
                                 </span>
                             </div>
                             <input type="password" name="pass2" class="form-control" placeholder="Confirm Password" required>
+                        </div>
+                        <div class="my-2">
+                            <input type="checkbox" name="show" value="" onClick="showPass(this)" id="show-btn">
+                            <label for="show-btn" class="cursor-pointer text-light">Show password</label>
                         </div>
                         <div class="form-group">
                             <input type="submit" value="Submit" class="btn float-right login_btn">

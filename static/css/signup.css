@@ -10,15 +10,17 @@
   margin-bottom: auto;
   width: 400px;
   background-color: rgba(0, 0, 0, 0.5) !important;
+  backdrop-filter: blur(10px);
 }
 .card-small {
-  height: 370px;
+  height: 385px;
   display:flex;
   flex-direction: column;
   margin-top: auto;
   margin-bottom: auto;
   width: 400px;
   background-color: rgba(0, 0, 0, 0.5) !important;
+  backdrop-filter: blur(10px);
 }
 
 .card-body {

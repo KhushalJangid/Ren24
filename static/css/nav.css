@@ -62,29 +62,6 @@
         -webkit-text-fill-color: transparent;
 }
 
-.keydrop{
-  animation: jump 8s linear infinite;
-}
-
-@keyframes jump{ 
-  0%{
-    transform: translateY(-25px) scale(1);
-  }
-  25%{
-    transform: translateY(0px) scale(0.7);
-  }
-  50%{
-    transform: translateY(25px) scale(1);
-  }
-  75%{
-    transform: translateY(0px) scale(0.7);
-  }
-  100%{
-    transform: translateY(-25px) scale(1);
-  }
-}
-/* card */
-
 
 #menu-icon {
   font-size: 36px;
@@ -109,7 +86,7 @@
     top: 100%;
     left: 0;
     width: 100%;
-    padding: 0.5rem 7%;
+    padding: 0.5rem 7% !important;
     display: none!important;
   }
   .header img{
@@ -137,4 +114,12 @@
     display: block !important;
     position: fixed !important;
   }
+}
+
+footer a{
+  text-decoration: none;
+  background: linear-gradient(131deg, rgb(50, 210, 209) 20%, rgb(65, 41, 136) 50%, rgb(70, 0, 92) 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
