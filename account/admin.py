@@ -88,6 +88,10 @@ class ProfileAdmin(ExportActionMixin,admin.ModelAdmin):
     search_fields = ['user__email','user__first_name']
     autocomplete_fields = ["user"]
     
+    def get_queryset(self, request):
+        queryset = super().get_queryset(request)
+        return queryset.prefetch_related('user')
+    
     def get_email(self,obj):
         return obj.user.email 
     
@@ -96,7 +100,7 @@ class ProfileAdmin(ExportActionMixin,admin.ModelAdmin):
     get_email.short_description = "Email"
     get_email.admin_order_field = "user__email"
     get_name.short_description = "Name"
-    get_name.admin_order_field = "user__first_name"
+    # get_name.admin_order_field = "user__first_name"
 
 admin.site.register(Session, SessionAdmin)
 admin.site.register(User,AccountAdmin)

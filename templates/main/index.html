@@ -29,7 +29,6 @@
             font-family: a;
             src: url("{% static "fonts/KlemerDisplayDemoRegular-ax5qg.ttf" %}") format("truetype");
         }
-
         body{
             background-image: url({% static "assets/index/dasktop_baground.webp" %});
             background-attachment:fixed;
@@ -206,8 +205,8 @@
                                 </div>
                                 <br>
                                 <h2 class="username">Ravi Gupta</h2>
-                                <p>Standup Comedian</p>
-                                <p style="font-family: b;">19 March 2024
+                                <p>(Standup Comedian)</p>
+                                <p style="font-family: b;">19th March 2024
                                 </p>
                             </article>
                         </div>
@@ -217,9 +216,9 @@
                                     <img src="{% static "assets/celeb/3.webp" %}" />
                                 </div>
                                 <br>
-                                <h2 class="username">Permish Verma</h2>
+                                <h2 class="username">Parmish Verma</h2>
                                 <p>(Celebrity Night)</p>
-                                <p style="font-family: b;">21 March 2024</p>
+                                <p style="font-family: b;">21st March 2024</p>
                             </article>
                         </div>
                         <div class="card3">
@@ -230,7 +229,7 @@
                                 <br>
                                 <h2 class="username"> DJ Cheshta</h2>
                                 <p>(DJ Night)</p>
-                                <p style="font-family: b;">20 March 2024</p>
+                                <p style="font-family: b;">20th March 2024</p>
                             </article>
                         </div>
                     </div>
@@ -247,7 +246,7 @@
                 <img class="col-md-2 sponsor" src="{% static "assets/sponsor/lickme.webp" %}" loading="lazy">
             </div>  {% endcomment %}
             <div class="sponsor-slider">
-                <div class="slide-track">
+                <div class="slide-track" id="track-1">
                     <div class="slide">
                         <img class="img-slider" src="{% static "assets/sponsor/bnr.webp" %}" alt="">
                     </div>
@@ -256,6 +255,23 @@
                     </div>
                     <div class="slide">
                         <img class="img-slider" src="{% static "assets/sponsor/lickme.webp" %}" alt="">
+                    </div>
+                    <div class="slide">
+                        <img class="img-slider" src="{% static "assets/sponsor/hushjammer.webp" %}" alt="">
+                    </div>
+                </div>
+                <div class="slide-track" id="track-2">
+                    <div class="slide">
+                        <img class="img-slider" src="{% static "assets/sponsor/bnr.webp" %}" alt="">
+                    </div>
+                    <div class="slide">
+                        <img class="img-slider" src="{% static "assets/sponsor/fpf.webp" %}" alt="">
+                    </div>
+                    <div class="slide">
+                        <img class="img-slider" src="{% static "assets/sponsor/lickme.webp" %}" alt="">
+                    </div>
+                    <div class="slide">
+                        <img class="img-slider" src="{% static "assets/sponsor/hushjammer.webp" %}" alt="">
                     </div>
                 </div>
             </div>
@@ -393,31 +409,16 @@
                     </div>
                 </div>
             </div>
-            {% comment %} <div class="d-flex flex-column text-center py-4 m-0" style="background-color: rgba(20, 22, 30, 1)">
-                <div class="copyright m-auto">
-                    <p class="my-2">&copy; Copyright <strong>Jecrc Foundation</strong>. All Rights Reserved.&nbsp<a
-                            target="_blank" href="pages/privacy_policy.html">Privacy Policy</a></p>
-                </div>
+            <div class="d-flex flex-column text-center py-4 m-0" style="background-color: rgba(20, 22, 30, 1)">
                 <div class="credits m-auto">
-                    <p class="my-2">Developed by
-                        <a target="_blank" href="https://www.linkedin.com/in/yash-raj-arora-432728239">Yash Raj Arora
-                        </a>|
-                        <a target="_blank" href="https://github.com/KhushalJangid/">Khushal Jangid </a>|
-                        <a target="_blank" href="https://www.linkedin.com/in/riya-goyal-711994225">Riya </a>|
-                        <a target="_blank" href="https://www.linkedin.com/in/archit-jain-378106231">Archit Jain </a>
+                    <p class="my-2">Developed & Maintained by
+                        <a target="_blank" href="{% url "team" %}">Team Renaissance</a>
                     </p>
-                    <p class="my-2">Graphics Designed by
-                        <a target="_blank" href="https://instagram.com/shubham_saharan4?igshid=ZDdkNTZiNTM=">Shubham
-                            Saharan </a>|
-                        <a target="_blank" href="https://www.linkedin.com/in/dhruv-sharma-8b2403229">Dhruv Sharma </a>|
-                        <a target="_blank" href="https://instagram.com/raginijoshi_?igshid=ZDdkNTZiNTM=">Ragini Joshi
-                        </a>|
-                        <a target="_blank" href="https://instagram.com/sameer__mittal__?igshid=ZDdkNTZiNTM=">Sameer
-                            Mittal </a>
-                    </p>
-
                 </div>
-            </div> {% endcomment %}
+                <div class="copyright m-auto">
+                    <p class="my-2">&copy; Copyright 2024 <strong>Jecrc Foundation</strong>. All Rights Reserved.</p>
+                </div>
+            </div>
         </footer>
         <script src="{% static "js/app_hero.js" %}" async></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"

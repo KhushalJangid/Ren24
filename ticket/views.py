@@ -57,6 +57,8 @@ def event(request):
         if i<4:
             context.append(meta)
         return render(request,'event.html',{'events':context,'modal':events})
+    else:
+        return HttpResponse('Method not allowed',status=400)
 
 @login_required
 @profile_required('/u/profile')
@@ -91,6 +93,8 @@ def buy(request,eventId):
             Ticket.objects.create(user=user,event=event)
             messages.success(request,f'Ticket for {event.name} generated succesfully !')
             return redirect('profile')
+    else:
+        return HttpResponse(status=400)
         
 
 def custom(request,ticketId):

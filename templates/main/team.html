@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Our Team{% endblock title %}
+{% block head %}
+<style>
+    @font-face {
+        font-family: a;
+        src: url("{% static "fonts/KlemerDisplayDemoRegular-ax5qg.ttf" %}") format("truetype");
+    }
+</style>
+<link rel="stylesheet" href="{% static "css/team.css" %}">
+{% endblock head %}
+
+{% block body %}
+    <div class="container body-section">
+        <h2 class="title">Backend Team</h2>
+        <div class="row">
+            <div class="col-sm">
+                <div class="card">
+                    <div class="poster"><img src="{% static "assets/team/k.jpeg" %}" alt="Location Unknown">
+                    </div>
+                    <div class="details">
+                        <h1>Khushal Jangid</h1>
+                        <h2>3rd Year, AI & DS</h2>
+                        <p class="desc">
+                            DevOps, Full Stack Developer
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="card">
+                    <div class="poster"><img src="{% static "assets/team/Amrinder Photo.jpg" %}" alt="Location Unknown">
+                    </div>
+                    <div class="details">
+                        <h1>Amrinder Singh</h1>
+                        <h2>2nd Year, CS-AI</h2>
+                        <p class="desc">
+                            Backend Developer
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="card">
+                    <div class="poster"><img src="{% static "assets/team/Karthik Photo.jpg" %}" alt="Location Unknown">
+                    </div>
+                    <div class="details">
+                        <h1>Karthik Dayama</h1>
+                        <h2>1st Year, CS-AI</h2>
+                        <p class="desc">
+                            Backend Developer
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h2 class="title my-4">Frontend Team</h2>
+        <div class="row">
+            <div class="col-sm">
+                <div class="card">
+                    <div class="poster"><img src="{% static "assets/team/Vishvesh Photo.jpg" %}" alt="Location Unknown">
+                    </div>
+                    <div class="details">
+                        <h1>Vishvesh Mathur</h1>
+                        <h2>3rd Year, AI & DS</h2>
+                        <p class="desc">
+                            MERN Stack,Frontend Developer
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="card">
+                    <div class="poster"><img src="{% static "assets/team/p.jpg" %}" alt="Location Unknown">
+                    </div>
+                    <div class="details">
+                        <h1>Pawan Kumar</h1>
+                        <h2>3rd Year, EE</h2>
+                        <p class="desc">
+                            3D & UI/UX Designer
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="card">
+                    <div class="poster"><img src="{% static "assets/team/Pradyumn Photo.jpg" %}" alt="Location Unknown">
+                    </div>
+                    <div class="details">
+                        <h1>Pradyumn Kumar</h1>
+                        <h2>2nd Year, AI & DS</h2>
+                        <p class="desc">
+                            UI/UX Designer, Frontend Developer
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="card">
+                    <div class="poster"><img src="{% static "assets/team/Aryan Photo.jpg" %}" alt="Location Unknown">
+                    </div>
+                    <div class="details">
+                        <h1>Aryan Jain</h1>
+                        <h2>2nd Year, CSE</h2>
+                        <p class="desc">
+                            Frontend Developer
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h2 class="title my-4">Graphics Team</h2>
+        <div class="row">
+            <div class="col-sm">
+                <div class="card">
+                    <div class="poster"><img src="{% static "assets/team/Shubham Photo.jpg" %}" alt="Location Unknown">
+                    </div>
+                    <div class="details">
+                        <h1>Shubham Saharan</h1>
+                        <h2>3rd Year, CSE</h2>
+                        <p class="desc">
+                            Graphics Designer
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="card">
+                    <div class="poster"><img src="{% static "assets/team/Sameer Photo.jpg" %}" alt="Location Unknown">
+                    </div>
+                    <div class="details">
+                        <h1>Sameer Mittal</h1>
+                        <h2>3rd Year, CSE</h2>
+                        <p class="desc">
+                            Graphics Designer
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="card">
+                    <div class="poster"><img src="{% static "assets/team/Mihir Photo.jpg" %}" alt="Location Unknown">
+                    </div>
+                    <div class="details">
+                        <h1>Mihir Jain</h1>
+                        <h2>2nd Year, AI & DS</h2>
+                        <p class="desc">
+                            Graphics Designer
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% comment %} <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> {% endcomment %}
+{% endblock body %}

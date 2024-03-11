@@ -208,7 +208,7 @@ def resendOTP(request):
     otp=otp_obj.otp
     otp_obj.save()
     send_otp_thread(myuser,otp)   
-    messages.sucess(request,"OTP sent sucessfully")
+    messages.success(request,"OTP sent sucessfully")
     return redirect('verify')
 
 def verify(request):

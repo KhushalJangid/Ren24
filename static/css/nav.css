@@ -118,8 +118,9 @@
 
 footer a{
   text-decoration: none;
-  background: linear-gradient(131deg, rgb(50, 210, 209) 20%, rgb(65, 41, 136) 50%, rgb(70, 0, 92) 100%);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: rgb(55, 228, 228);
+}
+footer p{
+  font-size: 1rem;
+  font-family: 'Montserrat';
 }

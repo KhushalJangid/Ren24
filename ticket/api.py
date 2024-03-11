@@ -37,7 +37,7 @@ def verify(request):
                     return JsonResponse(context)
             else:
                 return HttpResponse('Ticket Id missing',status=400)
-        except Ticket.DoesNotExist:
+        except Passes.DoesNotExist:
             return HttpResponse('Invalid ticket',status=402)
         except Exception as e:
             print(e)
@@ -81,7 +81,7 @@ def permit(request):
                     return HttpResponse('Entry permitted',status=200)
             else:
                 return HttpResponse('Ticket Id missing',status=400)
-        except Ticket.DoesNotExist:
+        except Passes.DoesNotExist:
             return HttpResponse('Invalid ticket',status=402)
         except Exception as e:
             print(e)
@@ -110,7 +110,7 @@ def verify_custom(request):
                 return JsonResponse(context)
             else:
                 return HttpResponse('Ticket Id missing',status=400)
-        except Ticket.DoesNotExist:
+        except CustomTicket.DoesNotExist:
             return HttpResponse('Invalid ticket',status=402)
         except Exception as e:
             print(e)
@@ -137,7 +137,7 @@ def permit_custom(request):
                     return HttpResponse('Entry permitted',status=200)
             else:
                 return HttpResponse('Ticket Id missing',status=400)
-        except Ticket.DoesNotExist:
+        except CustomTicket.DoesNotExist:
             return HttpResponse('Invalid ticket',status=402)
         except Exception as e:
             print(e)

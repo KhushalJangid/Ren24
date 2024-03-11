@@ -84,11 +84,11 @@ class TicketAdmin(ExportActionMixin,admin.ModelAdmin):
         return f'{obj.user.first_name} {obj.user.last_name}'
     
     get_date.short_description = "Date & Time"
-    get_date.admin_order_field = "events__date"
+    get_date.admin_order_field = "event__date"
     get_event.short_description = "Event"
-    get_event.admin_order_field = "events__name"
+    get_event.admin_order_field = "event__name"
     get_price.short_description = "Price"
-    get_price.admin_order_field = "events__cost"
+    get_price.admin_order_field = "event__amount"
     get_email.short_description = "Email"
     # get_email.admin_order_field = "user__email"
     get_username.short_description = "Name"
