@@ -5,7 +5,7 @@
 
 .card {
   /* border: 2px solid red; */
-  height: 600px;
+  height: 625px;
   margin-top: auto;
   margin-bottom: auto;
   width: 400px;
@@ -13,7 +13,7 @@
   backdrop-filter: blur(10px);
 }
 .card-small {
-  height: 385px;
+  height: 490px;
   display:flex;
   flex-direction: column;
   margin-top: auto;

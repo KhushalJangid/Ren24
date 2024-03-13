@@ -1,4 +1,5 @@
 {% extends "base_auth.html" %}
+{% load static %}
 {% block title %}Confirm OTP{% endblock title %}
 {% block body %}
     <div class="container">
@@ -29,10 +30,11 @@
                 </div>
                 <div class="card-footer">
                     <div class="d-flex justify-content-center links">
-                        <a href="{% url 'resetpass_resendotp' %}">Resend OTP</a>
+                        <button class="btn-outline-info"  href="{% url 'resetpass_resendotp' %}" id="resend-btn" disabled onClick="window.location = '{% url "resetpass_resendotp" %}'">Resend OTP</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <script src="{% static "js/timer.js" %}"></script>
     {% endblock body %}

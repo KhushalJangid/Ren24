@@ -189,10 +189,10 @@
                 {% csrf_token %}
                 <input  class="btn btn-outline-primary" form="download-form" type="submit" value="Download Master Pass">
             </form>
-            <form action="{% url 'send_ticket' %}" class="col-md-4" id="email-form" method="post">
+            {% comment %} <form action="{% url 'send_ticket' %}" class="col-md-4" id="email-form" method="post">
                 {% csrf_token %}
                 <input  class="btn btn-outline-primary" form="email-form" type="submit" value="Send Master Pass">
-            </form> 
+            </form>  {% endcomment %}
         </div>
             {% for ticket in tickets %}
             <div class="m-auto">

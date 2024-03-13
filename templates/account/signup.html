@@ -70,6 +70,8 @@
                             <input type="checkbox" name="show" value="" onClick="showPass(this)" id="show-btn">
                             <label for="show-btn" class="cursor-pointer text-light">Show password</label>
                         </div>
+                        <div class="g-recaptcha" data-sitekey="6LdDA5cpAAAAAOBABUcWKjvew2u4Jpys6KCzju7c"></div>
+                        <br />
                         <div class="form-group">
                             <input type="submit" value="Register" class="btn float-right login_btn">
                         </div>
@@ -83,4 +85,16 @@
             </div>
         </div>
     </div>
+    <script>
+        const form = document.querySelector('form');
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const captchaResponse = grecaptcha.getResponse();
+            if (!captchaResponse.length > 0) {
+                throw new Error("Captcha not complete");
+            }
+            form.submit();
+        });
+    </script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     {% endblock body %}
