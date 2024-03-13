@@ -126,7 +126,7 @@ import requests
 #     except requests.RequestException as e:
 #         print(f"Error sending OTP email: {e}")
 
-def send_otp_thread(user:User, otp):
+def send_otp(user:User, otp):
     # Define your SMTP server settings
     smtp_server = "smtp-relay.brevo.com"
     smtp_port = 587
@@ -134,7 +134,7 @@ def send_otp_thread(user:User, otp):
     smtp_password = "yfKJ7YwzOLRs6D9t"
 
     # Define email parameters
-    sender = "noreply@renaissance.com"
+    sender = "OTP for Renaissance <ticket.renaissance@gmail.com"
     recipient = user.email
     name = f"{user.first_name} {user.last_name}"  # Replace with the user's name
     subject = f"Your OTP: {otp}"
@@ -173,3 +173,7 @@ def send_otp_thread(user:User, otp):
         print(f"OTP email sent successfully to {recipient}")
     except smtplib.SMTPException as e:
         print(f"Error sending OTP email: {e}")
+        
+def send_otp_thread(user:User, otp):
+    t = Thread(target=send_otp, args=(user, otp))
+    t.start()
