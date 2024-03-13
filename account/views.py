@@ -25,8 +25,9 @@ def generateOTP() :
     # Declare a digits variable  
     # which stores all digits 
     secret=pyotp.random_base32()
-    otp = pyotp.TOTP(secret)
-    return otp.now()
+    obj = pyotp.TOTP(secret)
+    otp =  obj.now()
+    return otp.lstrip('0')
 
 
 def register(request):
@@ -95,6 +96,9 @@ def signin(request):
                 messages.error(request, "User not verified")
                 request.session['id'] = user.pk
                 otp_obj,created = OTP.objects.get_or_create(user=User.objects.get(email=email))
+                if datetime.datetime.now(pytz.UTC)-otp_obj.created  <datetime.timedelta(minutes=2):
+                    messages.error(request,"Please wait sometime before resending otp")
+                    return redirect('verify')
                 otp_obj.otp = generateOTP()  # Implement your OTP generation logic
                 otp=otp_obj.otp
                 otp_obj.created = datetime.datetime.now(pytz.UTC)
@@ -202,6 +206,9 @@ def profile_view(request):
 def resendOTP(request):
     myuser=User.objects.get(id=request.session.get("id"))
     otp_obj= OTP.objects.get(user=myuser)
+    if datetime.datetime.now(pytz.UTC)-otp_obj.created  <datetime.timedelta(minutes=2):
+        messages.error(request,"Please wait sometime before resending otp")
+        return redirect('verify')
     otp_obj.otp = generateOTP()
     otp_obj.created = datetime.datetime.now(pytz.UTC)
     otp_obj.expire=datetime.datetime.now(pytz.UTC)+datetime.timedelta(minutes=10)

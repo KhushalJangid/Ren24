@@ -12,6 +12,9 @@ def resendOTP(request):
     '''This function resends otp, redirects to Verification of Forgot Password'''
     myuser=User.objects.get(id=request.session.get("id"))
     otp_obj= OTP.objects.get(user=myuser)
+    if datetime.datetime.now(pytz.UTC) -otp_obj.created  <datetime.timedelta(minutes=2):
+            messages.error(request,"Please wait sometime before resending otp")
+            return redirect('resetpass_verify')
     otp_obj.otp = generateOTP()
     
     print(otp_obj.otp)
@@ -61,6 +64,9 @@ def forgotpassword(request):
             messages.error(request,"No account associated with this Email.")
             return redirect('home')
         otp_obj,created = OTP.objects.get_or_create(user=myuser)
+        if datetime.datetime.now(pytz.UTC)-otp_obj.created  <datetime.timedelta(minutes=2):
+            messages.error(request,"Please wait sometime before resending otp")
+            return redirect('resetpass_verify')
         otp_obj.otp = generateOTP()
         otp=otp_obj.otp
         print(otp)
