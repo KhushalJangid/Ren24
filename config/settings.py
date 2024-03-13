@@ -159,14 +159,15 @@ USE_I18N = True
 
 USE_TZ = True
 
-Email='ticket.renaissance@gmail.com'
-EMAIL_BACKEND = 'django_ses.SESBackend'
+# Email='ticket.renaissance@gmail.com'
+# EMAIL_BACKEND = 'django_ses.SESBackend'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 PRODUCTION = env.getParameter('PRODUCTION') == 'True'
 # PRODUCTION = False
+
 def error_sampler():
     return 1.0
 
@@ -209,12 +210,14 @@ if PRODUCTION:
         }
     }
     
+    ACE_CONNECTION_STRING = env.getParameter("ACE_CONNECTION_STRING")
+    
     # aws settings
-    # AWS_ACCESS_KEY_ID = env.getParameter('ACCESS_KEY_ID')
-    # AWS_SECRET_ACCESS_KEY = env.getParameter('SECRET_ACCESS_KEY')
-    AWS_ACCESS_KEY_ID = env.AWS_ACCESS_KEY_ID
-    AWS_SECRET_ACCESS_KEY = env.AWS_SECRET_ACCESS_KEY
-    AWS_SESSION_TOKEN = env.AWS_SESSION_TOKEN
+    AWS_ACCESS_KEY_ID = env.getParameter('ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = env.getParameter('SECRET_ACCESS_KEY')
+    # AWS_ACCESS_KEY_ID = env.AWS_ACCESS_KEY_ID
+    # AWS_SECRET_ACCESS_KEY = env.AWS_SECRET_ACCESS_KEY
+    # AWS_SESSION_TOKEN = env.AWS_SESSION_TOKEN
     AWS_STORAGE_BUCKET_NAME = env.getParameter('STORAGE_BUCKET_NAME')
     AWS_DEFAULT_ACL = None
     AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'

@@ -1,3 +1,4 @@
+from django.core.mail import EmailMessage
 from email.mime.application import MIMEApplication
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -199,56 +200,170 @@ class CustomTicket(models.Model):
 #     except Exception as e:
 #         print(f"Error sending email: {str(e)}")
 
-def send_custom_email_with_attachment(ticket:CustomTicket,pdf_buffer):
-    # Define your SMTP server settings
-    smtp_server = "smtp-relay.brevo.com"
-    smtp_port = 587
-    smtp_username = "ticket.renaissance@gmail.com"
-    smtp_password = settings.SMTP_PASSWORD
+# def send_custom_email_with_attachment(ticket:CustomTicket,pdf_buffer):
+#     # Define your SMTP server settings
+#     smtp_server = "smtp-relay.brevo.com"
+#     smtp_port = 587
+#     smtp_username = "ticket.renaissance@gmail.com"
+#     smtp_password = settings.SMTP_PASSWORD
 
-    # Create a multipart message
-    message = MIMEMultipart()
-    message["Subject"] = "Renaissance Master Pass"
-    message["From"] = f"\"Your Pass for Renaissance 2024!\" <noreply@renaissance.com>"
-    message["To"] = ticket.email
+#     # Create a multipart message
+#     message = MIMEMultipart()
+#     message["Subject"] = "Renaissance Master Pass"
+#     message["From"] = f"\"Your Pass for Renaissance 2024!\" <noreply@renaissance.com>"
+#     message["To"] = ticket.email
 
-    # Add HTML content (optional)
-    name = ticket.name
-    html_content = MIMEText(f'''<p>Hi {name}, <br>
-                            Thank you for registering for Renaissance 2024,<br>
-                            Your Event Pass is attached to this email.<br>
-                            Please present this ticket at the event entrance for scanning.<br><br>
-                            <b>Event Details:</b>
-                            <ul>
-                                <li>Event Name: {ticket.event.name}</li>
-                                <li>Date: {ticket.event.date.strftime("%a, %d %b, %Y")}</li>
-                                <li>Time: {ticket.event.time.strftime("%-I:%M %p")}</li>
-                                <li>Venue: {ticket.event.venue}</li>
-                            </ul>
-                            <b>Note:</b>
-                            <ul>
-                                <li>This pass will grant you entry to the JECRC campus for 1 day ({ticket.event.date.strftime("%a, %d %b, %Y")})</li>
-                                <li>This pass can be scanned only once, no re-entry will be permitted</li>
-                                <li>This pass is non-transferable and non-refundable </li>
-                            </ul>
-                            We look forward to seeing you at Ren 2024 ! <br><br>
-                            Best regards,<br>
-                            Team JECRC Renaissance</p>''', 'html')
-    message.attach(html_content)
+#     # Add HTML content (optional)
+#     name = ticket.name
+#     html_content = MIMEText(f'''<p>Hi {name}, <br>
+#                             Thank you for registering for Renaissance 2024,<br>
+#                             Your Event Pass is attached to this email.<br>
+#                             Please present this ticket at the event entrance for scanning.<br><br>
+#                             <b>Event Details:</b>
+#                             <ul>
+#                                 <li>Event Name: {ticket.event.name}</li>
+#                                 <li>Date: {ticket.event.date.strftime("%a, %d %b, %Y")}</li>
+#                                 <li>Time: {ticket.event.time.strftime("%-I:%M %p")}</li>
+#                                 <li>Venue: {ticket.event.venue}</li>
+#                             </ul>
+#                             <b>Note:</b>
+#                             <ul>
+#                                 <li>This pass will grant you entry to the JECRC campus for 1 day ({ticket.event.date.strftime("%a, %d %b, %Y")})</li>
+#                                 <li>This pass can be scanned only once, no re-entry will be permitted</li>
+#                                 <li>This pass is non-transferable and non-refundable </li>
+#                             </ul>
+#                             We look forward to seeing you at Ren 2024 ! <br><br>
+#                             Best regards,<br>
+#                             Team JECRC Renaissance</p>''', 'html')
+#     message.attach(html_content)
 
-    # Attach the PDF
-    attachment = MIMEApplication(pdf_buffer.getvalue())
-    attachment.add_header("Content-Disposition", "attachment", filename="Ticket.pdf")
-    message.attach(attachment)
+#     # Attach the PDF
+#     attachment = MIMEApplication(pdf_buffer.getvalue())
+#     attachment.add_header("Content-Disposition", "attachment", filename="Ticket.pdf")
+#     message.attach(attachment)
 
+#     try:
+#         # Connect to the SMTP server and send the email
+#         with smtplib.SMTP(smtp_server, smtp_port) as server:
+#             server.starttls()
+#             server.login(smtp_username, smtp_password)
+#             server.sendmail(message["From"], message["To"], message.as_string())
+#         print(f"Email with attachment sent successfully to {ticket.email}")
+#     except smtplib.SMTPException as e:
+#         capture_exception(e)
+#         print(f"Error sending email with attachment: {e}")
+
+# def send_custom_email_with_attachment(ticket:CustomTicket, pdf_buffer):
+#   """
+#   Sends an email with a PDF attachment to the user.
+#   """
+#   subject = "Renaissance Event Pass"
+#   from_email = f'"Your Pass for Renaissance 2024!" <noreply@renaissance.com>'
+#   recipient_list = [ticket.email]
+
+#   # Build the email content
+#   name = ticket.name
+#   html_content = f"""<p>Hi {name}, <br>
+#                         Thank you for registering for Renaissance 2024,<br>
+#                         Your Event Pass is attached to this email.<br>
+#                         Please present this ticket at the event entrance for scanning.<br><br>
+#                         <b>Event Details:</b>
+#                         <ul>
+#                             <li>Event Name: {ticket.event.name}</li>
+#                             <li>Date: {ticket.event.date.strftime("%a, %d %b, %Y")}</li>
+#                             <li>Time: {ticket.event.time.strftime("%-I:%M %p")}</li>
+#                             <li>Venue: {ticket.event.venue}</li>
+#                         </ul>
+#                         <b>Note:</b>
+#                         <ul>
+#                             <li>This pass will grant you entry to the JECRC campus for 1 day ({ticket.event.date.strftime("%a, %d %b, %Y")})</li>
+#                             <li>This pass can be scanned only once, no re-entry will be permitted</li>
+#                             <li>This pass is non-transferable and non-refundable </li>
+#                         </ul>
+#                         We look forward to seeing you at Ren 2024 ! <br><br>
+#                         Best regards,<br>
+#                         Team JECRC Renaissance</p>"""
+
+#   # Create the email message
+#   message = EmailMessage(subject, html_content, from_email, recipient_list)
+#   message.content_subtype = 'html'  # Set HTML content type
+
+#   # Attach the PDF
+#   attachment = pdf_buffer.getvalue()
+#   message.attach(filename="Ticket.pdf", content=attachment, mimetype="application/pdf")
+
+#   # Send the email
+#   try:
+#     message.send()
+#     print(f"Email with attachment sent successfully to {ticket.email}")
+#   except Exception as e:
+#     capture_exception(e)
+#     print(f"Error sending email with attachment: {e}")
+    
+
+import base64
+from azure.communication.email import EmailClient
+    
+def send_custom_email_with_attachment(ticket:CustomTicket, pdf_buffer):
+    """
+    Sends an email with a PDF attachment to the user.
+    """
     try:
-        # Connect to the SMTP server and send the email
-        with smtplib.SMTP(smtp_server, smtp_port) as server:
-            server.starttls()
-            server.login(smtp_username, smtp_password)
-            server.sendmail(message["From"], message["To"], message.as_string())
+        # Initialize Azure Communication Services
+        connection_string = settings.ACE_CONNECTION_STRING
+        client = EmailClient.from_connection_string(connection_string)
+
+        # Build the email content
+        name = ticket.name
+        # Send the message with attachment
+        message = {
+            "senderAddress": "DoNotReply@b2e48f1c-4006-459a-bce8-cea2b59d541a.azurecomm.net",
+            "recipients": {
+                "to": [{"address": f"{ticket.email}"}],
+            },
+            "content": {
+                "subject": "Your Renaissance 2024 Master Pass",
+                "html": f"""<html>
+                        <body>
+                        <p>Hi {name}, <br>
+                        Thank you for registering for Renaissance 2024,<br>
+                        Your Event Pass is attached to this email.<br>
+                        Please present this ticket at the event entrance for scanning.<br><br>
+                        <b>Event Details:</b>
+                        <ul>
+                            <li>Event Name: {ticket.event.name}</li>
+                            <li>Date: {ticket.event.date.strftime("%a, %d %b, %Y")}</li>
+                            <li>Time: {ticket.event.time.strftime("%-I:%M %p")}</li>
+                            <li>Venue: {ticket.event.venue}</li>
+                        </ul>
+                        <b>Note:</b>
+                        <ul>
+                            <li>This pass will grant you entry to the JECRC campus for 1 day ({ticket.event.date.strftime("%a, %d %b, %Y")})</li>
+                            <li>This pass can be scanned only once, no re-entry will be permitted</li>
+                            <li>This pass is non-transferable and non-refundable </li>
+                        </ul>
+                        We look forward to seeing you at Ren 2024 ! <br><br>
+                        Best regards,<br>
+                        Team JECRC Renaissance</p>
+                        </body>
+                        </html>""",
+            },
+            "attachments": [
+                {
+                    "name": "Ticket.pdf",
+                    "attachmentType": "application/pdf",
+                    "contentType": "application/pdf",
+                    "contentInBase64": base64.b64encode(pdf_buffer.getvalue()).decode(
+                        "utf-8"
+                    ),
+                }
+            ],
+        }
+
+        client.begin_send(message)
+
         print(f"Email with attachment sent successfully to {ticket.email}")
-    except smtplib.SMTPException as e:
+    except Exception as e:
         capture_exception(e)
         print(f"Error sending email with attachment: {e}")
 
