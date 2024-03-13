@@ -183,7 +183,7 @@ def send_email_otp(recipient,OTP):
     name= f"{recipient.first_name} {recipient.last_name}"
     otp=OTP
     subject="OTP for your Registration"
-    message=f"Hi {name}, \n Your one-time password (OTP) for accessing your account is: {otp}. \n This OTP is valid for 10 minutes. Please do not share it with anyone. \n \n We hope you have a great time at Renaissance!"
+    message=f"Hi {name},\nYour one-time password (OTP) for accessing your account is: {otp}.\nThis OTP is valid for 10 minutes. Please do not share it with anyone.\n \nWe hope you have a great time at Renaissance!"
     from_email=settings.EMAIL_HOST_USER
     recipient_list=[recipient]
     send_mail(subject,message,from_email,recipient_list,fail_silently=True)
