@@ -179,15 +179,46 @@ from django.core.mail import send_mail
 #     t = Thread(target=send_otp, args=(user, otp))
 #     t.start()
 
-def send_email_otp(recipient,OTP):
-    name= f"{recipient.first_name} {recipient.last_name}"
-    otp=OTP
-    subject="OTP for your Registration"
-    message=f"Hi {name},\nYour one-time password (OTP) for accessing your account is: {otp}.\nThis OTP is valid for 10 minutes. Please do not share it with anyone.\n \nWe hope you have a great time at Renaissance!"
-    from_email=settings.EMAIL_HOST_USER
-    recipient_list=[recipient]
-    send_mail(subject,message,from_email,recipient_list,fail_silently=True)
+# def send_email_otp(recipient,OTP):
+#     name= f"{recipient.first_name} {recipient.last_name}"
+#     otp=OTP
+#     subject="OTP for your Registration"
+#     message=f"Hi {name},\nYour one-time password (OTP) for accessing your account is: {otp}.\nThis OTP is valid for 10 minutes. Please do not share it with anyone.\n \nWe hope you have a great time at Renaissance!"
+#     from_email=settings.EMAIL_HOST_USER
+#     recipient_list=[recipient]
+#     send_mail(subject,message,from_email,recipient_list,fail_silently=True)
     
+# def send_otp_thread(user:User, otp):
+#     t = Thread(target=send_email_otp, args=(user, otp))
+#     t.start()
+
+from azure.communication.email import EmailClient
+from azure.identity import DefaultAzureCredential
+
+from azure.communication.email import EmailClient
+def send_otp(user,otp):
+    try:
+        connection_string = ""
+        client = EmailClient.from_connection_string(connection_string)
+
+        message = {
+            "senderAddress": "",
+            "recipients":  {
+                "to": [{"address": f"{user.email}" }],
+            },
+            "content": {
+                "subject": "OTP Login for Renaissance",
+                "plainText": f"Hi {user.first_name}, Your one-time password (OTP) for accessing your account is: {otp}. This OTP is valid for 10 minutes. Please do not share it with anyone. We hope you have a great time at Renaissance!",
+            }
+        }
+
+        poller = client.begin_send(message)
+        result = poller.result()
+
+    except Exception as ex:
+        print(ex)
+
+
 def send_otp_thread(user:User, otp):
-    t = Thread(target=send_email_otp, args=(user, otp))
+    t = Thread(target=send_otp, args=(user, otp))
     t.start()

@@ -1,3 +1,4 @@
+from email.message import EmailMessage
 import boto3
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -114,19 +115,88 @@ from email.mime.application import MIMEApplication
 #     t = Thread(target=send_email_with_attachment, args=(user, pdf_buffer))
 #     t.start()
 
-from django.core.mail import EmailMessage
+# from django.core.mail import EmailMessage
+
+# def send_email_with_attachment(user, pdf_buffer):
+#   """
+#   Sends an email with a PDF attachment to the user.
+#   """
+#   subject = "Renaissance Master Pass"
+#   from_email = f'"Your Pass for Renaissance 2024!" <noreply@renaissance.com>'
+#   recipient_list = [user.email]
+
+#   # Build the email content
+#   name = f"{user.first_name} {user.last_name}"
+#   html_content = f"""<p>Hi {name},<br>
+#                       Thank you for registering for Renaissance 2024!<br>
+#                       Your Master Pass is attached to this email.<br>
+#                       Please present this ticket at the event entrance for scanning.<br><br>
+#                       <b>Note:</b>
+#                       <ul>
+#                         <li>This pass will grant you entry to the JECRC campus for 3 days (19 to 21 March).</li>
+#                         <li>This pass can be scanned only once per day; no re-entry will be permitted.</li>
+#                         <li>This pass is non-transferable and non-refundable.</li>
+#                       </ul>
+#                       We look forward to seeing you at Ren 2024!<br><br>
+#                       Best regards,<br>
+#                       Team JECRC Renaissance
+#                     </p>"""
+
+#   # Create the email message
+#   message = EmailMessage(subject, html_content, from_email, recipient_list)
+#   message.content_subtype = 'html'  # Set HTML content type
+
+#   # Attach the PDF
+#   attachment = pdf_buffer.getvalue()
+#   message.attach(filename="Ticket.pdf", content=attachment, mimetype="application/pdf")
+
+#   # Send the email
+#   try:
+#     message.send()
+#     print(f"Email with attachment sent successfully to {user.email}")
+#   except Exception as e:
+#     print(f"Error sending email with attachment: {e}")
+
+# def send_email_thread(user, pdf_buffer):
+#   """
+#   Sends the email with attachment in a separate thread.
+#   """
+#   t = Thread(target=send_email_with_attachment, args=(user, pdf_buffer))
+#   t.start()
+
+import base64
+from azure.communication.chat import ChatClient
+from azure.identity import DefaultAzureCredential
+from azure.core.exceptions import ResourceNotFoundError
+from email.message import EmailMessage
+from io import BytesIO
+from azure.communication.email import EmailClient
+
+from azure.communication.email import EmailClient
+
+from azure.communication.email import EmailClient
 
 def send_email_with_attachment(user, pdf_buffer):
-  """
-  Sends an email with a PDF attachment to the user.
-  """
-  subject = "Renaissance Master Pass"
-  from_email = f'"Your Pass for Renaissance 2024!" <noreply@renaissance.com>'
-  recipient_list = [user.email]
+    """
+    Sends an email with a PDF attachment to the user.
+    """
+    # Initialize Azure Communication Services
+    connection_string = ""
+    client = EmailClient.from_connection_string(connection_string)
 
-  # Build the email content
-  name = f"{user.first_name} {user.last_name}"
-  html_content = f"""<p>Hi {name},<br>
+    # Build the email content
+    name = f"{user.first_name} {user.last_name}"
+    # Send the message with attachment
+    message = {
+            "senderAddress": "",
+            "recipients":  {
+                "to": [{"address": f"{user.email}" }],
+            },
+            "content": {
+                "subject": "Your Renaissance 2024 Master Pass",
+                "html": f"""<html>
+                      <body>
+                      <p>Hi {name},<br>
                       Thank you for registering for Renaissance 2024!<br>
                       Your Master Pass is attached to this email.<br>
                       Please present this ticket at the event entrance for scanning.<br><br>
@@ -139,22 +209,25 @@ def send_email_with_attachment(user, pdf_buffer):
                       We look forward to seeing you at Ren 2024!<br><br>
                       Best regards,<br>
                       Team JECRC Renaissance
-                    </p>"""
+                      </p>
+                      </body>
+                      </html>"""
+            },
+            "attachments":[
+              {"name":"Ticket.pdf",
+              "attachmentType": "application/pdf",
+              "contentType":"application/pdf",
+              "contentInBase64":base64.b64encode(pdf_buffer.getvalue()).decode("utf-8"),}
+              
+            ]
+        }
+        
+    
+    client.begin_send(message)
 
-  # Create the email message
-  message = EmailMessage(subject, html_content, from_email, recipient_list)
-  message.content_subtype = 'html'  # Set HTML content type
-
-  # Attach the PDF
-  attachment = pdf_buffer.getvalue()
-  message.attach(filename="Ticket.pdf", content=attachment, mimetype="application/pdf")
-
-  # Send the email
-  try:
-    message.send()
     print(f"Email with attachment sent successfully to {user.email}")
-  except Exception as e:
-    print(f"Error sending email with attachment: {e}")
+
+
 
 def send_email_thread(user, pdf_buffer):
   """
@@ -162,4 +235,3 @@ def send_email_thread(user, pdf_buffer):
   """
   t = Thread(target=send_email_with_attachment, args=(user, pdf_buffer))
   t.start()
-
