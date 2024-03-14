@@ -1,9 +1,11 @@
 # from email.message import EmailMessage
 import base64
 import io
+import json
 from django.http import HttpResponse
 from django.shortcuts import render,redirect
 import pytz
+import requests
 from account.decorators import profile_required
 from account.functions import getPass
 from config import settings
@@ -40,33 +42,47 @@ def register(request):
         email = request.POST.get('email')
         pass1 = request.POST.get('pass1')
         pass2 = request.POST.get('pass2')
+        #captcha
+        clienkKey=request.POST['g-recaptcha-response']
+        secretKey="6LdDA5cpAAAAAKpmAzcLQmUaigaq40Ro9Pk60XVE"
+        recaptcha={
+            'secret':secretKey,
+            'response':clienkKey
+        }
+        r=requests.post('https://www.google.com/recaptcha/api/siteverify',data=recaptcha)
+        response=json.loads(r.text)
+        verify=response['success']
+        if verify:
+            user=User.objects.filter(email=email)
+            if  user.exists():
+                messages.error(request, "Email Already Registered !!")
+                return render(request, 'login.html')
+            
+            if pass1 != pass2:
+                messages.error(request, "Passwords didn't match !!")
+                return render(request, 'signup.html')
+            myuser = User.objects.create_user(email=email, 
+                                            first_name=fname,
+                                            last_name=lname,
+                                            password=pass1,
+                                            is_active=False)
+            myuser.save()
+            request.session['id'] = myuser.id
+            
+            # return a success message
+            messages.success(request, "Your Account has been created succesfully!!")
+            otp_obj,created = OTP.objects.get_or_create(user=myuser)
+            otp_obj.otp = generateOTP()
+            otp=otp_obj.otp
+            otp_obj.created = datetime.datetime.now(pytz.UTC)
+            otp_obj.expire=datetime.datetime.now(pytz.UTC)+datetime.timedelta(minutes=10)
+            otp_obj.save()
+            send_otp_thread(myuser,otp)
+            return redirect('verify')
         
-        user=User.objects.filter(email=email)
-        if  user.exists():
-            messages.error(request, "Email Already Registered !!")
-            return render(request, 'login.html')
-        
-        if pass1 != pass2:
-            messages.error(request, "Passwords didn't match !!")
-            return render(request, 'signup.html')
-        myuser = User.objects.create_user(email=email, 
-                                          first_name=fname,
-                                          last_name=lname,
-                                          password=pass1,
-                                          is_active=False)
-        myuser.save()
-        request.session['id'] = myuser.id
-        
-        # return a success message
-        messages.success(request, "Your Account has been created succesfully!!")
-        otp_obj,created = OTP.objects.get_or_create(user=myuser)
-        otp_obj.otp = generateOTP()
-        otp=otp_obj.otp
-        otp_obj.created = datetime.datetime.now(pytz.UTC)
-        otp_obj.expire=datetime.datetime.now(pytz.UTC)+datetime.timedelta(minutes=10)
-        otp_obj.save()
-        send_otp_thread(myuser,otp)
-        return redirect('verify')
+        else:
+            messages.error(request,"Invalid Captcha")
+            return redirect('register')
     
     # if the request is not a POST method, render a template with a form
     else:
@@ -79,36 +95,53 @@ def signin(request):
     if request.method == "POST":
         email = request.POST.get('email')
         password = request.POST.get('pass1')
-        user = User.objects.filter(email=email).first()  # Use .first() instead of .exists()
+        
+        #captcha
+        clienkKey=request.POST['g-recaptcha-response']
+        secretKey="6LdDA5cpAAAAAKpmAzcLQmUaigaq40Ro9Pk60XVE"
+        recaptcha={
+            'secret':secretKey,
+            'response':clienkKey
+        }
+        r=requests.post('https://www.google.com/recaptcha/api/siteverify',data=recaptcha)
+        response=json.loads(r.text)
+        verify=response['success']
+        print(verify)
+        if verify:
+            user = User.objects.filter(email=email).first()  # Use .first() instead of .exists()
 
-        if user:
-            if user.is_active:
-                myuser = authenticate(request, id=user.id, password=password,)
-                if myuser is not None:
-                    login(request, user,backend="django.contrib.auth.backends.ModelBackend")
-                    messages.success(request, "Logged in successfully")
-                    # request.session['id'] = user.pk
-                    return redirect('home')
-                else:   
-                    messages.error(request, "Incorrect Password")
-                    return render(request,"login.html")
+            if user:
+                if user.is_active:
+                    myuser = authenticate(request, id=user.id, password=password,)
+                    if myuser is not None:
+                        login(request, user,backend="django.contrib.auth.backends.ModelBackend")
+                        messages.success(request, "Logged in successfully")
+                        # request.session['id'] = user.pk
+                        return redirect('home')
+                    else:   
+                        messages.error(request, "Incorrect Password")
+                        return render(request,"login.html")
+                else:
+                    messages.error(request, "User not verified")
+                    request.session['id'] = user.pk
+                    otp_obj,created = OTP.objects.get_or_create(user=User.objects.get(email=email))
+                    if datetime.datetime.now(pytz.UTC)-otp_obj.created  <datetime.timedelta(minutes=2):
+                        messages.error(request,"Please wait sometime before resending otp")
+                        return redirect('verify')
+                    otp_obj.otp = generateOTP()  # Implement your OTP generation logic
+                    otp=otp_obj.otp
+                    otp_obj.created = datetime.datetime.now(pytz.UTC)
+                    otp_obj.expire=datetime.datetime.now(pytz.UTC)+datetime.timedelta(minutes=10)
+                    otp_obj.save()
+                    send_otp_thread(user,otp)   
+                    return redirect("verify")
+                
             else:
-                messages.error(request, "User not verified")
-                request.session['id'] = user.pk
-                otp_obj,created = OTP.objects.get_or_create(user=User.objects.get(email=email))
-                if datetime.datetime.now(pytz.UTC)-otp_obj.created  <datetime.timedelta(minutes=2):
-                    messages.error(request,"Please wait sometime before resending otp")
-                    return redirect('verify')
-                otp_obj.otp = generateOTP()  # Implement your OTP generation logic
-                otp=otp_obj.otp
-                otp_obj.created = datetime.datetime.now(pytz.UTC)
-                otp_obj.expire=datetime.datetime.now(pytz.UTC)+datetime.timedelta(minutes=10)
-                otp_obj.save()
-                send_otp_thread(user,otp)   
-                return redirect("verify")
+                messages.error(request, "User with the email does not exist")
+                return redirect('register')
         else:
-            messages.error(request, "User with the email does not exist")
-            return redirect('register')
+            messages.error(request,"Invalid Captcha")
+            return redirect('login')
     else:
         return render(request, "login.html")
 
@@ -284,6 +317,7 @@ def download_ticket(request):
     else:
         return HttpResponse('Method not allowed',status=400)
         
+
 
         
         
