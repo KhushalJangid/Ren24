@@ -1,3 +1,5 @@
+import json
+import requests
 from .email_otp import send_otp_thread
 import datetime
 from django.contrib import messages
@@ -60,22 +62,35 @@ def forgotpassword(request):
         '''Step 2 of forgot password '''
         email=request.POST['email']
         myuser=User.objects.filter(email=email).first()
-        if not myuser:
-            messages.error(request,"No account associated with this Email.")
-            return redirect('home')
-        otp_obj,created = OTP.objects.get_or_create(user=myuser)
-        if datetime.datetime.now(pytz.UTC)-otp_obj.created  <datetime.timedelta(minutes=2):
-            messages.error(request,"Please wait sometime before resending otp")
+        clienkKey=request.POST['g-recaptcha-response']
+        secretKey="6LdDA5cpAAAAAKpmAzcLQmUaigaq40Ro9Pk60XVE"
+        recaptcha={
+            'secret':secretKey,
+            'response':clienkKey
+        }
+        r=requests.post('https://www.google.com/recaptcha/api/siteverify',data=recaptcha)
+        response=json.loads(r.text)
+        verify=response['success']
+        if verify:
+            if not myuser:
+                messages.error(request,"No account associated with this Email.")
+                return redirect('home')
+            otp_obj,created = OTP.objects.get_or_create(user=myuser)
+            if datetime.datetime.now(pytz.UTC)-otp_obj.created  <datetime.timedelta(minutes=2):
+                messages.error(request,"Please wait sometime before resending otp")
+                return redirect('resetpass_verify')
+            otp_obj.otp = generateOTP()
+            otp=otp_obj.otp
+            print(otp)
+            send_otp_thread(myuser,otp)
+            otp_obj.created = datetime.datetime.now(pytz.UTC)
+            otp_obj.expire=datetime.datetime.now(pytz.UTC)+datetime.timedelta(minutes=10)
+            otp_obj.save()
+            request.session['id']=myuser.id
             return redirect('resetpass_verify')
-        otp_obj.otp = generateOTP()
-        otp=otp_obj.otp
-        print(otp)
-        send_otp_thread(myuser,otp)
-        otp_obj.created = datetime.datetime.now(pytz.UTC)
-        otp_obj.expire=datetime.datetime.now(pytz.UTC)+datetime.timedelta(minutes=10)
-        otp_obj.save()
-        request.session['id']=myuser.id
-        return redirect('resetpass_verify')
+        else:
+            messages.error(request,"Invalid Captcha")
+            return redirect('register')
     elif request.method == 'POST' and 'pass1' in request.POST:
         '''Step 5 (final) of forgot password '''
         pass1=request.POST['pass1']
