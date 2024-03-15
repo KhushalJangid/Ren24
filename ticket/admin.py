@@ -69,6 +69,12 @@ class TicketAdmin(ExportActionMixin,admin.ModelAdmin):
     list_filter = [('event__type', AllValuesFieldListFilter)]
     autocomplete_fields = ['user',"event"]
     resource_class = TicketResource
+    
+    def get_queryset(self, request):
+        queryset = super().get_queryset(request)
+        queryset =  queryset.prefetch_related('user')
+        return queryset.prefetch_related('event')
+    
     def get_date(self,obj):
         return f"{obj.event.date} {obj.event.time}" 
     

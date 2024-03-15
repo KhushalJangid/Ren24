@@ -159,8 +159,8 @@ USE_I18N = True
 
 USE_TZ = True
 
-# Email='ticket.renaissance@gmail.com'
-# EMAIL_BACKEND = 'django_ses.SESBackend'
+Email='ticket.renaissance@gmail.com'
+EMAIL_BACKEND = 'django_ses.SESBackend'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
@@ -192,7 +192,7 @@ if PRODUCTION:
                      'jecrcrenaissance.co.in'
                      ]
     
-    CSRF_TRUSTED_ORIGINS = ['https://www.jecrcrenaissance.co.in','https://jecrcrenaissance.con.in']
+    CSRF_TRUSTED_ORIGINS = ['https://www.jecrcrenaissance.co.in','https://jecrcrenaissance.co.in']
     CSRF_COOKIE_DOMAIN = 'jecrcrenaissance.co.in'
 
     # Database
