@@ -5,9 +5,6 @@ from email.mime.text import MIMEText
 from email.mime.application import MIMEApplication
 from threading import Thread
 
-from sentry_sdk import capture_exception
-
-# from account.models import User
 from config import settings
 
 def send_email_with_attachment(user,pdf_buffer):
@@ -56,71 +53,7 @@ def send_email_with_attachment(user,pdf_buffer):
         )
         print(f"Email sent! Message ID: {response['MessageId']}")
     except Exception as e:
-        capture_exception(e)
         print(f"Error sending email: {str(e)}")
-
-
-# import base64
-# from azure.communication.email import EmailClient
-
-
-# def send_email_with_attachment(user, pdf_buffer):
-#     """
-#     Sends an email with a PDF attachment to the user.
-#     """
-#     try:
-#         # Initialize Azure Communication Services
-#         connection_string = settings.ACE_CONNECTION_STRING
-#         client = EmailClient.from_connection_string(connection_string)
-
-#         # Build the email content
-#         name = f"{user.first_name} {user.last_name}"
-#         # Send the message with attachment
-#         message = {
-#             "senderAddress": "DoNotReply@b2e48f1c-4006-459a-bce8-cea2b59d541a.azurecomm.net",
-#             "recipients": {
-#                 "to": [{"address": f"{user.email}"}],
-#             },
-#             "content": {
-#                 "subject": "Your Renaissance 2024 Master Pass",
-#                 "html": f"""<html>
-#                         <body>
-#                         <p>Hi {name},<br>
-#                         Thank you for registering for Renaissance 2024!<br>
-#                         Your Master Pass is attached to this email.<br>
-#                         Please present this ticket at the event entrance for scanning.<br><br>
-#                         <b>Note:</b>
-#                         <ul>
-#                           <li>This pass will grant you entry to the JECRC campus for 3 days (19 to 21 March).</li>
-#                           <li>This pass can be scanned only once per day; no re-entry will be permitted.</li>
-#                           <li>This pass is non-transferable and non-refundable.</li>
-#                         </ul>
-#                         We look forward to seeing you at Ren 2024!<br><br>
-#                         Best regards,<br>
-#                         Team JECRC Renaissance
-#                         </p>
-#                         </body>
-#                         </html>""",
-#             },
-#             "attachments": [
-#                 {
-#                     "name": "Ticket.pdf",
-#                     "attachmentType": "application/pdf",
-#                     "contentType": "application/pdf",
-#                     "contentInBase64": base64.b64encode(pdf_buffer.getvalue()).decode(
-#                         "utf-8"
-#                     ),
-#                 }
-#             ],
-#         }
-
-#         client.begin_send(message)
-
-#         print(f"Email with attachment sent successfully to {user.email}")
-#     except Exception as e:
-#         capture_exception(e)
-#         print(f"Error sending email with attachment: {e}")
-
 
 def send_email_thread(user, pdf_buffer):
     """

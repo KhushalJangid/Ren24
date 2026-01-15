@@ -1,14 +1,8 @@
-# from email.mime.multipart import MIMEMultipart
-# from email.mime.text import MIMEText
-# import smtplib
 from threading import Thread
 import boto3
 from botocore.exceptions import ClientError
-from sentry_sdk import capture_exception
 from config import settings
 from .models import User
-# import requests
-# from django.core.mail import send_mail
 
 def send_otp(user:User,otp):
     SENDER = f"\"Your OTP for Renaissance Verification\" <{settings.Email}>"
@@ -32,8 +26,6 @@ def send_otp(user:User,otp):
     </html>
                 """
     CHARSET = "UTF-8"
-    print(settings.AWS_ACCESS_KEY_ID)
-    print(settings.AWS_SECRET_ACCESS_KEY)
     client = boto3.client('ses',
                           region_name=AWS_REGION,
                           aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
@@ -65,40 +57,12 @@ def send_otp(user:User,otp):
             Source=SENDER,
         )
     except ClientError as e:
-        capture_exception(e)
         print(e.response['Error']['Message'])
     except Exception as e:
-        capture_exception(e)
         print(e)
     else:
         print("Email sent! Message ID:"),
         print(response['MessageId'])
-
-
-# from azure.communication.email import EmailClient
-
-# def send_otp(user, otp):
-#     try:
-#         connection_string = settings.ACE_CONNECTION_STRING
-#         client = EmailClient.from_connection_string(connection_string)
-
-#         message = {
-#             "senderAddress": "DoNotReply@b2e48f1c-4006-459a-bce8-cea2b59d541a.azurecomm.net",
-#             "recipients": {
-#                 "to": [{"address": f"{user.email}"}],
-#             },
-#             "content": {
-#                 "subject": f"You OTP for Renaissance: {otp}",
-#                 "plainText": f"Hi {user.first_name}, Your one-time password (OTP) for accessing your account is: {otp}. This OTP is valid for 10 minutes. Please do not share it with anyone. We hope you have a great time at Renaissance!",
-#             },
-#         }
-
-#         poller = client.begin_send(message)
-#         result = poller.result()
-
-#     except Exception as ex:
-#         capture_exception(ex)
-#         print(ex)
 
 
 def send_otp_thread(user: User, otp):

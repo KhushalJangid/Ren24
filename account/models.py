@@ -4,6 +4,7 @@ from django.db import models
 import pytz
 from account.manager import UserManager
 from django.contrib.auth.models import AbstractUser
+from django.utils import timezone
 
 _genders = [("m","Male"),
            ("f","Female"),
@@ -14,6 +15,9 @@ genders = {
     'Female':'f',
     'Other':'o',
 }
+
+def default_expiry():
+    return datetime.now(pytz.UTC) + timedelta(minutes=10)
 
 # Create your models here.
 class User(AbstractUser):
@@ -43,14 +47,6 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.email
 
-# class Wallet(models.Model):
-#     # userid=models.ForeignKey(User, on_delete=models.CASCADE)
-#     user = models.OneToOneField(to='User',on_delete=models.CASCADE)
-#     walletid=models.UUIDField(default=uuid.uuid4,primary_key=True,unique=True,editable=False)
-#     balance = models.IntegerField(default=0)
-#     def __str__(self) -> str:
-#         return self.user.email
-
 class Passes(models.Model):
     psid=models.UUIDField(default=uuid.uuid4,editable=False)
     email = models.EmailField(max_length=200,unique=True,null=False,blank=False)
@@ -71,8 +67,8 @@ class Passes(models.Model):
 class OTP(models.Model):
     user = models.OneToOneField(to="User",on_delete=models.CASCADE)
     otp = models.PositiveIntegerField(null=True,blank=True)
-    created = models.DateTimeField(default=datetime.now(pytz.UTC))
-    expire=models.DateTimeField(default=(datetime.now(pytz.UTC)+timedelta(minutes=10)))
+    created = models.DateTimeField(default=timezone.now)
+    expire=models.DateTimeField(default=default_expiry)
     
     def __str__(self):
         return self.user.email

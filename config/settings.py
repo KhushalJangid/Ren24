@@ -12,8 +12,6 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 import os
 from pathlib import Path
-import sentry_sdk
-from config import env
 
 # import razorpay
 
@@ -106,46 +104,95 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+LOG_DIR = os.path.join(BASE_DIR, '.logs') 
 
-# LOGGING = {
-#     "version": 1,
-#     "disable_existing_loggers":False,
-#     'formatters': {
-#         'verbose': {
-#             'format': "[%(asctime)s] %(levelname)s [%(filename)s:%(lineno)s] %(message)s",
-#             'datefmt': "%Y/%b/%d %H:%M:%S"
-#         },
-#         'simple': {
-#             'format': '%(levelname)s %(message)s'
-#         },
-#     },
-#     "handlers": {
-#         'admin': {
-#             'level': 'INFO',
-#             'class': 'logging.FileHandler',
-#             'filename': BASE_DIR / 'debug.log',
-#             'formatter': 'verbose',
-#         },
-#         'errors': {
-#             'level': 'ERROR',
-#             'class': 'logging.FileHandler',
-#             'filename': BASE_DIR / 'errors.log',
-#             'formatter': 'verbose',
-#         },
-#     },
-#     'loggers': {
-#         'django': {
-#             'handlers': ['admin'],
-#             'level': 'INFO',
-#             'propagate': True,
-#         },
-#         'django': {
-#             'handlers': ['errors'],
-#             'level': 'ERROR',
-#             'propagate': True,
-#         },
-#     },
-# }
+# Create the log directory if it doesn't exist
+if not os.path.exists(LOG_DIR):
+    os.makedirs(LOG_DIR)
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    'formatters': {
+        'verbose': {
+            'format': "[%(asctime)s] %(levelname)s [%(filename)s:%(lineno)s] %(message)s",
+            'datefmt': "%Y/%b/%d %H:%M:%S"
+        },
+        'simple': {
+            'format': '[%(asctime)s] %(message)s',
+            'datefmt': "%H:%M:%S"
+        },
+    },
+    "handlers": {
+        "null": {
+            "class": "logging.NullHandler",
+        },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+        },
+        'info': {
+            'level': 'INFO',
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'filename': os.path.join(LOG_DIR, 'debug.log'),
+            'formatter': 'verbose',
+            'when': 'midnight',  # Rotate daily at midnight
+            'interval': 1,
+            'backupCount': 3,
+        },
+        'warning': {
+            'level': 'WARNING',
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'filename': os.path.join(LOG_DIR, 'warning.log'),
+            'formatter': 'verbose',
+            'when': 'midnight',  # Rotate daily at midnight
+            'interval': 1,
+            'backupCount': 3,
+        },
+        'exception': {
+            'level': 'ERROR',
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'filename': os.path.join(LOG_DIR, 'errors.log'),
+            'formatter': 'verbose',
+            'when': 'midnight',  # Rotate daily at midnight
+            'interval': 1,
+            'backupCount': 3,
+        },
+    },
+    'loggers': {
+        'django': { # handles all django logs
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'django.request': { # handles both 4xx & 5xx status codes
+            'handlers': ['console', 'warning' ,'exception'],
+            'level': 'WARNING',
+            'propagate': False,
+        },
+        'django.server': {
+            'handlers': ['exception'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        "django.security.DisallowedHost": {
+            "handlers": ["null"],
+            "propagate": False,
+        },
+        # custom loggers
+        'logger.exception': {
+            'handlers': ['exception'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+        'logger.info': {
+            'handlers': ['console','info'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+    },
+}
 
 
 # Internationalization
@@ -165,20 +212,14 @@ EMAIL_BACKEND = 'django_ses.SESBackend'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-PRODUCTION = env.getParameter('PRODUCTION') == 'True'
-# PRODUCTION = False
+# PRODUCTION = env.getParameter('PRODUCTION') == 'True'
+PRODUCTION = False
 
 def error_sampler():
     return 1.0
 
 if PRODUCTION:
-    sentry_sdk.init(
-        dsn="https://6ca2d413a490f99ba2658e6c92f6ed9e@o4506847830736896.ingest.sentry.io/4506847832506368",
-        traces_sample_rate=0.1,
-        profiles_sample_rate=0.1,
-        error_sampler=error_sampler,
-        environment='production'
-    )
+    from config import env
     BASE_URL = env.getParameter('DOMAIN')
     
     # SECURITY WARNING: keep the secret key used in production secret!
@@ -186,8 +227,7 @@ if PRODUCTION:
 
     DEBUG = False
 
-    ALLOWED_HOSTS = ['ec2-13-201-19-183.ap-south-1.compute.amazonaws.com', 
-                     '13.235.239.6',
+    ALLOWED_HOSTS = [
                      'www.jecrcrenaissance.co.in',
                      'jecrcrenaissance.co.in'
                      ]
@@ -201,7 +241,6 @@ if PRODUCTION:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
             'NAME': env.getParameter('RDS_DB_NAME'),
             'USER': env.getParameter('RDS_USERNAME'),
             'PASSWORD': env.getParameter('RDS_PASSWORD'),
@@ -232,10 +271,7 @@ if PRODUCTION:
 else:
     
     BASE_URL = 'http:127.0.0.1:8000'
-    
-    # AWS_ACCESS_KEY_ID = ""
-    # AWS_SECRET_ACCESS_KEY = ""
-    # SECURITY WARNING: keep the secret key used in production secret!
+
     SECRET_KEY = 'django-insecure-3i-x6+f9gwr(4qxbtgwv-=7y27)ixgc)tp=29ne)@=a#&84khj'
 
     # SECURITY WARNING: don't run with debug turned on in production!
@@ -253,13 +289,13 @@ else:
         }
     }
 
-    
+
     STATIC_URL = '/static/'
     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
     MEDIA_URL = '/media/'
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-    
-STATICFILES_DIRS = [os.path.join(BASE_DIR,"static"),]
+        
+    STATICFILES_DIRS = [os.path.join(BASE_DIR,"static"),]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

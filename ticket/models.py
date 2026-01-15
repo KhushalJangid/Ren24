@@ -10,7 +10,6 @@ from threading import Thread
 import uuid
 from django.db import models
 import qrcode
-from sentry_sdk import capture_exception
 from account.models import User
 from config import settings
 import boto3
@@ -57,25 +56,12 @@ class Ticket(models.Model):
     date = models.DateTimeField(auto_now_add=True, blank=True)
     used = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True, blank=True,null=True)
-    # qr_code = models.ImageField(upload_to='passes/qr', blank=True)
 
     def __str__(self):
         return str(self.id)
     class Meta:
         verbose_name = 'Ticket'
         verbose_name_plural = 'Tickets'
-
-    # def save(self, *args, **kwargs):
-
-    #     qr_image = qrcode.make(str(self.id))
-    #     style = Image.new("RGB", (600,600), "red")
-    #     style.paste(qr_image)
-    #     file_path = os.path.join(f"{self.user}_qr.png")
-    #     stream = BytesIO()
-    #     style.save(stream, "PNG")
-    #     self.qr_code.save(file_path, File(stream), save=False)
-    #     style.close()
-    #     super().save(*args, **kwargs)
     
 class CustomTicket(models.Model):
     id = models.UUIDField(default=uuid.uuid4,editable=False,primary_key=True)
@@ -84,7 +70,6 @@ class CustomTicket(models.Model):
     email = models.EmailField(max_length=200,unique=False)
     phone_no = models.CharField(max_length=13,unique=False)
     used = models.BooleanField(default=False)
-    # amount = models.PositiveIntegerField(default=0)
     note = models.TextField(null=True,blank=True)
     created = models.DateTimeField(auto_now_add=True, blank=True,null=True)
     def __str__(self):
@@ -198,75 +183,8 @@ def send_custom_email_with_attachment(ticket:CustomTicket,pdf_buffer):
         )
         print(f"Email sent! Message ID: {response['MessageId']}")
     except Exception as e:
-        capture_exception(e)
         print(f"Error sending email: {str(e)}")
-    
-
-# import base64
-# from azure.communication.email import EmailClient
-    
-# def send_custom_email_with_attachment(ticket:CustomTicket, pdf_buffer):
-#     """
-#     Sends an email with a PDF attachment to the user.
-#     """
-#     try:
-#         # Initialize Azure Communication Services
-#         connection_string = settings.ACE_CONNECTION_STRING
-#         client = EmailClient.from_connection_string(connection_string)
-
-#         # Build the email content
-#         name = ticket.name
-#         # Send the message with attachment
-#         message = {
-#             "senderAddress": "DoNotReply@b2e48f1c-4006-459a-bce8-cea2b59d541a.azurecomm.net",
-#             "recipients": {
-#                 "to": [{"address": f"{ticket.email}"}],
-#             },
-#             "content": {
-#                 "subject": "Your Renaissance 2024 Master Pass",
-#                 "html": f"""<html>
-#                         <body>
-#                         <p>Hi {name}, <br>
-#                         Thank you for registering for Renaissance 2024,<br>
-#                         Your Event Pass is attached to this email.<br>
-#                         Please present this ticket at the event entrance for scanning.<br><br>
-#                         <b>Event Details:</b>
-#                         <ul>
-#                             <li>Event Name: {ticket.event.name}</li>
-#                             <li>Date: {ticket.event.date.strftime("%a, %d %b, %Y")}</li>
-#                             <li>Time: {ticket.event.time.strftime("%-I:%M %p")}</li>
-#                             <li>Venue: {ticket.event.venue}</li>
-#                         </ul>
-#                         <b>Note:</b>
-#                         <ul>
-#                             <li>This pass will grant you entry to the JECRC campus for 1 day ({ticket.event.date.strftime("%a, %d %b, %Y")})</li>
-#                             <li>This pass can be scanned only once, no re-entry will be permitted</li>
-#                             <li>This pass is non-transferable and non-refundable </li>
-#                         </ul>
-#                         We look forward to seeing you at Ren 2024 ! <br><br>
-#                         Best regards,<br>
-#                         Team JECRC Renaissance</p>
-#                         </body>
-#                         </html>""",
-#             },
-#             "attachments": [
-#                 {
-#                     "name": "Ticket.pdf",
-#                     "attachmentType": "application/pdf",
-#                     "contentType": "application/pdf",
-#                     "contentInBase64": base64.b64encode(pdf_buffer.getvalue()).decode(
-#                         "utf-8"
-#                     ),
-#                 }
-#             ],
-#         }
-
-#         client.begin_send(message)
-
-#         print(f"Email with attachment sent successfully to {ticket.email}")
-#     except Exception as e:
-#         capture_exception(e)
-#         print(f"Error sending email with attachment: {e}")
+        
 
 def send_custom_email_thread(ticket:CustomTicket,img_data):
     t = Thread(target=send_custom_email_with_attachment, args=(ticket, img_data))
