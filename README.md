@@ -9,19 +9,17 @@
 <h1 align="center">Ren24</h1>
 
 <p align="center">
-  <img alt="Github top language" src="https://img.shields.io/github/languages/top/KhushalJangid/ren24?color=56BEB8">
+  <img alt="Github top language" src="https://img.shields.io/github/languages/top/KhushalJangid/Ren24?color=56BEB8">
 
-  <img alt="Github language count" src="https://img.shields.io/github/languages/count/KhushalJangid/ren24?color=56BEB8">
+  <img alt="Github language count" src="https://img.shields.io/github/languages/count/KhushalJangid/Ren24?color=56BEB8">
 
-  <img alt="Repository size" src="https://img.shields.io/github/repo-size/KhushalJangid/ren24?color=56BEB8">
+  <img alt="Repository size" src="https://img.shields.io/github/repo-size/KhushalJangid/Ren24?color=56BEB8">
 
-  <img alt="License" src="https://img.shields.io/github/license/KhushalJangid/ren24?color=56BEB8">
+  <img alt="Github issues" src="https://img.shields.io/github/issues/KhushalJangid/Ren24?color=56BEB8" /> -->
 
-  <!-- <img alt="Github issues" src="https://img.shields.io/github/issues/KhushalJangid/ren24?color=56BEB8" /> -->
+  <img alt="Github forks" src="https://img.shields.io/github/forks/KhushalJangid/Ren24?color=56BEB8" />
 
-  <!-- <img alt="Github forks" src="https://img.shields.io/github/forks/KhushalJangid/ren24?color=56BEB8" /> -->
-
-  <!-- <img alt="Github stars" src="https://img.shields.io/github/stars/KhushalJangid/ren24?color=56BEB8" /> -->
+  <img alt="Github stars" src="https://img.shields.io/github/stars/KhushalJangid/Ren24?color=56BEB8" />
 </p>
 
 <!-- Status -->
