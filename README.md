@@ -15,7 +15,7 @@
 
   <img alt="Repository size" src="https://img.shields.io/github/repo-size/KhushalJangid/Ren24?color=56BEB8">
 
-  <img alt="Github issues" src="https://img.shields.io/github/issues/KhushalJangid/Ren24?color=56BEB8" /> -->
+  <img alt="Github issues" src="https://img.shields.io/github/issues/KhushalJangid/Ren24?color=56BEB8" />
 
   <img alt="Github forks" src="https://img.shields.io/github/forks/KhushalJangid/Ren24?color=56BEB8" />
 
